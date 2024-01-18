@@ -15,6 +15,8 @@ const API = {
 
   //chi tiet data chart
   DoanhSoHangHoa_CT: `${BASE_URL}/api/Statistics/DoanhSoHangHoa_CT`,
+  DoanhSoKhachHang_CT: `${BASE_URL}/api/Statistics/DoanhSoKhachHang_CT`,
+  DoanhSoNhomHang_CT: `${BASE_URL}/api/Statistics/DoanhSoNhomHang_CT`,
 }
 
 export default API

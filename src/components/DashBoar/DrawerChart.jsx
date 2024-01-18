@@ -76,7 +76,17 @@ function DashBoar({ showOpen, titleDr, setOpenShow }) {
   const showChildrenDrawer = async (value, color) => {
     setTitleDrChild(value)
     setColorTable(color)
-    const data_ct = await APIDATA_CHART_CT(API.DoanhSoHangHoa_CT, token, { ...dataDate, FilterCode: value.DataCode, IsCodeRest: value.DataCodeRest, IsType: 1 })
+    const data_ct = await APIDATA_CHART_CT(
+      segmented === 'KHACHHANG' ? API.DoanhSoKhachHang_CT : segmented === 'HANGHOA' ? API.DoanhSoHangHoa_CT : segmented === 'NHOMHANG' ? API.DoanhSoNhomHang_CT : null,
+      token,
+      {
+        ...dataDate,
+        FilterCode: value.DataCode,
+        IsCodeRest: value.DataCodeRest,
+        IsType: 1,
+      },
+    )
+
     setDataTable(data_ct)
     console.log(data_ct)
     setChildrenDrawer(true)
@@ -93,11 +103,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow }) {
             <div>
               {
                 <div className="flex items-center justify-center mb-2">
-                  <p
-                    className="w-[100%] cursor-pointer hover:font-medium flex items-center gap-2 justify-between"
-                    style={{ color: '#8BC6EC' }}
-                    onClick={() => showChildrenDrawer(null)}
-                  >
+                  <p className="w-[100%] cursor-pointer hover:font-medium flex items-center gap-2 justify-between" style={{ color: '#8BC6EC' }}>
                     Tổng:
                     <CounterComponent targetValue={TotalChart} duration={50000} color={'#8BC6EC'} />
                   </p>

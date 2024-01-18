@@ -13,12 +13,12 @@ import './dashBoard.css'
 // import Table from './DrawerTable'
 // import CounterComponent from './LoadNumber'
 
-import dayjs from 'dayjs'
+// import dayjs from 'dayjs'
 import DrawerCP from './DrawerChart'
-import { DatePicker } from 'antd'
+// import { DatePicker } from 'antd'
 // import DrawerComponent from './Drawer'
-const { RangePicker } = DatePicker
-const dateFormat = 'DD/MM/YYYY'
+// const { RangePicker } = DatePicker
+// const dateFormat = 'DD/MM/YYYY'
 // const nameMapping = {
 //   DOANHSO: 'Doanh Số',
 //   TONKHO: 'Tồn Kho',
@@ -137,9 +137,9 @@ function DashBoar() {
               <div className="card h-[140px] bgDash bg-transparent">
                 <DateTimeClock />
               </div>
-              <div className="card">
+              {/* <div className="card">
                 <RangePicker defaultValue={[dayjs('08/04/2001', dateFormat), dayjs('08/04/2001', dateFormat)]} format={dateFormat} />
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="col-lg-6">
