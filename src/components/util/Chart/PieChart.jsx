@@ -19,7 +19,7 @@ export const options = {
   },
 }
 
-function DoughNut({ dataChart, value, name, onClick, Drawer }) {
+function DoughNut({ dataChart, value, name, onClick, Drawer, valueNum }) {
   const Labels = dataChart?.map((result) => result[name])
   const dataChart_list = dataChart?.map((result) => result[value])
   const backgroundColor_list = ['#DC634E', '#792ABE', '#B58400', '#85CE59', '#8FCCF4', '#EA8441', '#9171B8', '#6A6123', '#22677A', '#2FD7A1']
@@ -48,7 +48,7 @@ function DoughNut({ dataChart, value, name, onClick, Drawer }) {
                 {item[name]}
               </p>
               <div className="w-[100%]">
-                <RateBar percentage={item[value]} color={backgroundColor_list[index]} title={item[name]} />
+                <RateBar numberShow={true} percentage={item[value]} color={backgroundColor_list[index]} title={item[name]} valueNum={item[valueNum]} />
               </div>
             </div>
           ))}

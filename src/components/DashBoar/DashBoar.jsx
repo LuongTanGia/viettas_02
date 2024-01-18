@@ -1,91 +1,44 @@
 import { useSelector } from 'react-redux'
 import { dataTONGHOPSelector } from '../../redux/selector'
 import Card from '../util/CardTT/Card'
-import PieChart from '../util/Chart/PieChart'
+// import PieChart from '../util/Chart/PieChart'
 import DateTimeClock from '../util/testComponents/DateTime'
-import { useEffect, useState } from 'react'
-import { Drawer, Segmented } from 'antd'
+import { useState } from 'react'
+// import { Drawer, Segmented } from 'antd'
 import './dashBoard.css'
-import { APIDATA_CHART, APIDATA_CHART_CT, KHOANNGAY } from '../../action/Actions'
-import API from '../../API/API'
-import { BiLeftArrowAlt } from 'react-icons/bi'
-import RateBar from '../util/Chart/LoadingChart'
-import Table from './DrawerTable'
-import CounterComponent from './LoadNumber'
+// import { APIDATA_CHART, APIDATA_CHART_CT, KHOANNGAY } from '../../action/Actions'
+// import API from '../../API/API'
+// import { BiLeftArrowAlt } from 'react-icons/bi'
+// import RateBar from '../util/Chart/LoadingChart'
+// import Table from './DrawerTable'
+// import CounterComponent from './LoadNumber'
 
 import dayjs from 'dayjs'
-
+import DrawerCP from './DrawerChart'
 import { DatePicker } from 'antd'
 // import DrawerComponent from './Drawer'
 const { RangePicker } = DatePicker
 const dateFormat = 'DD/MM/YYYY'
-const nameMapping = {
-  DOANHSO: 'Doanh Số',
-  TONKHO: 'Tồn Kho',
-  PHAITHU: 'Phải Thu',
-  PHAITRA: 'Phải Trả',
-  MUAHANG: 'Mua Hàng',
-  XUATTRA: 'Xuất Trả Nhà Cung Cấp',
-  BANHANG: 'Bán Hàng',
-  NHAPTRA: 'Hàng Bán Trở Lại',
-  THU: 'Thu Tiền',
-  CHI: 'Chi Tiền',
-}
+// const nameMapping = {
+//   DOANHSO: 'Doanh Số',
+//   TONKHO: 'Tồn Kho',
+//   PHAITHU: 'Phải Thu',
+//   PHAITRA: 'Phải Trả',
+//   MUAHANG: 'Mua Hàng',
+//   XUATTRA: 'Xuất Trả Nhà Cung Cấp',
+//   BANHANG: 'Bán Hàng',
+//   NHAPTRA: 'Hàng Bán Trở Lại',
+//   THU: 'Thu Tiền',
+//   CHI: 'Chi Tiền',
+// }
 function DashBoar() {
   const [open, setOpen] = useState(false)
-  const [childrenDrawer, setChildrenDrawer] = useState(false)
-  const [segmented, setSegmented] = useState('KHACHHANG')
-  const [titleDr, setTitleDr] = useState('ssss')
-  const [titleDr_child, setTitleDrChild] = useState('ssss')
-
-  const token = localStorage.getItem('TKN')
-
-  const [data_hanghoa, setDataChart_hanghoa] = useState([])
-  const [data_khachhang, setDataChart_khachhang] = useState([])
-  const [data_nhomhang, setDataChart_nhomhang] = useState([])
-  const [dataTable, setDataTable] = useState([])
-  const [colorTable, setColorTable] = useState()
-
-  const [dataDate, setDataDate] = useState([])
-  const [TotalNumber, setTotalNumber] = useState(0)
-
-  useEffect(() => {
-    const loadData = async () => {
-      const KhoanNgay = await KHOANNGAY(API.KHOANNGAY, token)
-      const data_hanghoa = await APIDATA_CHART(API.DoanhSoHangHoa_TopChart, token, KhoanNgay)
-      const data_khachhang = await APIDATA_CHART(API.DoanhSoKhachHang_TopChart, token, KhoanNgay)
-      const data_nhomhang = await APIDATA_CHART(API.DoanhSoNhomHang_TopChart, token, KhoanNgay)
-      setDataDate(KhoanNgay)
-      setDataChart_hanghoa(data_hanghoa)
-      setDataChart_khachhang(data_khachhang)
-      setDataChart_nhomhang(data_nhomhang)
-    }
-
-    loadData()
-  }, [open])
+  const [titleDr, setTitleDr] = useState('')
 
   const showDrawer = (value) => {
     setTitleDr(value)
     setOpen(true)
   }
-  const onClose = () => {
-    setOpen(false)
-  }
-  const setNumber = (value) => {
-    setTotalNumber(value)
-  }
-  const showChildrenDrawer = async (value, color) => {
-    setTitleDrChild(value)
-    setColorTable(color)
-    const data_ct = await APIDATA_CHART_CT(API.DoanhSoHangHoa_CT, token, { ...dataDate, FilterCode: value.DataCode, IsCodeRest: value.DataCodeRest, IsType: 1 })
-    setDataTable(data_ct)
-    console.log(data_ct)
-    setChildrenDrawer(true)
-  }
-  const onChildrenDrawerClose = () => {
-    setChildrenDrawer(false)
-  }
-
   const data = useSelector(dataTONGHOPSelector)
   if (data?.DataResults?.length === 0) {
     return <p>Dữ liệu trống, vui lòng kiểm tra lại.</p>
@@ -107,7 +60,7 @@ function DashBoar() {
 
   return (
     <>
-      <>
+      {/* <>
         <Drawer
           footer={
             <div>
@@ -173,6 +126,9 @@ function DashBoar() {
             <Table colorTable={colorTable} param={dataTable} columName={[]} height={'setHeight'} hiden={[]} setTotalNumber={setNumber} />
           </Drawer>
         </Drawer>
+      </> */}
+      <>
+        <DrawerCP showOpen={open} titleDr={titleDr} setOpenShow={setOpen} />
       </>
       <section className="section dashboard">
         <div className="row">
@@ -191,7 +147,7 @@ function DashBoar() {
               {resultArrays?.map((resultArray, arrayIndex) => (
                 <div
                   key={arrayIndex}
-                  onClick={() => showDrawer(nameMapping[resultArray[0]?.DataCode.split('_')[0]])}
+                  onClick={() => showDrawer(resultArray[0]?.DataCode.split('_')[0])}
                   style={{ cursor: 'pointer' }}
                   className={`  card_2-content ${resultArray[0]?.DataCode.split('_')[0]}`}
                 >

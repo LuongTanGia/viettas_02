@@ -1,3 +1,5 @@
+import CounterComponent from '../../DashBoar/LoadNumber'
+
 // eslint-disable-next-line react/prop-types
 const HorizontalProgressBar = ({ percentage, color }) => {
   return (
@@ -17,8 +19,14 @@ const HorizontalProgressBar = ({ percentage, color }) => {
 }
 
 // eslint-disable-next-line react/prop-types
-const RateBar = ({ percentage, color }) => {
-  return <HorizontalProgressBar percentage={percentage} color={color} />
+const RateBar = ({ percentage, color, valueNum, numberShow }) => {
+  return (
+    <div className="">
+      {numberShow ? <CounterComponent targetValue={valueNum} duration={50000} color={color} /> : null}
+
+      <HorizontalProgressBar percentage={percentage} color={color} />
+    </div>
+  )
 }
 
 export default RateBar

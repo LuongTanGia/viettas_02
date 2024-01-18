@@ -17,6 +17,7 @@ const columnName = {
 function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorTable }) {
   const [data, setData] = useState()
   useEffect(() => {
+    console.log(1)
     setData(param)
     const valueList = param?.map(function (item) {
       return item.DataValue
