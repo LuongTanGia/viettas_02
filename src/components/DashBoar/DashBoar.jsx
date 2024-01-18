@@ -10,8 +10,15 @@ import { APIDATA_CHART, APIDATA_CHART_CT, KHOANNGAY } from '../../action/Actions
 import API from '../../API/API'
 import { BiLeftArrowAlt } from 'react-icons/bi'
 import RateBar from '../util/Chart/LoadingChart'
-import Table from './Drawer'
+import Table from './DrawerTable'
+import CounterComponent from './LoadNumber'
+
+import dayjs from 'dayjs'
+
+import { DatePicker } from 'antd'
 // import DrawerComponent from './Drawer'
+const { RangePicker } = DatePicker
+const dateFormat = 'DD/MM/YYYY'
 const nameMapping = {
   DOANHSO: 'Doanh Số',
   TONKHO: 'Tồn Kho',
@@ -37,8 +44,10 @@ function DashBoar() {
   const [data_khachhang, setDataChart_khachhang] = useState([])
   const [data_nhomhang, setDataChart_nhomhang] = useState([])
   const [dataTable, setDataTable] = useState([])
+  const [colorTable, setColorTable] = useState()
 
   const [dataDate, setDataDate] = useState([])
+  const [TotalNumber, setTotalNumber] = useState(0)
 
   useEffect(() => {
     const loadData = async () => {
@@ -53,7 +62,7 @@ function DashBoar() {
     }
 
     loadData()
-  }, [])
+  }, [open])
 
   const showDrawer = (value) => {
     setTitleDr(value)
@@ -62,9 +71,12 @@ function DashBoar() {
   const onClose = () => {
     setOpen(false)
   }
-  const showChildrenDrawer = async (value) => {
+  const setNumber = (value) => {
+    setTotalNumber(value)
+  }
+  const showChildrenDrawer = async (value, color) => {
     setTitleDrChild(value)
-
+    setColorTable(color)
     const data_ct = await APIDATA_CHART_CT(API.DoanhSoHangHoa_CT, token, { ...dataDate, FilterCode: value.DataCode, IsCodeRest: value.DataCodeRest, IsType: 1 })
     setDataTable(data_ct)
     console.log(data_ct)
@@ -132,8 +144,33 @@ function DashBoar() {
               <PieChart Drawer={true} dataChart={data_nhomhang} value={'DataPerc'} name={'DataName'} onClick={showChildrenDrawer} />
             </>
           ) : null}
-          <Drawer title={`${titleDr_child.DataName}(Chi tiết)`} width={720} onClose={onChildrenDrawerClose} open={childrenDrawer}>
-            <Table param={dataTable} columName={[]} height={'setHeight'} hiden={[]} />
+          <Drawer
+            footer={
+              <div>
+                {
+                  <div className="flex items-center justify-center mb-2">
+                    <p
+                      className="w-[100%] cursor-pointer hover:font-medium flex items-center gap-2 justify-between"
+                      style={{ color: colorTable }}
+                      onClick={() => showChildrenDrawer(null)}
+                    >
+                      Tổng :
+                      <CounterComponent targetValue={TotalNumber} duration={50000} color={colorTable} />
+                    </p>
+                    <div className="w-[100%] ml-3">
+                      <RateBar percentage={100} color={colorTable} title={'Tổng hợp'} />
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+            className="DrawerCT"
+            title={`${titleDr_child.DataName}(Chi tiết)`}
+            width={720}
+            onClose={onChildrenDrawerClose}
+            open={childrenDrawer}
+          >
+            <Table colorTable={colorTable} param={dataTable} columName={[]} height={'setHeight'} hiden={[]} setTotalNumber={setNumber} />
           </Drawer>
         </Drawer>
       </>
@@ -144,23 +181,19 @@ function DashBoar() {
               <div className="card h-[140px] bgDash bg-transparent">
                 <DateTimeClock />
               </div>
-            </div>
-            <div className="card">
-              <div className="filter"></div>
-              <div className="card-body pb-0">
-                <h5 className="card-title">Doanh Số Hàng Hóa</h5>
-                <PieChart dataChart={data_nhomhang} value={'DataPerc'} name={'DataName'} />
+              <div className="card">
+                <RangePicker defaultValue={[dayjs('08/04/2001', dateFormat), dayjs('08/04/2001', dateFormat)]} format={dateFormat} />
               </div>
             </div>
           </div>
           <div className="col-lg-6">
-            <div className="row" id="gridMain">
+            <div className="row " id="gridMain">
               {resultArrays?.map((resultArray, arrayIndex) => (
                 <div
                   key={arrayIndex}
                   onClick={() => showDrawer(nameMapping[resultArray[0]?.DataCode.split('_')[0]])}
                   style={{ cursor: 'pointer' }}
-                  className={`card_2-content ${resultArray[0]?.DataCode.split('_')[0]}`}
+                  className={`  card_2-content ${resultArray[0]?.DataCode.split('_')[0]}`}
                 >
                   <Card resultArray={resultArray} formatter={formatter} icon={resultArray[0]?.DataCode.split('_')[0]} />
                 </div>

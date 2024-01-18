@@ -23,14 +23,14 @@ const DateTimeClock = () => {
   }
 
   return (
-    <div className="p-3 pt-2">
+    <div className="p-2 pt-3">
       <div className="flex flex-col justify-end items-end">
-        <h2 className="text-xl font-mono font-semibold  text-white"> {formatDate(currentDateTime)}</h2>
-        <h2 className="text-xl font-mono font-semibold text-white"> {formatTime(currentDateTime)}</h2>
+        <h2 className=" text-base font-mono font-semibold  text-white"> {formatDate(currentDateTime)}</h2>
+        <h2 className=" text-base font-mono font-semibold text-white"> {formatTime(currentDateTime)}</h2>
       </div>
       <div>
         <img src={logo} alt="" />
-        <h2 className="text-xl font-mono font-semibold  text-white">Chia sẻ thành công, kết nối đam mê</h2>
+        <h2 className=" text-base font-mono font-semibold  text-white pt-1">Chia sẻ thành công, kết nối đam mê</h2>
       </div>
     </div>
   )

@@ -1,3 +1,85 @@
 .card_2-content:hover {
   transform: scale(1.05);
 }
+.DrawerTable {
+  height: 95% !important;
+  min-width: 95% !important;
+}
+/* .DrawerTable .ant-spin-container,
+.ant-spin-nested-loading,
+.ant-table {
+  height: 100% !important;
+}
+.ant-pagination {
+  margin: 0 !important;
+  padding: 0;
+}
+.ant-table-content {
+  height: 100% !important;
+  max-height: 520px !important;
+} */
+.DrawerCT .ant-drawer-body {
+  padding-left: 0;
+  padding-right: 0;
+}
+/*  '#', '#', '#', '#', '#', '#' */
+.colorDC634E th.ant-table-cell {
+  background: #dc634e !important;
+}
+.colorDC634E td.ant-table-cell {
+  color: #dc634e !important;
+}
+.color792ABE th.ant-table-cell {
+  background: #792abe !important;
+}
+.color792ABE td.ant-table-cell {
+  color: #792abe !important;
+}
+.colorB58400 th.ant-table-cell {
+  background: #b58400 !important;
+}
+.colorB58400 td.ant-table-cell {
+  color: #b58400 !important;
+}
+.color85CE59 th.ant-table-cell {
+  background: #85ce59 !important;
+}
+.color85CE59 td.ant-table-cell {
+  color: #85ce59 !important;
+}
+.color8FCCF4 th.ant-table-cell {
+  background: #8fccf4 !important;
+}
+.color8FCCF4 td.ant-table-cell {
+  color: #8fccf4 !important;
+}
+.colorEA8441 th.ant-table-cell {
+  background: #ea8441 !important;
+}
+.colorEA8441 td.ant-table-cell {
+  color: #ea8441 !important;
+}
+.color9171B8 th.ant-table-cell {
+  background: #9171b8 !important;
+}
+.color9171B8 td.ant-table-cell {
+  color: #9171b8 !important;
+}
+.color6A6123 th.ant-table-cell {
+  background: #6a6123 !important;
+}
+.color6A6123 td.ant-table-cell {
+  color: #6a6123 !important;
+}
+.color22677A th.ant-table-cell {
+  background: #22677a !important;
+}
+.color22677A td.ant-table-cell {
+  color: #22677a !important;
+}
+.color2FD7A1 th.ant-table-cell {
+  background: #2fd7a1 !important;
+}
+.color2FD7A1 td.ant-table-cell {
+  color: #2fd7a1 !important;
+}

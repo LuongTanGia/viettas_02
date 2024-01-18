@@ -22,7 +22,7 @@ export const options = {
 function DoughNut({ dataChart, value, name, onClick, Drawer }) {
   const Labels = dataChart?.map((result) => result[name])
   const dataChart_list = dataChart?.map((result) => result[value])
-  const backgroundColor_list = ['#FF0000', '#C850C0', '#FC00FF', '#97D9E1', '#85FFBD', '#FBAB7E', '#F7CE68', '#8BC6EC', '#00DBDE']
+  const backgroundColor_list = ['#DC634E', '#792ABE', '#B58400', '#85CE59', '#8FCCF4', '#EA8441', '#9171B8', '#6A6123', '#22677A', '#2FD7A1']
   const data = {
     labels: Labels,
     datasets: [
@@ -44,7 +44,7 @@ function DoughNut({ dataChart, value, name, onClick, Drawer }) {
         <div className="w-[100%] flex flex-col flex-1  scroll-smooth boxRate">
           {dataChart?.map((item, index) => (
             <div key={index} className="flex items-center justify-center mb-2">
-              <p className="w-[100%]  cursor-pointer hover:font-medium" style={{ color: backgroundColor_list[index] }} onClick={() => onClick(item)}>
+              <p className="w-[100%]  cursor-pointer hover:font-medium" style={{ color: backgroundColor_list[index] }} onClick={() => onClick(item, backgroundColor_list[index])}>
                 {item[name]}
               </p>
               <div className="w-[100%]">
