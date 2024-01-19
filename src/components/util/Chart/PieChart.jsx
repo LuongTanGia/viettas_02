@@ -35,6 +35,7 @@ function DoughNut({ dataChart, value, name, onClick, Drawer, valueNum }) {
       },
     ],
   }
+
   return (
     <>
       <div className="pt-1 gap-4 flex justify-between items-center PhoneCss">

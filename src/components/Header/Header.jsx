@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom'
-import logo from '../../assets/whitelogo_viettas.svg'
+
 import Logo from '../../assets/img/logo.png'
 import ChangePass from './ChangePass'
 import { useState } from 'react'
 import BackGround from '../../assets/login_background.svg'
+import DateTimeClock from '../util/testComponents/DateTime'
 
 // eslint-disable-next-line react/prop-types
 function Header() {
@@ -31,19 +32,18 @@ function Header() {
     <>
       <header
         id="header"
-        className="header fixed-top d-flex align-items-center z-10 h-[50px] flex justify-between"
+        className="header fixed-top d-flex align-items-center z-10 h-[50px] flex justify-between bg-center bg-cover bg-no-repeat"
         style={{
           backgroundImage: `url(${BackGround})`,
         }}
       >
-        <div></div>
-        <img src={logo} alt="Công Ty Viettas" className="h-[40px] w-[100px]  object-fill min-h-[40px]" />
+        <DateTimeClock />
         <nav className="header-nav ">
           <ul className="d-flex align-items-center p-0">
-            <li className="nav-item dropdown pe-3">
-              <Link className="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+            <li className="nav-item dropdown pe-3  text-red-500">
+              <Link className="nav-link nav-profile d-flex align-items-center pe-0 text-red-500" href="#" data-bs-toggle="dropdown">
                 <img src={userLogin !== null ? Logo : userInfor.picture} alt="Profile" className="rounded-circle" />
-                <span className="d-none d-md-block dropdown-toggle ps-2">{userLogin !== null ? user : userInfor.given_name}</span>
+                <span className=" d-none d-md-block dropdown-toggle ps-2  ">{userLogin !== null ? user : userInfor.given_name}</span>
               </Link>
 
               <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">

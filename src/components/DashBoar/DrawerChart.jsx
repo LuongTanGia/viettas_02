@@ -103,7 +103,11 @@ function DashBoar({ showOpen, titleDr, setOpenShow }) {
             <div>
               {
                 <div className="flex items-center justify-center mb-2">
-                  <p className="w-[100%] cursor-pointer hover:font-medium flex items-center gap-2 justify-between" style={{ color: '#8BC6EC' }}>
+                  <p
+                    className="w-[100%] cursor-pointer hover:font-medium flex items-center gap-2 justify-between"
+                    style={{ color: '#8BC6EC' }}
+                    onClick={() => showChildrenDrawer({ DataCode: null, DataCodeRest: 1 })}
+                  >
                     Tổng:
                     <CounterComponent targetValue={TotalChart} duration={50000} color={'#8BC6EC'} />
                   </p>
@@ -152,7 +156,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow }) {
               </div>
             }
             className="DrawerCT"
-            title={`${titleDr_child.DataName}(Chi tiết)`}
+            title={`${titleDr_child.DataName || 'Tổng Cộng'}(Chi tiết)`}
             width={720}
             onClose={onChildrenDrawerClose}
             open={childrenDrawer}

@@ -88,7 +88,7 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
           }}
           pagination={false}
           size="small"
-          className={`color${colorTable.slice(1)} DrawerTable`}
+          className={`color${colorTable?.slice(1)} DrawerTable`}
         />
       </Form>
     </>

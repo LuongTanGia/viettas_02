@@ -24,7 +24,7 @@ const RateBar = ({ percentage, color, valueNum, numberShow }) => {
     <div className="">
       {numberShow ? <CounterComponent targetValue={valueNum} duration={50000} color={color} /> : null}
 
-      <HorizontalProgressBar percentage={percentage} color={color} />
+      <HorizontalProgressBar percentage={percentage} color={color || 'red'} />
     </div>
   )
 }
