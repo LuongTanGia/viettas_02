@@ -83,3 +83,40 @@
 .color2FD7A1 td.ant-table-cell {
   color: #2fd7a1 !important;
 }
+.highlight-rowChart {
+  background-color: #ccc;
+}
+.highlight-rowChart td.ant-table-cell {
+  font-weight: 500 !important;
+}
+.highlight-rowChart .ant-table-cell-fix-right,
+.highlight-rowChart .ant-table-cell-fix-left {
+  background-color: #ccc !important;
+}
+.highlight-rowChart .progress-bar {
+  display: none;
+}
+.highlight_value .ant-table-cell:last-child {
+  background-color: rgb(231, 153, 118);
+}
+.ant-drawer-body {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.hidden-row {
+  display: none;
+}
+.ant-table-wrapper.setHeight,
+.setHeight .ant-spin-container,
+.setHeight .ant-table,
+.setHeight .ant-table-container .ant-table-body {
+  /* max-height: unset !important; */
+  height: calc(100vh - 175px) !important;
+}
+.setHeight .ant-table-container .ant-table-body {
+  max-height: unset !important;
+  /* height: calc(100vh - 500px); */
+}
+.setHeight .ant-table {
+  height: calc(100vh - 500px) !important;
+}

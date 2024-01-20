@@ -38,8 +38,8 @@ function DoughNut({ dataChart, value, name, onClick, Drawer, valueNum }) {
 
   return (
     <>
-      <div className="pt-1 gap-4 flex justify-between items-center PhoneCss">
-        <div className={`${Drawer ? 'w-[70%]' : 'w-[50%]'}  pt-3`}>
+      <div className="pt-1 gap-4 flex justify-between items-center PhoneCss flex-col">
+        <div className={`${Drawer ? 'w-[70%]' : 'w-[50%]'}  pt-3 cssChart`}>
           <Pie data={data} options={options} />
         </div>
         <div className="w-[100%] flex flex-col flex-1  scroll-smooth boxRate">

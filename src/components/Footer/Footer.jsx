@@ -12,9 +12,11 @@ const Footer = () => {
       <div className="flex justify-start items-center py-1 gap-3">
         <img src={logo} alt="Công Ty Viettas" className="h-[40px] w-[100px]  object-fill min-h-[40px]" />
 
-        <div className=" text-white">
+        <div className=" text-white w-full">
           <p className="text-sm">Viettas SaiGon JSC</p>
-          <p>ĐC: 351/9 Nơ Trang Long, P.13, Q.BT, Tp.HCM</p>
+          <p className="text-sm max-w-[70%] truncate" title="ĐC: 351/9 Nơ Trang Long, P.13, Q.BT, Tp.HCM">
+            ĐC: 351/9 Nơ Trang Long, P.13, Q.BT, Tp.HCM
+          </p>
         </div>
       </div>
     </div>

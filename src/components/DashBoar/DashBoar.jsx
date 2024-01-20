@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import { dataTONGHOPSelector } from '../../redux/selector'
 import Card from '../util/CardTT/Card'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import './dashBoard.css'
 import DrawerCP from './DrawerChart'
 
@@ -11,6 +11,31 @@ function DashBoar() {
   const showDrawer = (value) => {
     setTitleDr(value || 'Tổng cộng')
     setOpen(true)
+  }
+
+  const containerRef = useRef(null)
+  let startX = 0
+
+  const handleTouchStart = (e) => {
+    startX = e.touches[0].clientX
+  }
+
+  const handleTouchMove = (e) => {
+    if (startX) {
+      const currentX = e.touches[0].clientX
+      const deltaX_draw1 = startX - currentX
+      console.log(deltaX_draw1, 'ddddđ111111')
+
+      if (deltaX_draw1 > 100) {
+        setOpen(true)
+      } else if (deltaX_draw1 < -200) {
+        setOpen(false)
+      }
+    }
+  }
+
+  const handleTouchEnd = () => {
+    startX = 0
   }
   const data = useSelector(dataTONGHOPSelector)
   if (data?.DataResults?.length === 0) {
@@ -32,20 +57,21 @@ function DashBoar() {
   const resultArrays = Object.values(groupedData)
 
   return (
-    <>
-      <>
+    <div ref={containerRef} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
+      <div>
         <DrawerCP showOpen={open} titleDr={titleDr} setOpenShow={setOpen} />
-      </>
+      </div>
       <section className="section dashboard">
         <div className="row">
+          <div className="col-lg-12"></div>
           <div className="col-lg-12">
-            <div className="row ">
+            <div className="row" id="gridMain">
               {resultArrays?.map((resultArray, arrayIndex) => (
                 <div
                   key={arrayIndex}
                   onClick={() => showDrawer(resultArray[0]?.DataCode.split('_')[0])}
                   style={{ cursor: 'pointer' }}
-                  className={`col-xxl-4 col-md-6  card_2-content ${resultArray[0]?.DataCode.split('_')[0]}`}
+                  className={`col-xxl-12 col-md-12  card_2-content ${resultArray[0]?.DataCode.split('_')[0]}`}
                 >
                   <Card resultArray={resultArray} formatter={formatter} icon={resultArray[0]?.DataCode.split('_')[0]} />
                 </div>
@@ -54,7 +80,7 @@ function DashBoar() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   )
 }
 

@@ -29,7 +29,7 @@ a {
 .align-items-center {
   justify-content: space-between;
 }
-#gridMain {
+/* #gridMain {
   display: grid !important;
   grid-template-areas:
     'DOANHSO  TONKHO'
@@ -37,37 +37,8 @@ a {
     'MUAHANG XUATTRA '
     'BANHANG NHAPTRA'
     'THU CHI' !important;
-}
-.DOANHSO {
-  grid-area: DOANHSO;
-}
-.TONKHO {
-  grid-area: TONKHO;
-}
-.PHAITHU {
-  grid-area: PHAITHU;
-}
-.PHAITRA {
-  grid-area: PHAITRA;
-}
-.MUAHANG {
-  grid-area: MUAHANG;
-}
-.XUATTRA {
-  grid-area: XUATTRA;
-}
-.BANHANG {
-  grid-area: BANHANG;
-}
-.NHAPTRA {
-  grid-area: NHAPTRA;
-}
-.THU {
-  grid-area: THU;
-}
-.CHI {
-  grid-area: CHI;
-}
+} */
+
 @media (min-width: 768px) {
   .col-md-12 {
     width: 100% !important;
@@ -323,16 +294,12 @@ input[type='radio'] {
 .PhoneCss {
   gap: 3px;
 }
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 667px) {
   /* Styles for mobile screens */
   body {
     font-size: 14px;
   }
-  .PhoneCss {
-    flex-direction: column;
-    gap: 3px;
-    height: 94%;
-  }
+
   .boxRate {
     overflow: scroll;
     max-height: 50vh !important;
@@ -353,4 +320,102 @@ input[type='radio'] {
   padding-bottom: 0 !important;
 
   height: calc(100vh - 28px);
+}
+/* Đối với điện thoại */
+@media only screen and (max-width: 600px) {
+  body {
+    font-size: 14px;
+  }
+  #gridMain {
+    display: grid !important;
+    grid-template-areas:
+      'DOANHSO'
+      'TONKHO'
+      'PHAITHU'
+      'PHAITRA'
+      'MUAHANG'
+      'XUATTRA'
+      'BANHANG'
+      'NHAPTRA'
+      'THU'
+      'CHI';
+  }
+}
+
+/* Đối với tablet */
+@media only screen and (min-width: 601px) and (max-width: 1024px) {
+  body {
+    font-size: 16px;
+  }
+  #gridMain {
+    display: grid !important;
+    grid-template-areas:
+      'DOANHSO  TONKHO'
+      'PHAITHU PHAITRA'
+      'MUAHANG XUATTRA '
+      'BANHANG NHAPTRA'
+      'THU CHI';
+  }
+  .PhoneCss {
+    flex-direction: column;
+    gap: 3px;
+    height: 94%;
+  }
+  .cssChart {
+    width: 400px;
+  }
+}
+
+/* Đối với PC */
+@media only screen and (min-width: 1025px) {
+  body {
+    font-size: 18px;
+  }
+  #gridMain {
+    display: grid !important;
+
+    grid-template-areas:
+      'DOANHSO  TONKHO PHAITHU PHAITRA'
+      'MUAHANG XUATTRA BANHANG NHAPTRA'
+      'THU CHI xx xx';
+  }
+  .PhoneCss {
+    flex-direction: column;
+    gap: 3px;
+    height: 94%;
+  }
+  .cssChart {
+    width: 400px;
+  }
+}
+
+#gridMain .DOANHSO {
+  grid-area: DOANHSO;
+}
+#gridMain .TONKHO {
+  grid-area: TONKHO;
+}
+#gridMai .PHAITHU {
+  grid-area: PHAITHU;
+}
+#gridMain .PHAITRA {
+  grid-area: PHAITRA;
+}
+#gridMain .MUAHANG {
+  grid-area: MUAHANG;
+}
+#gridMain .XUATTRA {
+  grid-area: XUATTRA;
+}
+#gridMain .BANHANG {
+  grid-area: BANHANG;
+}
+#gridMain .NHAPTRA {
+  grid-area: NHAPTRA;
+}
+#gridMain .THU {
+  grid-area: THU;
+}
+#gridMain .CHI {
+  grid-area: CHI;
 }

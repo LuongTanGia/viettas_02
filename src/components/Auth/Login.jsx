@@ -18,6 +18,9 @@ const App = () => {
   const GoogleACC = localStorage.getItem('authLogin') || 0
 
   const [isShow, setIsShow] = useState(false)
+  const [isShowReLog, setIsShowReLog] = useState(true)
+  const [isLoginGG, setIsLoginGG] = useState(false)
+
   const token = window.localStorage.getItem('tokenDuLieu')
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
@@ -108,6 +111,9 @@ const App = () => {
 
       const response = await DANHSACHDULIEU(API.DANHSACHDULIEU, { TokenId: localStorage.getItem('authLogin') }, dispatch)
       setData(response)
+      if (response.DataError === -100) {
+        setIsLoginGG(true)
+      }
       if (response.DataResults.length === 1) {
         const remoteDB = response.DataResults[0].RemoteDB
 
@@ -124,26 +130,63 @@ const App = () => {
   const close = () => {
     setIsLoggedIn(false)
   }
-
+  const closeReLogin = () => {
+    setIsShowReLog(false)
+  }
   return (
     <div className="flex justify-center items-center h-screen bg-cover" style={{ backgroundImage: `url(${backgroundImg})` }}>
-      {rememberMe && GoogleACC !== 0 ? (
-        <div className=" flex flex-col absolute top-10 bg-white w-[400px] rounded-lg right-[-400px] translate-y-6 transition-transform duration-300 ease-in-out slide-in-container">
+      {rememberMe && isShowReLog ? (
+        <div className="col-xxl-3 col-md-6 flex flex-col absolute top-[10px] bg-white  rounded-lg right-[-400px] translate-y-6 transition-transform duration-300 ease-in-out slide-in-container">
           <div className="p-3">
-            <div className="text-base font-semibold text-blue-400 divide-y-4 divide-slate-400/25">Thông Tin đăng nhập</div>
-            <div className="flex justify-around mb-6">
-              <p className="w-[250px]">
-                Bạn đã từng đăng nhập với Gmail <em className="text-blue-800">{infoGoogle?.email} </em>
-              </p>
-              <img src={infoGoogle?.picture} alt="avatar" className="rounded-full w-[40px] h-[40px]" />
-            </div>
+            {isLoginGG && GoogleACC !== 0 ? (
+              <>
+                <div className="text-base font-semibold text-blue-400 divide-y-4 divide-slate-400/25 mb-2">Đăng nhập bằng Google</div>
+              </>
+            ) : (
+              <div>
+                <div className="text-base font-semibold text-blue-400 divide-y-4 divide-slate-400/25">Thông Tin đăng nhập</div>
+                <div className="flex justify-around mb-6">
+                  <p className="w-[250px]">
+                    Bạn đã từng đăng nhập với Gmail <em className="text-blue-800">{infoGoogle?.email} </em>
+                  </p>
+                  <img src={infoGoogle?.picture} alt="avatar" className="rounded-full w-[40px] h-[40px]" />
+                </div>
+              </div>
+            )}
+            <div className="">
+              {isLoginGG ? (
+                <div className="flex justify-between gap-3">
+                  <GoogleLogin
+                    onSuccess={handleGoogleLogin}
+                    onError={() => {
+                      console.log('Login Failed')
+                    }}
+                  />
+                  <button
+                    onClick={closeReLogin}
+                    className="flex justify-center items-center border-2 hover:text-red-500 border-red-500 text-zinc-50 text-base font-medium bg-red-500 hover:bg-white rounded-md px-2 py-1 gap-1 whitespace-nowrap max-h-10"
+                  >
+                    Hủy
+                  </button>
+                </div>
+              ) : (
+                <div className="flex justify-between">
+                  <button
+                    onClick={handleReLogin}
+                    className="flex justify-center items-center border-2 hover:text-blue-500 border-blue-500 text-zinc-50 text-base font-medium bg-blue-500 hover:bg-white rounded-md px-2 py-1 gap-1 whitespace-nowrap max-h-10"
+                  >
+                    Tiếp tục đăng nhập
+                  </button>
 
-            <button
-              onClick={handleReLogin}
-              className="flex justify-center items-center border-2 hover:text-blue-500 border-blue-500 text-zinc-50 text-base font-medium bg-blue-500 hover:bg-white rounded-md px-2 py-1 gap-1 whitespace-nowrap max-h-10"
-            >
-              Tiếp tục đăng nhập
-            </button>
+                  <button
+                    onClick={closeReLogin}
+                    className="flex justify-center items-center border-2 hover:text-red-500 border-red-500 text-zinc-50 text-base font-medium bg-red-500 hover:bg-white rounded-md px-2 py-1 gap-1 whitespace-nowrap max-h-10"
+                  >
+                    Hủy
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       ) : null}
@@ -217,15 +260,6 @@ const App = () => {
               </button>
             </Spin>
             <div className="flex justify-center items-center w-full">
-              {rememberMe ? (
-                <GoogleLogin
-                  onSuccess={handleGoogleLogin}
-                  onError={() => {
-                    console.log('Login Failed')
-                  }}
-                />
-              ) : null}
-
               {isLoggedIn ? <CollectionCreateForm isShow={isLoggedIn} close={close} data={data} dataUser={user} /> : null}
             </div>
           </div>

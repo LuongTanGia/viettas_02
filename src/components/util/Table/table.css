@@ -94,7 +94,7 @@ tbody tr {
   background-color: #d7f4fd;
 }
 .ant-table-cell-row-hover {
-  background-color: #d7f4fd !important;
+  background-color: transparent !important;
 }
 .highlight-row .ant-table-cell-fix-right,
 .highlight-row .ant-table-cell-fix-left {

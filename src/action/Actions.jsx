@@ -48,6 +48,7 @@ export const DANHSACHDULIEU = async (API, data) => {
     } else {
       handleAPIError(response)
     }
+    return response.data
   } catch (error) {
     console.error('Error adding user:', error)
   }
