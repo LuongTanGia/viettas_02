@@ -84,14 +84,14 @@
   color: #2fd7a1 !important;
 }
 .highlight-rowChart {
-  background-color: #ccc;
+  background-color: #6071f2;
 }
 .highlight-rowChart td.ant-table-cell {
   font-weight: 500 !important;
 }
 .highlight-rowChart .ant-table-cell-fix-right,
 .highlight-rowChart .ant-table-cell-fix-left {
-  background-color: #ccc !important;
+  background-color: #6071f2 !important;
 }
 .highlight-rowChart .progress-bar {
   display: none;

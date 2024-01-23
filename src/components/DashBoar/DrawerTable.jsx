@@ -13,12 +13,14 @@ const columnName = {
   DataName: 'Tên Hàng',
   DataDate: 'Thời Gian',
   DataValue: 'Tỷ Trọng',
+  DataDescription: 'Thông Tin',
+  DataValueQuantity: 'Số Lượng',
+  DataValueAmount: 'Số Tiền',
 }
 
 function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorTable, titleDr, segmented }) {
   const [data, setData] = useState()
   useEffect(() => {
-    console.log(1)
     setData(param)
     const valueList = param?.map(function (item) {
       return item.DataValue
@@ -37,7 +39,6 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
   const totalPrice = valueList?.reduce(function (sum, price) {
     return sum + price
   }, 0)
-  console.log(data)
   const DataColumns = data ? data[0] : []
   const keysOnly = Object.keys(DataColumns || []).filter((key) => key !== 'DataType' && key !== 'DataCode' && key !== 'DataGroup' && key !== 'DataOrder')
 
@@ -50,6 +51,24 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
       }
     }
     if (item === 'DataValue') {
+      return {
+        title: columnName[item] || item,
+        width: 200,
+        dataIndex: item,
+        render: (text) =>
+          titleDr === 'DOANHSO' ? (
+            <RateBar percentage={((text / totalPrice) * 100).toFixed(2)} color={colorTable} />
+          ) : (
+            <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base`}>
+              {text?.toLocaleString('en-US', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              })}
+            </div>
+          ),
+      }
+    }
+    if (item === 'DataValueAmount') {
       return {
         title: columnName[item] || item,
         width: 200,
@@ -163,7 +182,6 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
   ]
   const columns = segmented === 'BIEUDOTYTRONG' ? [...columnsThu_Chi] : [...newColumns]
 
-  console.log(columns)
   const [form] = Form.useForm()
   const rowClassName = (record) => {
     if (record.DataType === 0 && segmented === 'BIEUDOTYTRONG') {

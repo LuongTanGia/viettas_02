@@ -36,6 +36,14 @@ function DashBoar({ showOpen, titleDr, setOpenShow }) {
   const [TonKho_TheoKho, setTonKho_TheoKho] = useState([])
   const [CongNoThu_TopChart, setCongNoThu_TopChart] = useState([])
   const [CongNoThu_DanhSach, setCongNoThu_DanhSach] = useState([])
+  const [MuaHang_HangHoa, setMuaHang_HangHoa] = useState([])
+  const [MuaHang_NhaCungCap, setMuaHang_NhaCungCap] = useState([])
+  const [XuatTra_HangHoa, setXuatTra_HangHoa] = useState([])
+  const [XuatTra_NhaCungCap, setXuatTra_NhaCungCap] = useState([])
+
+  const [BanHang_HangHoa, setBanHang_HangHoa] = useState([])
+  const [BanHang_QuayLe, setBanHang_QuayLe] = useState([])
+  const [BanHang_KhachHang, setBanHang_KhachHang] = useState([])
 
   const [dataTable, setDataTable] = useState([])
   const [colorTable, setColorTable] = useState()
@@ -43,36 +51,73 @@ function DashBoar({ showOpen, titleDr, setOpenShow }) {
   const [dataDate, setDataDate] = useState([])
   const [TotalNumber, setTotalNumber] = useState(0)
   const [TotalChart, setTotalChart] = useState(0)
-
   useEffect(() => {
     const loadData = async () => {
       const KhoanNgay = await KHOANNGAY(API.KHOANNGAY, token)
       setDataDate(KhoanNgay)
+    }
+    loadData()
+  }, [])
+  useEffect(() => {
+    console.log('Load API')
+    const loadData = async () => {
       //API Doanh So
-      const data_hanghoa = titleDr === 'DOANHSO' ? await APIDATA_CHART(API.DoanhSoHangHoa_TopChart, token, KhoanNgay) : null
-      const data_khachhang = titleDr === 'DOANHSO' ? await APIDATA_CHART(API.DoanhSoKhachHang_TopChart, token, KhoanNgay) : null
-      const data_nhomhang = titleDr === 'DOANHSO' ? await APIDATA_CHART(API.DoanhSoNhomHang_TopChart, token, KhoanNgay) : null
+      const data_hanghoa = titleDr === 'DOANHSO' ? await APIDATA_CHART(API.DoanhSoHangHoa_TopChart, token, dataDate) : null
+      const data_khachhang = titleDr === 'DOANHSO' ? await APIDATA_CHART(API.DoanhSoKhachHang_TopChart, token, dataDate) : null
+      const data_nhomhang = titleDr === 'DOANHSO' ? await APIDATA_CHART(API.DoanhSoNhomHang_TopChart, token, dataDate) : null
       //API Ton Kho
-      const data_TonKho_TongKho = titleDr === 'TONKHO' ? await APIDATA_CHART(API.TonKho_TongKho, token, KhoanNgay) : null
-      const TonKho_TongKhoDVTQuyDoi = titleDr === 'TONKHO' ? await APIDATA_CHART(API.TonKho_TongKhoDVTQuyDoi, token, KhoanNgay) : null
-      const TonKho_TheoKho = titleDr === 'TONKHO' ? await APIDATA_CHART(API.TonKho_TheoKho, token, KhoanNgay) : null
+      const data_TonKho_TongKho = titleDr === 'TONKHO' ? await APIDATA_CHART(API.TonKho_TongKho, token, dataDate) : null
+      const TonKho_TongKhoDVTQuyDoi = titleDr === 'TONKHO' ? await APIDATA_CHART(API.TonKho_TongKhoDVTQuyDoi, token, dataDate) : null
+      const TonKho_TheoKho = titleDr === 'TONKHO' ? await APIDATA_CHART(API.TonKho_TheoKho, token, dataDate) : null
       //API Cong No Thu
-      const CongNoThu_TopChart = titleDr === 'PHAITHU' ? await APIDATA_CHART(API.CongNoThu_TopChart, token, KhoanNgay) : null
-      const CongNoThu_DanhSach = titleDr === 'PHAITHU' ? await APIDATA_CHART(API.CongNoThu_DanhSach, token, KhoanNgay) : null
-
+      const CongNoThu_TopChart = titleDr === 'PHAITHU' ? await APIDATA_CHART(API.CongNoThu_TopChart, token, dataDate) : null
+      const CongNoThu_DanhSach = titleDr === 'PHAITHU' ? await APIDATA_CHART(API.CongNoThu_DanhSach, token, dataDate) : null
+      //API Mua Hang
+      const MuaHang_HangHoa = titleDr === 'MUAHANG' ? await APIDATA_CHART(API.MuaHang_HangHoa, token, dataDate) : null
+      const MuaHang_NhaCungCap = titleDr === 'MUAHANG' ? await APIDATA_CHART(API.MuaHang_NhaCungCap, token, dataDate) : null
+      //API Xuat Tra
+      const XuatTra_HangHoa = titleDr === 'XUATTRA' ? await APIDATA_CHART(API.XuatTra_HangHoa, token, dataDate) : null
+      const XuatTra_NhaCungCap = titleDr === 'XUATTRA' ? await APIDATA_CHART(API.XuatTra_NhaCungCap, token, dataDate) : null
+      //API Ban Hang
+      const BanHang_HangHoa = titleDr === 'BANHANG' ? await APIDATA_CHART(API.BanHang_HangHoa, token, dataDate) : null
+      const BanHang_QuayLe = titleDr === 'BANHANG' ? await APIDATA_CHART(API.BanHang_QuayLe, token, dataDate) : null
+      const BanHang_KhachHang = titleDr === 'BANHANG' ? await APIDATA_CHART(API.BanHang_KhachHang, token, dataDate) : null
+      console.log(BanHang_QuayLe)
+      //Ban Hang
+      setBanHang_HangHoa(BanHang_HangHoa)
+      setBanHang_QuayLe(BanHang_QuayLe)
+      setBanHang_KhachHang(BanHang_KhachHang)
+      //Xuat Tra
+      setXuatTra_HangHoa(XuatTra_HangHoa)
+      setXuatTra_NhaCungCap(XuatTra_NhaCungCap)
+      //Mua Hang
+      setMuaHang_HangHoa(MuaHang_HangHoa ? MuaHang_HangHoa : [])
+      setMuaHang_NhaCungCap(MuaHang_NhaCungCap ? MuaHang_NhaCungCap : [])
       //Cong No Thu
-      setCongNoThu_TopChart(CongNoThu_TopChart)
-      setCongNoThu_DanhSach(CongNoThu_DanhSach)
+      setCongNoThu_TopChart(CongNoThu_TopChart ? CongNoThu_TopChart : [])
+      setCongNoThu_DanhSach(CongNoThu_DanhSach ? CongNoThu_DanhSach : [])
       //Ton Kho
-      setdata_TonKho_TongKho(data_TonKho_TongKho)
-      setTonKho_TongKhoDVTQuyDoi(TonKho_TongKhoDVTQuyDoi)
-      setTonKho_TheoKho(TonKho_TheoKho)
+      setdata_TonKho_TongKho(data_TonKho_TongKho ? data_TonKho_TongKho : [])
+      setTonKho_TongKhoDVTQuyDoi(TonKho_TongKhoDVTQuyDoi ? TonKho_TongKhoDVTQuyDoi : [])
+      setTonKho_TheoKho(TonKho_TheoKho ? TonKho_TheoKho : [])
       //Doanh So
       setDataChart_hanghoa(data_hanghoa ? data_hanghoa : [])
       setDataChart_khachhang(data_khachhang ? data_khachhang : [])
       setDataChart_nhomhang(data_nhomhang ? data_nhomhang : [])
     }
-    setSegmented(titleDr === 'DOANHSO' ? 'KHACHHANG' : titleDr === 'TONKHO' ? 'TONGHOP' : titleDr === 'PHAITHU' ? 'BIEUDOTYTRONG' : '')
+    setSegmented(
+      titleDr === 'DOANHSO'
+        ? 'KHACHHANG'
+        : titleDr === 'TONKHO'
+          ? 'TONGHOP'
+          : titleDr === 'PHAITHU'
+            ? 'BIEUDOTYTRONG'
+            : titleDr === 'MUAHANG' || titleDr === 'XUATTRA'
+              ? 'THEOHANGHOA'
+              : titleDr === 'BANHANG'
+                ? 'BANHANGHANGHOA'
+                : '',
+    )
     loadData()
   }, [titleDr])
   useEffect(() => {
@@ -82,9 +127,14 @@ function DashBoar({ showOpen, titleDr, setOpenShow }) {
       NHOMHANG: data_nhomhang,
       BIEUDOTYTRONG: CongNoThu_TopChart,
       DANHSACHKHACHHANG: CongNoThu_DanhSach,
+      THEOHANGHOA: MuaHang_HangHoa,
+      THEONHACUNGCAP: MuaHang_NhaCungCap,
+      BANHANGHANGHOA: BanHang_HangHoa,
+      BANHANGQUYLE: BanHang_QuayLe,
+      BANHANGKHACHHANG: BanHang_KhachHang,
     }
 
-    const valueList = dataMapping[segmented]?.map((item) => item.DataValue) || []
+    const valueList = dataMapping[segmented]?.map((item) => (titleDr === 'MUAHANG' || titleDr === 'BANHANG' ? item.DataValueAmount : item.DataValue)) || []
     const totalPrice = valueList.reduce((sum, price) => sum + price, 0)
 
     setTotalChart(totalPrice)
@@ -119,7 +169,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow }) {
     )
 
     setDataTable(data_ct)
-    console.log(data_ct)
+
     setChildrenDrawer(true)
   }
   const onChildrenDrawerClose = () => {
@@ -136,7 +186,6 @@ function DashBoar({ showOpen, titleDr, setOpenShow }) {
     if (startX_01) {
       const currentX = e.touches[0].clientX
       const deltaX_draw2 = startX_01 - currentX
-      console.log(deltaX_draw2, 'dddddddđ222222222222')
       if (deltaX_draw2 > 100) {
         setChildrenDrawer(true)
       } else if (deltaX_draw2 < -150) {
@@ -184,7 +233,14 @@ function DashBoar({ showOpen, titleDr, setOpenShow }) {
             <Segmented options={['TONGHOP', 'TONGHOPDVT', 'THEOKHO']} block onChange={(value) => setSegmented(value)} value={segmented} />
           ) : titleDr === 'PHAITHU' ? (
             <Segmented options={['BIEUDOTYTRONG', 'DANHSACHKHACHHANG']} block onChange={(value) => setSegmented(value)} value={segmented} />
+          ) : titleDr === 'MUAHANG' ? (
+            <Segmented options={['THEOHANGHOA', 'THEONHACUNGCAP']} block onChange={(value) => setSegmented(value)} value={segmented} />
+          ) : titleDr === 'XUATTRA' ? (
+            <Segmented options={['THEOHANGHOA', 'THEONHACUNGCAP']} block onChange={(value) => setSegmented(value)} value={segmented} />
+          ) : titleDr === 'BANHANG' ? (
+            <Segmented options={['BANHANGHANGHOA', 'BANHANGQUYLE', 'BANHANGKHACHHANG']} block onChange={(value) => setSegmented(value)} value={segmented} />
           ) : null}
+          {/* segmented */}
           {segmented === 'KHACHHANG' ? (
             <>
               <PieChart Drawer={true} dataChart={data_khachhang} valueNum={'DataValue'} value={'DataPerc'} name={'DataName'} onClick={showChildrenDrawer} />
@@ -266,6 +322,42 @@ function DashBoar({ showOpen, titleDr, setOpenShow }) {
                 hiden={[]}
                 setTotalNumber={setNumber}
               />{' '}
+            </>
+          ) : segmented === 'THEOHANGHOA' ? (
+            <>
+              <Table
+                segmented={segmented}
+                titleDr={titleDr}
+                param={titleDr === 'MUAHANG' ? MuaHang_HangHoa : XuatTra_HangHoa}
+                columName={[]}
+                height={'setHeight'}
+                hiden={[]}
+                setTotalNumber={setNumber}
+              />{' '}
+            </>
+          ) : segmented === 'THEONHACUNGCAP' ? (
+            <>
+              <Table
+                segmented={segmented}
+                titleDr={titleDr}
+                param={titleDr === 'MUAHANG' ? MuaHang_NhaCungCap : XuatTra_NhaCungCap}
+                columName={[]}
+                height={'setHeight'}
+                hiden={[]}
+                setTotalNumber={setNumber}
+              />{' '}
+            </>
+          ) : segmented === 'BANHANGHANGHOA' ? (
+            <>
+              <Table segmented={segmented} titleDr={titleDr} param={BanHang_HangHoa} columName={[]} height={'setHeight'} hiden={[]} setTotalNumber={setNumber} />{' '}
+            </>
+          ) : segmented === 'BANHANGQUYLE' ? (
+            <>
+              <Table segmented={segmented} titleDr={titleDr} param={BanHang_QuayLe} columName={[]} height={'setHeight'} hiden={[]} setTotalNumber={setNumber} />{' '}
+            </>
+          ) : segmented === 'BANHANGKHACHHANG' ? (
+            <>
+              <Table segmented={segmented} titleDr={titleDr} param={BanHang_KhachHang} columName={[]} height={'setHeight'} hiden={[]} setTotalNumber={setNumber} />{' '}
             </>
           ) : null}
 

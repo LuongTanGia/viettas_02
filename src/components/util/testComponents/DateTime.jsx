@@ -17,15 +17,13 @@ const DateTimeClock = () => {
     return format(date, 'EEEE, dd-MM-yyyy', { locale: viLocale, timeZone: 'Asia/Ho_Chi_Minh' })
   }
 
-  const formatTime = (date) => {
-    return format(date, 'HH:mm:ss', { timeZone: 'Asia/Ho_Chi_Minh' })
-  }
-
   return (
-    <div className="flex ">
+    <div className="flex gap-2">
+      <img className="w-[40px]" src="https://www.viettassaigon.vn/uploads/freecontent/VTS_ThongKe_iSale_256.png" alt="logo" />
+
       <div className="flex flex-col">
         <h2 className=" text-base font-mono   text-white"> {formatDate(currentDateTime)}</h2>
-        <h2 className=" text-base font-mono  text-white"> {formatTime(currentDateTime)}</h2>
+        <h2 className=" text-base font-mono   text-white"> Thống Kê Isale</h2>
       </div>
       <div>{/* <h2 className=" text-base font-mono   text-white pt-1">Chia sẻ thành công, kết nối đam mê</h2> */}</div>
     </div>

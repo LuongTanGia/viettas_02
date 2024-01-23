@@ -23,10 +23,7 @@ const CustomDatePicker = () => {
       formattedInput += '/' + numericInput.slice(4, 8)
     }
 
-    console.log(dateValue.length)
-
     const isValidFormat = moment(formattedInput, 'DD/MM/YYYY', true).isValid()
-    console.log(isValidFormat)
 
     setTimeout(() => {
       if (isValidFormat) {

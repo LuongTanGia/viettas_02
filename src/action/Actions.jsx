@@ -85,6 +85,7 @@ export const LOGIN = async (API1, API2, TKN, RemoteDB, data, dispatch) => {
 }
 
 export const KHOANNGAY = async (API, token) => {
+  console.log('KHOANNGAY')
   try {
     const response = await axiosInstance.post(
       API,
@@ -148,6 +149,7 @@ export const THAYDOIRMATKHAU = async (API, data, token) => {
 }
 
 export const APIDATA_CHART = async (API, token, data) => {
+  console.log('APIDATA_CHART')
   try {
     const response = await axiosInstance.post(API, data, {
       headers: {
@@ -173,6 +175,8 @@ export const APIDATA_CHART = async (API, token, data) => {
   }
 }
 export const APIDATA_CHART_CT = async (API, token, data) => {
+  console.log('APIDATA_CHART_CT')
+
   try {
     const response = await axiosInstance.post(API, data, {
       headers: {

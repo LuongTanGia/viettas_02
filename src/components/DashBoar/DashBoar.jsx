@@ -24,7 +24,6 @@ function DashBoar() {
     if (startX) {
       const currentX = e.touches[0].clientX
       const deltaX_draw1 = startX - currentX
-      console.log(deltaX_draw1, 'ddddđ111111')
 
       if (deltaX_draw1 > 100) {
         setOpen(true)
