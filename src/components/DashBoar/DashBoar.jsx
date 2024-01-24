@@ -1,11 +1,18 @@
-import { useSelector } from 'react-redux'
-import { dataTONGHOPSelector } from '../../redux/selector'
 import Card from '../util/CardTT/Card'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './dashBoard.css'
 import DrawerCP from './DrawerChart'
+import LoadingPage from '../util/Loading/LoadingPage'
+import { DATATONGHOP, KHOANNGAY } from '../../action/Actions'
+import API from '../../API/API'
+import Date from './Date'
 
 function DashBoar() {
+  const [dataLoaded, setDataLoaded] = useState(false)
+  const [dataTongHop, setDataTongHop] = useState([])
+  const [dataDate, setDataDate] = useState()
+
+  const token = localStorage.getItem('TKN')
   const [open, setOpen] = useState(false)
   const [titleDr, setTitleDr] = useState('')
   const showDrawer = (value) => {
@@ -15,7 +22,28 @@ function DashBoar() {
 
   const containerRef = useRef(null)
   let startX = 0
+  useEffect(() => {
+    const loadData = async () => {
+      const KhoanNgay = await KHOANNGAY(API.KHOANNGAY, token)
+      setDataDate(KhoanNgay)
+      const data = await DATATONGHOP(API.TONGHOP, token, KhoanNgay)
+      setDataTongHop(data)
+      setDataLoaded(true)
+    }
+    loadData()
+  }, [])
+  useEffect(() => {
+    const loadData = async () => {
+      const data = await DATATONGHOP(API.TONGHOP, token, dataDate)
+      setDataTongHop(data)
+      setDataLoaded(true)
+    }
+    loadData()
+  }, [dataDate?.NgayBatDau, dataDate?.NgayKetThuc])
 
+  if (!dataLoaded) {
+    return <LoadingPage />
+  }
   const handleTouchStart = (e) => {
     startX = e.touches[0].clientX
   }
@@ -36,7 +64,7 @@ function DashBoar() {
   const handleTouchEnd = () => {
     startX = 0
   }
-  const data = useSelector(dataTONGHOPSelector)
+  const data = dataTongHop
   if (data?.DataResults?.length === 0) {
     return <p>Dữ liệu trống, vui lòng kiểm tra lại.</p>
   }
@@ -58,11 +86,15 @@ function DashBoar() {
   return (
     <div ref={containerRef} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
       <div>
-        <DrawerCP showOpen={open} titleDr={titleDr} setOpenShow={setOpen} />
+        <DrawerCP showOpen={open} titleDr={titleDr} setOpenShow={setOpen} onDateChange={setDataDate} dataDate={dataDate} />
       </div>
       <section className="section dashboard">
         <div className="row">
-          <div className="col-lg-12"></div>
+          <div className="col-lg-12">
+            <div className="card">
+              <Date onDateChange={setDataDate} dataDate={dataDate} />
+            </div>
+          </div>
           <div className="col-lg-12">
             <div className="row" id="gridMain">
               {resultArrays?.map((resultArray, arrayIndex) => (

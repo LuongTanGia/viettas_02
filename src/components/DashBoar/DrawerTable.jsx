@@ -4,7 +4,7 @@
 /* eslint-disable react/prop-types */
 import { Table, Typography, Form, Checkbox } from 'antd'
 import '../util/Table/table.css'
-
+import Nodata from '../../assets/img/9264828.jpg'
 import { useEffect, useState } from 'react'
 import RateBar from '../util/Chart/LoadingChart'
 const { Text } = Typography
@@ -109,7 +109,7 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
             ) : (
               <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-center`}>{text}</div>
             ),
-          sorter: (a, b) => a.age - b.age,
+          sorter: (a, b) => a.DataName - b.DataName,
         },
         {
           title: 'Ngày',
@@ -122,7 +122,20 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
             ) : (
               <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-center`}>{text}</div>
             ),
-          sorter: (a, b) => a.age - b.age,
+          sorter: (a, b) => {
+            const dateA = new Date(a.DataDate)
+            const dateB = new Date(b.DataDate)
+
+            if (!isNaN(dateA.getTime()) && !isNaN(dateB.getTime())) {
+              return dateA.getTime() - dateB.getTime()
+            } else if (!isNaN(dateA.getTime())) {
+              return -1
+            } else if (!isNaN(dateB.getTime())) {
+              return 1
+            } else {
+              return 0
+            }
+          },
         },
         {
           title: 'Tăng',
@@ -140,12 +153,11 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
                 })}
               </div>
             ),
-          sorter: (a, b) => a.age - b.age,
+          sorter: (a, b) => a.DataValuePS - b.DataValuePS,
         },
         {
           title: 'Giảm',
           align: 'center',
-
           dataIndex: 'DataValueTT',
           render: (text) =>
             titleDr === 'DOANHSO' ? (
@@ -158,7 +170,7 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
                 })}
               </div>
             ),
-          sorter: (a, b) => a.age - b.age,
+          sorter: (a, b) => a.DataValueTT - b.DataValueTT,
         },
       ],
     },
@@ -178,6 +190,7 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
             })}
           </div>
         ),
+      sorter: (a, b) => a.DataValue - b.DataValue,
     },
   ]
   const columns = segmented === 'BIEUDOTYTRONG' ? [...columnsThu_Chi] : [...newColumns]
@@ -196,59 +209,72 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
   }
   return (
     <>
-      <Form form={form} component={false}>
-        <Table
-          rowClassName={rowClassName}
-          loading={param?.length !== 0 ? false : true}
-          columns={columns}
-          dataSource={data}
-          bordered
-          scroll={
-            segmented === 'BIEUDOTYTRONG'
-              ? {
-                  x: 620,
-                  y: 500,
-                }
-              : null
-          }
-          pagination={false}
-          size="small"
-          className={`color${colorTable?.slice(1)} DrawerTable setHeight`}
-          summary={
-            segmented === 'BIEUDOTYTRONG'
-              ? () => {
-                  if (!data || data.length === 0) {
-                    return null
+      {data ? (
+        <Form form={form} component={false}>
+          <Table
+            rowClassName={rowClassName}
+            loading={param?.length !== 0 ? false : true}
+            columns={columns}
+            dataSource={data}
+            bordered
+            scroll={
+              segmented === 'BIEUDOTYTRONG'
+                ? {
+                    x: 620,
+                    y: 500,
                   }
-                  return (
-                    <Table.Summary fixed>
-                      <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]">Tổng</Table.Summary.Cell>
-                      <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]"></Table.Summary.Cell>
-                      <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]">
-                        {Number(data?.reduce((total, item) => total + item.DataValuePS, 0)).toLocaleString('en-US', {
-                          minimumFractionDigits: 0,
-                          maximumFractionDigits: 0,
-                        })}
-                      </Table.Summary.Cell>
-                      <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]">
-                        {Number(data?.reduce((total, item) => total + item.DataValueTT, 0)).toLocaleString('en-US', {
-                          minimumFractionDigits: 0,
-                          maximumFractionDigits: 0,
-                        })}
-                      </Table.Summary.Cell>
-                      <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]">
-                        {Number(data[data.length - 1]?.DataValue).toLocaleString('en-US', {
-                          minimumFractionDigits: 0,
-                          maximumFractionDigits: 0,
-                        })}
-                      </Table.Summary.Cell>
-                    </Table.Summary>
-                  )
-                }
-              : null
-          }
-        />
-      </Form>
+                : null
+            }
+            pagination={false}
+            size="small"
+            className={`color${colorTable?.slice(1)} DrawerTable setHeight`}
+            summary={
+              segmented === 'BIEUDOTYTRONG' || segmented === 'SOQUY'
+                ? () => {
+                    if (!data || data.length === 0) {
+                      return null
+                    }
+                    return (
+                      <Table.Summary fixed>
+                        <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]">Tổng</Table.Summary.Cell>
+                        {segmented === 'BIEUDOTYTRONG' ? <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]"></Table.Summary.Cell> : null}
+                        <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]">
+                          {Number(data?.reduce((total, item) => total + (segmented === 'SOQUY' ? item.DataValueIn : item.DataValuePS), 0)).toLocaleString('en-US', {
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0,
+                          })}
+                        </Table.Summary.Cell>
+                        <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]">
+                          {Number(data?.reduce((total, item) => total + (segmented === 'SOQUY' ? item.DataValueOut : item.DataValueTT), 0)).toLocaleString('en-US', {
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0,
+                          })}
+                        </Table.Summary.Cell>
+                        <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]">
+                          {segmented !== 'SOQUY'
+                            ? Number(data[data.length - 1]?.DataValue).toLocaleString('en-US', {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0,
+                              })
+                            : Number(data?.reduce((total, item) => total + item.DataValueBalance, 0)).toLocaleString('en-US', {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0,
+                              })}
+                        </Table.Summary.Cell>
+                      </Table.Summary>
+                    )
+                  }
+                : null
+            }
+          />
+        </Form>
+      ) : (
+        <>
+          <div className="h-[70vh] w-full flex items-center  justify-center">
+            <img src={Nodata} alt="NoData" className="max-w-[300px]" />
+          </div>
+        </>
+      )}
     </>
   )
 }

@@ -1,6 +1,5 @@
 import axios from 'axios'
 import loginSlice from '../components/Auth/loginSlice'
-import MainSlice from '../components/MainPage/MainSlice'
 
 import { toast } from 'react-toastify'
 import * as XLSX from 'xlsx'
@@ -103,7 +102,9 @@ export const KHOANNGAY = async (API, token) => {
   }
 }
 
-export const DATATONGHOP = async (API, token, KhoanNgay, dispatch) => {
+export const DATATONGHOP = async (API, token, KhoanNgay) => {
+  console.log('DATATONGHOP')
+
   try {
     const response = await axiosInstance.post(API, KhoanNgay, {
       headers: {
@@ -115,14 +116,14 @@ export const DATATONGHOP = async (API, token, KhoanNgay, dispatch) => {
       const newToken = await RETOKEN()
 
       if (newToken !== 0) {
-        await DATATONGHOP(API, newToken, KhoanNgay, dispatch)
+        await DATATONGHOP(API, newToken, KhoanNgay)
       } else {
         window.location.href = '/login'
         toast.error('Failed to refresh token!')
       }
     }
 
-    dispatch(MainSlice.actions.getDataTongHop(response.data))
+    return response.data
   } catch (error) {
     console.error('Error adding user:', error)
   }

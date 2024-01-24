@@ -34,7 +34,7 @@ function Card({ resultArray, formatter, icon }) {
       }`}
     >
       <div className="card info-card sales-card">
-        <div className="card-body ">
+        <div className="card-body min-h-[110px]">
           <h5 className="card-title">
             {
               // eslint-disable-next-line react/prop-types

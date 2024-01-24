@@ -28,6 +28,7 @@ function Header() {
   const close = () => {
     setIsShow(false)
   }
+  const img = userInfor.picture
   return (
     <>
       <header
@@ -43,7 +44,7 @@ function Header() {
           <ul className="d-flex align-items-center p-0">
             <li className="nav-item dropdown pe-3  text-red-500">
               <Link className="nav-link nav-profile d-flex align-items-center pe-0 text-red-500" href="#" data-bs-toggle="dropdown">
-                <img src={userLogin !== null ? Logo : userInfor.picture} alt="Profile" className="rounded-circle" />
+                <img src={userLogin !== null ? Logo : img} alt="Profile" className="rounded-circle" />
                 <span className=" d-none d-md-block dropdown-toggle ps-2  ">{userLogin !== null ? user : userInfor.given_name}</span>
               </Link>
 

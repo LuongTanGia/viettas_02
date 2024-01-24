@@ -354,7 +354,7 @@ input[type='radio'] {
       'PHAITHU PHAITRA'
       'MUAHANG XUATTRA '
       'BANHANG NHAPTRA'
-      'THU CHI';
+      'THU CHI ';
   }
   .PhoneCss {
     flex-direction: column;
@@ -377,7 +377,7 @@ input[type='radio'] {
     grid-template-areas:
       'DOANHSO  TONKHO PHAITHU PHAITRA'
       'MUAHANG XUATTRA BANHANG NHAPTRA'
-      'THU CHI xx xx';
+      'THU THU CHI CHI ';
   }
   .PhoneCss {
     flex-direction: column;
@@ -418,4 +418,15 @@ input[type='radio'] {
 }
 #gridMain .CHI {
   grid-area: CHI;
+}
+.MainPage_bg svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  display: block;
+  background-color: #0e4166;
+  background-image: linear-gradient(to bottom, rgba(14, 65, 102, 0.86), #0e4166);
 }
