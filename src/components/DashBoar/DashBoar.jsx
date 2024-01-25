@@ -26,9 +26,6 @@ function DashBoar() {
     const loadData = async () => {
       const KhoanNgay = await KHOANNGAY(API.KHOANNGAY, token)
       setDataDate(KhoanNgay)
-      const data = await DATATONGHOP(API.TONGHOP, token, KhoanNgay)
-      setDataTongHop(data)
-      setDataLoaded(true)
     }
     loadData()
   }, [])
@@ -39,7 +36,7 @@ function DashBoar() {
       setDataLoaded(true)
     }
     loadData()
-  }, [dataDate?.NgayBatDau, dataDate?.NgayKetThuc])
+  }, [dataDate?.NgayBatDau])
 
   if (!dataLoaded) {
     return <LoadingPage />

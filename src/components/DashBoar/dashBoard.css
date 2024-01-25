@@ -1,9 +1,7 @@
 .card_2-content:hover {
   transform: scale(1.01);
 }
-.card_2-content {
-  border-bottom: 10px solid saddlebrown;
-}
+
 .DrawerTable {
   height: 95% !important;
   min-width: 95% !important;

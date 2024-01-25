@@ -3,29 +3,29 @@ import { DateField } from '@mui/x-date-pickers'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 
-function Date({ dataDate, onDateChange }) {
-  const [startDate, setStartDate] = useState(dayjs(dataDate?.NgayBatDau))
-  const [endDate, setEndDate] = useState(dayjs(dataDate?.NgayKetThuc))
+function Date({ dataDateProp, onDateChange }) {
+  const [startDate, setStartDate] = useState(dayjs(dataDateProp?.NgayBatDau))
+  const [endDate, setEndDate] = useState(dayjs(dataDateProp?.NgayKetThuc))
   let timerId
   useEffect(() => {
-    setStartDate(dayjs(dataDate?.NgayBatDau))
-    setEndDate(dayjs(dataDate?.NgayKetThuc))
-  }, [dataDate?.NgayBatDau, dataDate?.NgayKetThuc])
+    setStartDate(dayjs(dataDateProp?.NgayBatDau))
+    setEndDate(dayjs(dataDateProp?.NgayKetThuc))
+  }, [dataDateProp?.NgayBatDau, dataDateProp?.NgayKetThuc])
 
   const handleStartDateChange = (newValue) => {
     setStartDate(newValue)
-    // onDateChange({ ...dataDate, NgayBatDau: newValue.format('DD/MM/YYYY') })
+    // onDateChange({ ...dataDateProp, NgayBatDau: newValue.format('DD/MM/YYYY') })
   }
 
   const handleEndDateChange = (newValue) => {
     setEndDate(newValue)
-    // onDateChange({ ...dataDate, NgayKetThuc: newValue.format('DD/MM/YYYY') })
+    // onDateChange({ ...dataDateProp, NgayKetThuc: newValue.format('DD/MM/YYYY') })
   }
 
   const handleDateChange = () => {
     clearTimeout(timerId)
     timerId = setTimeout(() => {
-      onDateChange({ ...dataDate, NgayBatDau: startDate, NgayKetThuc: endDate })
+      onDateChange({ ...dataDateProp, NgayBatDau: startDate, NgayKetThuc: endDate })
     }, 300)
   }
   const handleKeyDown = (event) => {

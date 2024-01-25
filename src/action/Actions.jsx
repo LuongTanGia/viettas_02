@@ -108,6 +108,7 @@ export const DATATONGHOP = async (API, token, KhoanNgay) => {
   try {
     const response = await axiosInstance.post(API, KhoanNgay, {
       headers: {
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
     })
@@ -210,4 +211,19 @@ export const exportToExcel = () => {
   XLSX.utils.sheet_add_aoa(ws, companyInfo, { origin: 'A2' })
   XLSX.utils.book_append_sheet(wb, ws, 'DanhSach')
   XLSX.writeFile(wb, 'du_lieu.xlsx')
+}
+export const getFirstDayOfMonth = (date) => {
+  return new Date(date.getFullYear(), date.getMonth(), 1)
+}
+
+export const getWeek = (date) => {
+  const firstDayOfWeek = new Date(date)
+  firstDayOfWeek.setDate(date.getDate() - date.getDay())
+  const weekDays = []
+  for (let i = 0; i < 7; i++) {
+    const day = new Date(firstDayOfWeek)
+    day.setDate(firstDayOfWeek.getDate() + i)
+    weekDays.push(day)
+  }
+  return weekDays
 }
