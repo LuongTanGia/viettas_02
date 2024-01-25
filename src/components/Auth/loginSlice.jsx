@@ -6,6 +6,7 @@ export default createSlice({
   initialState: {
     DSDL: [],
     data: [],
+    KhoanNgay: {},
   },
   reducers: {
     getDSDL: (state, action) => {
@@ -13,6 +14,9 @@ export default createSlice({
     },
     login: (state, action) => {
       state.data = action.payload
+    },
+    getKhoanNgay: (state, action) => {
+      state.KhoanNgay = action.payload
     },
   },
 })

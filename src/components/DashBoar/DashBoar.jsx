@@ -3,16 +3,18 @@ import { useEffect, useRef, useState } from 'react'
 import './dashBoard.css'
 import DrawerCP from './DrawerChart'
 import LoadingPage from '../util/Loading/LoadingPage'
-import { DATATONGHOP, KHOANNGAY } from '../../action/Actions'
+import { DATATONGHOP } from '../../action/Actions'
 import API from '../../API/API'
 import Date from './Date'
-
+import { useSelector } from 'react-redux'
+import { khoanNgaySelect } from '../../redux/selector'
 function DashBoar() {
+  const KhoanNgay = useSelector(khoanNgaySelect)
+  const token = localStorage.getItem('TKN')
+  const [dataDate, setDataDate] = useState(KhoanNgay)
   const [dataLoaded, setDataLoaded] = useState(false)
   const [dataTongHop, setDataTongHop] = useState([])
-  const [dataDate, setDataDate] = useState()
 
-  const token = localStorage.getItem('TKN')
   const [open, setOpen] = useState(false)
   const [titleDr, setTitleDr] = useState('')
   const showDrawer = (value) => {
@@ -22,21 +24,21 @@ function DashBoar() {
 
   const containerRef = useRef(null)
   let startX = 0
+
   useEffect(() => {
+    console.log(dataDate)
     const loadData = async () => {
-      const KhoanNgay = await KHOANNGAY(API.KHOANNGAY, token)
-      setDataDate(KhoanNgay)
+      try {
+        const data = await DATATONGHOP(API.TONGHOP, token, dataDate)
+        setDataTongHop(data)
+        setDataLoaded(true)
+      } catch (error) {
+        console.error('Error loading data:', error)
+      }
     }
+
     loadData()
-  }, [])
-  useEffect(() => {
-    const loadData = async () => {
-      const data = await DATATONGHOP(API.TONGHOP, token, dataDate)
-      setDataTongHop(data)
-      setDataLoaded(true)
-    }
-    loadData()
-  }, [dataDate?.NgayBatDau])
+  }, [dataDate?.NgayKetThuc, dataDate?.NgayBatDau])
 
   if (!dataLoaded) {
     return <LoadingPage />
@@ -74,9 +76,8 @@ function DashBoar() {
     }
     groupedData[key].push(item)
   })
-  const formatter = new Intl.NumberFormat('vi-VN', {
-    style: 'currency',
-    currency: 'VND',
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'decimal',
   })
   const resultArrays = Object.values(groupedData)
 

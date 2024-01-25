@@ -10,13 +10,14 @@ import { InputNumber, Modal, Switch } from 'antd'
 // eslint-disable-next-line react/prop-types
 function Header() {
   const userLogin = window.localStorage.getItem('userName')
+  const settingDate = window.localStorage.getItem('dateSetting')
+
   const userInfor = JSON.parse(window.localStorage.getItem('userInfo'))
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [checkDateWeek, setCheckDateWeek] = useState(false)
-  const [checkDateMonth, setCheckDateMonth] = useState(false)
-  const [checkDateHT, setCheckDateHT] = useState(false)
-  const [inputDate, setInputDate] = useState(false)
-
+  // const [checkDateWeek, setCheckDateWeek] = useState(settingDate === 'DW' ? true : false)
+  const [checkDateMonth, setCheckDateMonth] = useState(settingDate === 'DM' ? true : false)
+  // const [checkDateHT, setCheckDateHT] = useState(settingDate === 'DHT' ? true : false)
+  const [inputDate, setInputDate] = useState(window.localStorage.getItem('dateNum') || 0)
   const [isShow, setIsShow] = useState(false)
   const user = localStorage.getItem('User')
   const logout = () => {
@@ -46,29 +47,36 @@ function Header() {
   }
   const onChangeDM = (checked) => {
     setCheckDateMonth(checked)
-    setCheckDateWeek(false)
-    setCheckDateHT(false)
-    setInputDate(1)
-    window.localStorage.setItem('dateSetting', 'DM')
+    setInputDate(0)
   }
-  const onChangeDW = (checked) => {
-    setCheckDateMonth(false)
-    setCheckDateWeek(checked)
-    setCheckDateHT(false)
-    setInputDate(1)
-    window.localStorage.setItem('dateSetting', 'DW')
-  }
-  const onChangeDHT = (checked) => {
-    setCheckDateMonth(false)
-    setCheckDateWeek(false)
-    setCheckDateHT(checked)
-    setInputDate(1)
-    window.localStorage.setItem('dateSetting', 'DHT')
-  }
+  // const onChangeDW = (checked) => {
+  //   setCheckDateMonth(false)
+  //   setCheckDateWeek(checked)
+  //   setCheckDateHT(false)
+  //   setInputDate(1)
+  //   window.localStorage.setItem('dateSetting', 'DW')
+  // }
+  // const onChangeDHT = (checked) => {
+  //   setCheckDateMonth(false)
+  //   setCheckDateWeek(false)
+  //   setCheckDateHT(checked)
+  //   setInputDate(1)
+  //   window.localStorage.setItem('dateSetting', 'DHT')
+  // }
   const onChangeInput = (value) => {
     setInputDate(value)
   }
-  console.log(inputDate)
+  const handleSubmit = () => {
+    if (checkDateMonth) {
+      window.localStorage.setItem('dateSetting', 'DM')
+      window.localStorage.setItem('dateNum', inputDate)
+    } else {
+      window.localStorage.setItem('dateSetting', 'DN')
+      window.localStorage.setItem('dateNum', inputDate)
+    }
+    setIsModalOpen(false)
+    window.location.href = '/'
+  }
   return (
     <>
       <Modal
@@ -78,7 +86,12 @@ function Header() {
         className="z-20"
         footer={
           <div>
-            {!checkDateMonth && !checkDateWeek && !checkDateHT ? <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"> Xác Nhận</button> : null}
+            {
+              <button onClick={handleSubmit} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                {' '}
+                Xác Nhận
+              </button>
+            }
           </div>
         }
       >
@@ -87,25 +100,25 @@ function Header() {
             <p className=" text-base font-semibold ">Bắt đầu từ đầu tháng : </p>
             <Switch onChange={onChangeDM} className="bg-gray-400" checked={checkDateMonth} />
           </div>
-          <div className="flex justify-between items-center gap-3">
+          {/* <div className="flex justify-between items-center gap-3">
             <p className=" text-base font-semibold ">Trong 1 tuần : </p>
             <Switch onChange={onChangeDW} className="bg-gray-400" checked={checkDateWeek} />
           </div>
           <div className="flex justify-between items-center gap-3">
             <p className=" text-base font-semibold ">Ngày hệ thống : </p>
             <Switch defaultChecked onChange={onChangeDHT} className="bg-gray-400" checked={checkDateHT} />
-          </div>
-          <div className="flex justify-between items-center gap-3">
-            <p className=" text-base font-semibold ">Nhập số ngày tự chọn : </p>
+          </div> */}
+          <div className="flex justify-start items-center gap-1">
+            <p className=" text-base font-semibold ">Hoặc từ </p>
             <InputNumber
               className="w-[50px] text-base font-semibold"
-              max={28}
-              min={1}
-              defaultValue={1}
+              min={0}
+              defaultValue={0}
               value={inputDate}
               onChange={onChangeInput}
-              disabled={!checkDateMonth && !checkDateWeek && !checkDateHT ? false : true}
+              disabled={!checkDateMonth ? false : true}
             />
+            <p className=" text-base font-semibold ">Ngày trước </p>
           </div>
         </div>
       </Modal>

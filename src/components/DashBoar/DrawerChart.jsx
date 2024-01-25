@@ -23,7 +23,7 @@ const nameMapping = {
   THU: 'Thu Tiền',
   CHI: 'Chi Tiền',
 }
-function DashBoar({ showOpen, titleDr, setOpenShow, dataDate, onDateChange }) {
+function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
   const [childrenDrawer, setChildrenDrawer] = useState(false)
   const [segmented, setSegmented] = useState('')
   const [loading, setLoading] = useState(false)
@@ -54,39 +54,41 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate, onDateChange }) {
   const [TotalChart, setTotalChart] = useState(0)
   useEffect(() => {
     setDataDate(dataDate)
-  }, [])
+  }, [showOpen])
+
   useEffect(() => {
     const loadData = async () => {
+      console.log(dataDate_s)
       setLoading(true)
       //API Doanh So
-      const data_hanghoa = titleDr === 'DOANHSO' ? await APIDATA_CHART(API.DoanhSoHangHoa_TopChart, token, dataDate) : null
-      const data_khachhang = titleDr === 'DOANHSO' ? await APIDATA_CHART(API.DoanhSoKhachHang_TopChart, token, dataDate) : null
-      const data_nhomhang = titleDr === 'DOANHSO' ? await APIDATA_CHART(API.DoanhSoNhomHang_TopChart, token, dataDate) : null
+      const data_hanghoa = titleDr === 'DOANHSO' ? await APIDATA_CHART(API.DoanhSoHangHoa_TopChart, token, dataDate_s) : null
+      const data_khachhang = titleDr === 'DOANHSO' ? await APIDATA_CHART(API.DoanhSoKhachHang_TopChart, token, dataDate_s) : null
+      const data_nhomhang = titleDr === 'DOANHSO' ? await APIDATA_CHART(API.DoanhSoNhomHang_TopChart, token, dataDate_s) : null
       //API Ton Kho
-      const data_TonKho_TongKho = titleDr === 'TONKHO' ? await APIDATA_CHART(API.TonKho_TongKho, token, dataDate) : null
-      const TonKho_TongKhoDVTQuyDoi = titleDr === 'TONKHO' ? await APIDATA_CHART(API.TonKho_TongKhoDVTQuyDoi, token, dataDate) : null
-      const TonKho_TheoKho = titleDr === 'TONKHO' ? await APIDATA_CHART(API.TonKho_TheoKho, token, dataDate) : null
+      const data_TonKho_TongKho = titleDr === 'TONKHO' ? await APIDATA_CHART(API.TonKho_TongKho, token, dataDate_s) : null
+      const TonKho_TongKhoDVTQuyDoi = titleDr === 'TONKHO' ? await APIDATA_CHART(API.TonKho_TongKhoDVTQuyDoi, token, dataDate_s) : null
+      const TonKho_TheoKho = titleDr === 'TONKHO' ? await APIDATA_CHART(API.TonKho_TheoKho, token, dataDate_s) : null
       //API Cong No Thu - Tra
       const CongNoThu_TopChart =
-        titleDr === 'PHAITHU' || titleDr === 'PHAITRA' ? await APIDATA_CHART(titleDr === 'PHAITRA' ? API.CongNoTra_TopChart : API.CongNoThu_TopChart, token, dataDate) : null
+        titleDr === 'PHAITHU' || titleDr === 'PHAITRA' ? await APIDATA_CHART(titleDr === 'PHAITRA' ? API.CongNoTra_TopChart : API.CongNoThu_TopChart, token, dataDate_s) : null
       const CongNoThu_DanhSach =
-        titleDr === 'PHAITHU' || titleDr === 'PHAITRA' ? await APIDATA_CHART(titleDr === 'PHAITRA' ? API.CongNoTra_DanhSach : API.CongNoThu_DanhSach, token, dataDate) : null
+        titleDr === 'PHAITHU' || titleDr === 'PHAITRA' ? await APIDATA_CHART(titleDr === 'PHAITRA' ? API.CongNoTra_DanhSach : API.CongNoThu_DanhSach, token, dataDate_s) : null
       //API Mua Hang
-      const MuaHang_HangHoa = titleDr === 'MUAHANG' ? await APIDATA_CHART(API.MuaHang_HangHoa, token, dataDate) : null
-      const MuaHang_NhaCungCap = titleDr === 'MUAHANG' ? await APIDATA_CHART(API.MuaHang_NhaCungCap, token, dataDate) : null
+      const MuaHang_HangHoa = titleDr === 'MUAHANG' ? await APIDATA_CHART(API.MuaHang_HangHoa, token, dataDate_s) : null
+      const MuaHang_NhaCungCap = titleDr === 'MUAHANG' ? await APIDATA_CHART(API.MuaHang_NhaCungCap, token, dataDate_s) : null
       //API Xuat Tra - Nhap Tra
       const XuatTra_HangHoa =
-        titleDr === 'XUATTRA' || titleDr === 'NHAPTRA' ? await APIDATA_CHART(titleDr === 'NHAPTRA' ? API.NhapTra_HangHoa : API.XuatTra_HangHoa, token, dataDate) : null
+        titleDr === 'XUATTRA' || titleDr === 'NHAPTRA' ? await APIDATA_CHART(titleDr === 'NHAPTRA' ? API.NhapTra_HangHoa : API.XuatTra_HangHoa, token, dataDate_s) : null
       const XuatTra_NhaCungCap =
-        titleDr === 'XUATTRA' || titleDr === 'NHAPTRA' ? await APIDATA_CHART(titleDr === 'NHAPTRA' ? API.NhapTra_KhachHang : API.XuatTra_NhaCungCap, token, dataDate) : null
+        titleDr === 'XUATTRA' || titleDr === 'NHAPTRA' ? await APIDATA_CHART(titleDr === 'NHAPTRA' ? API.NhapTra_KhachHang : API.XuatTra_NhaCungCap, token, dataDate_s) : null
       //API Ban Hang
-      const BanHang_HangHoa = titleDr === 'BANHANG' ? await APIDATA_CHART(API.BanHang_HangHoa, token, dataDate) : null
-      const BanHang_QuayLe = titleDr === 'BANHANG' ? await APIDATA_CHART(API.BanHang_QuayLe, token, dataDate) : null
-      const BanHang_KhachHang = titleDr === 'BANHANG' ? await APIDATA_CHART(API.BanHang_KhachHang, token, dataDate) : null
+      const BanHang_HangHoa = titleDr === 'BANHANG' ? await APIDATA_CHART(API.BanHang_HangHoa, token, dataDate_s) : null
+      const BanHang_QuayLe = titleDr === 'BANHANG' ? await APIDATA_CHART(API.BanHang_QuayLe, token, dataDate_s) : null
+      const BanHang_KhachHang = titleDr === 'BANHANG' ? await APIDATA_CHART(API.BanHang_KhachHang, token, dataDate_s) : null
       // //API Thu - Chi
-      const ThuTien = titleDr === 'THU' || titleDr === 'CHI' ? await APIDATA_CHART(API.ThuTien, token, dataDate) : null
-      const ChiTien = titleDr === 'THU' || titleDr === 'CHI' ? await APIDATA_CHART(API.ChiTien, token, dataDate) : null
-      const SoQuy = titleDr === 'THU' || titleDr === 'CHI' ? await APIDATA_CHART(API.SoQuy, token, dataDate) : null
+      const ThuTien = titleDr === 'THU' || titleDr === 'CHI' ? await APIDATA_CHART(API.ThuTien, token, dataDate_s) : null
+      const ChiTien = titleDr === 'THU' || titleDr === 'CHI' ? await APIDATA_CHART(API.ChiTien, token, dataDate_s) : null
+      const SoQuy = titleDr === 'THU' || titleDr === 'CHI' ? await APIDATA_CHART(API.SoQuy, token, dataDate_s) : null
 
       //Thu - Chi
       setThuTien(ThuTien)
@@ -133,7 +135,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate, onDateChange }) {
                     : '',
     )
     loadData()
-  }, [titleDr, dataDate?.NgayBatDau, dataDate?.NgayKetThuc])
+  }, [titleDr, dataDate_s?.NgayBatDau, dataDate_s?.NgayKetThuc])
   useEffect(() => {
     const dataMapping = {
       HANGHOA: data_hanghoa,
@@ -248,7 +250,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate, onDateChange }) {
           className="bg-gray-500"
         >
           <Spin tip="Loading..." spinning={loading}>
-            <Date onDateChange={onDateChange} dataDate={dataDate_s} />
+            <Date onDateChange={setDataDate} dataDate={dataDate_s} />
             {titleDr === 'DOANHSO' ? (
               <Segmented options={['KHACHHANG', 'HANGHOA', 'NHOMHANG']} block onChange={(value) => setSegmented(value)} value={segmented} />
             ) : titleDr === 'TONKHO' ? (

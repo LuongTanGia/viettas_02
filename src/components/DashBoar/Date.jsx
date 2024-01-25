@@ -6,6 +6,8 @@ import { useEffect, useState } from 'react'
 function Date({ dataDate, onDateChange }) {
   const [startDate, setStartDate] = useState(dayjs(dataDate?.NgayBatDau))
   const [endDate, setEndDate] = useState(dayjs(dataDate?.NgayKetThuc))
+  const [DateChange, setDateChange] = useState(false)
+
   let timerId
   useEffect(() => {
     setStartDate(dayjs(dataDate?.NgayBatDau))
@@ -14,20 +16,37 @@ function Date({ dataDate, onDateChange }) {
 
   const handleStartDateChange = (newValue) => {
     setStartDate(newValue)
-    // onDateChange({ ...dataDate, NgayBatDau: newValue.format('DD/MM/YYYY') })
+    setDateChange(false)
   }
 
   const handleEndDateChange = (newValue) => {
     setEndDate(newValue)
-    // onDateChange({ ...dataDate, NgayKetThuc: newValue.format('DD/MM/YYYY') })
+    setDateChange(true)
   }
 
   const handleDateChange = () => {
     clearTimeout(timerId)
     timerId = setTimeout(() => {
-      onDateChange({ ...dataDate, NgayBatDau: startDate, NgayKetThuc: endDate })
+      if (!DateChange && startDate && endDate && startDate.isAfter(endDate)) {
+        onDateChange({
+          NgayBatDau: dayjs(startDate).format('YYYY-MM-DD'),
+          NgayKetThuc: dayjs(startDate).format('YYYY-MM-DD'),
+        })
+        return
+      } else if (DateChange) {
+        onDateChange({
+          NgayBatDau: dayjs(endDate).format('YYYY-MM-DD'),
+          NgayKetThuc: dayjs(endDate).format('YYYY-MM-DD'),
+        })
+      } else {
+        onDateChange({
+          NgayBatDau: dayjs(startDate).format('YYYY-MM-DD'),
+          NgayKetThuc: dayjs(endDate).format('YYYY-MM-DD'),
+        })
+      }
     }, 300)
   }
+
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       handleDateChange()

@@ -16,7 +16,6 @@ const handleAPIError = (response) => {
     toast.error(response.data.DataErrorDescription)
   }
 }
-
 export const RETOKEN = async () => {
   const token = window.localStorage.getItem('RTKN')
 
@@ -36,7 +35,6 @@ export const RETOKEN = async () => {
     console.error('Error adding user:', error)
   }
 }
-
 export const DANHSACHDULIEU = async (API, data) => {
   try {
     const response = await axiosInstance.post(API, data)
@@ -52,7 +50,6 @@ export const DANHSACHDULIEU = async (API, data) => {
     console.error('Error adding user:', error)
   }
 }
-
 export const LOGIN = async (API1, API2, TKN, RemoteDB, data, dispatch) => {
   try {
     const response = await axiosInstance.post(API1, {
@@ -82,7 +79,6 @@ export const LOGIN = async (API1, API2, TKN, RemoteDB, data, dispatch) => {
     console.error('Error adding user:', error)
   }
 }
-
 export const KHOANNGAY = async (API, token) => {
   console.log('KHOANNGAY')
   try {
@@ -101,7 +97,6 @@ export const KHOANNGAY = async (API, token) => {
     console.error('Error adding user:', error)
   }
 }
-
 export const DATATONGHOP = async (API, token, KhoanNgay) => {
   console.log('DATATONGHOP')
 
@@ -129,7 +124,6 @@ export const DATATONGHOP = async (API, token, KhoanNgay) => {
     console.error('Error adding user:', error)
   }
 }
-
 export const THAYDOIRMATKHAU = async (API, data, token) => {
   try {
     const response = await axiosInstance.post(API, data, {
@@ -149,7 +143,6 @@ export const THAYDOIRMATKHAU = async (API, data, token) => {
     console.error('Error adding user:', error)
   }
 }
-
 export const APIDATA_CHART = async (API, token, data) => {
   console.log('APIDATA_CHART')
   try {
@@ -203,7 +196,6 @@ export const APIDATA_CHART_CT = async (API, token, data) => {
     console.error('Error adding user:', error)
   }
 }
-
 export const exportToExcel = () => {
   const ws = XLSX.utils.table_to_sheet(document.getElementById('my-table'), { origin: 'A6' })
   const wb = XLSX.utils.book_new()
@@ -215,7 +207,6 @@ export const exportToExcel = () => {
 export const getFirstDayOfMonth = (date) => {
   return new Date(date.getFullYear(), date.getMonth(), 1)
 }
-
 export const getWeek = (date) => {
   const firstDayOfWeek = new Date(date)
   firstDayOfWeek.setDate(date.getDate() - date.getDay())
@@ -226,4 +217,12 @@ export const getWeek = (date) => {
     weekDays.push(day)
   }
   return weekDays
+}
+export const getDateNum = (date) => {
+  const dayNum = parseInt(localStorage.getItem('dateNum')) || 0
+
+  const firstDayOfWeek = new Date(date)
+  firstDayOfWeek.setDate(date.getDate() - dayNum)
+
+  return firstDayOfWeek
 }

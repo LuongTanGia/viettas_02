@@ -20,9 +20,8 @@ const CounterComponent = ({ targetValue, duration, color }) => {
 
     return () => clearInterval(interval)
   }, [targetValue, duration])
-  const formatter = new Intl.NumberFormat('vi-VN', {
-    style: 'currency',
-    currency: 'VND',
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'decimal',
   })
   return <div style={{ fontSize: '16px', color: color }}>{formatter.format(counter)}</div>
 }
