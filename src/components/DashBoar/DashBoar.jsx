@@ -8,16 +8,32 @@ import API from '../../API/API'
 import Date from './Date'
 import { useSelector } from 'react-redux'
 import { khoanNgaySelect } from '../../redux/selector'
+import { useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
+
 function DashBoar() {
+  const navigate = useNavigate()
   const KhoanNgay = useSelector(khoanNgaySelect)
   const token = localStorage.getItem('TKN')
-  const [dataDate, setDataDate] = useState(KhoanNgay)
+  const [dataDate, setDataDate] = useState(!JSON.parse(localStorage.getItem('dateLogin')) ? KhoanNgay : JSON.parse(localStorage.getItem('dateLogin')))
   const [dataLoaded, setDataLoaded] = useState(false)
   const [dataTongHop, setDataTongHop] = useState([])
-
   const [open, setOpen] = useState(false)
   const [titleDr, setTitleDr] = useState('')
+  const location = useLocation()
+
+  // useEffect(() => {
+  //   const params = new URLSearchParams(location.search)
+  //   const titleParam = params.get('title') || 'home'
+  //   if (titleParam) {
+  //     console.log('URL contains title:', titleParam)
+  //   } else {
+  //     console.log('URL does not contain title.', titleParam)
+  //   }
+  // }, [location.search])
+
   const showDrawer = (value) => {
+    navigate(`?title=${value}`)
     setTitleDr(value || 'Tổng cộng')
     setOpen(true)
   }
@@ -26,19 +42,21 @@ function DashBoar() {
   let startX = 0
 
   useEffect(() => {
+    const params = new URLSearchParams(location.search)
+    const titleParam = params.get('title') || 'home'
+    titleParam === 'home' ? setOpen(false) : null
     console.log(dataDate)
     const loadData = async () => {
       try {
-        const data = await DATATONGHOP(API.TONGHOP, token, dataDate)
+        const data = titleParam === 'home' ? await DATATONGHOP(API.TONGHOP, token, dataDate) : null
         setDataTongHop(data)
         setDataLoaded(true)
       } catch (error) {
         console.error('Error loading data:', error)
       }
     }
-
     loadData()
-  }, [dataDate?.NgayKetThuc, dataDate?.NgayBatDau])
+  }, [dataDate?.NgayKetThuc, dataDate?.NgayBatDau, location.search])
 
   if (!dataLoaded) {
     return <LoadingPage />

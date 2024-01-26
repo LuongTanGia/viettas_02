@@ -40,7 +40,7 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
     return sum + price
   }, 0)
   const DataColumns = data ? data[0] : []
-  const keysOnly = Object.keys(DataColumns || []).filter((key) => key !== 'DataType' && key !== 'DataCode' && key !== 'DataGroup' && key !== 'DataOrder')
+  const keysOnly = Object.keys(DataColumns || []).filter((key) => key !== 'DataType' && key !== 'DataCode' && key !== 'DataGroup' && key !== 'DataOrder' && key !== 'DataName')
 
   const listColumns = keysOnly?.filter((value) => !hiden?.includes(value))
   const newColumns = listColumns.map((item) => {

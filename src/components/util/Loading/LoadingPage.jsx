@@ -14,7 +14,7 @@ export default function SimpleBackdrop() {
   }, [])
 
   return (
-    <div>
+    <div className="z-[1000]">
       <Spin spinning={spinning} fullscreen />
     </div>
   )

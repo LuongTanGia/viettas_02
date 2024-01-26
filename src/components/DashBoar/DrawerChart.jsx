@@ -11,6 +11,8 @@ import RateBar from '../util/Chart/LoadingChart'
 import Table from './DrawerTable'
 import CounterComponent from './LoadNumber'
 import Date from './Date'
+import { useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 const nameMapping = {
   DOANHSO: 'Doanh Số',
   TONKHO: 'Tồn Kho',
@@ -24,6 +26,8 @@ const nameMapping = {
   CHI: 'Chi Tiền',
 }
 function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
+  const location = useLocation()
+  const navigate = useNavigate()
   const [childrenDrawer, setChildrenDrawer] = useState(false)
   const [segmented, setSegmented] = useState('')
   const [loading, setLoading] = useState(false)
@@ -54,7 +58,10 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
   const [TotalChart, setTotalChart] = useState(0)
   useEffect(() => {
     setDataDate(dataDate)
-  }, [showOpen])
+    const params = new URLSearchParams(location.search)
+    const titleParam = params.get('title') || 'home'
+    titleParam === 'home' ? setChildrenDrawer(false) : null
+  }, [showOpen, location.search])
 
   useEffect(() => {
     const loadData = async () => {
@@ -162,6 +169,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
 
   const onClose = () => {
     setOpenShow(false)
+    navigate(`/`)
   }
   const setNumber = (value) => {
     setTotalNumber(value)
@@ -233,9 +241,9 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                     onClick={() => showChildrenDrawer({ DataCode: null, DataCodeRest: 1 })}
                   >
                     Tổng:
-                    <CounterComponent targetValue={TotalChart} duration={50000} color={'#8BC6EC'} />
                   </p>
-                  <div className="w-[100%]">
+                  <div className="w-[100%] mr-4">
+                    <CounterComponent targetValue={TotalChart} duration={50000} color={'#8BC6EC'} />
                     <RateBar percentage={100} color={'#8BC6EC'} title={'Tổng hợp'} />
                   </div>
                 </div>
@@ -411,12 +419,12 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                     <div>
                       {
                         <div className="flex items-center justify-center mb-2">
-                          <p className="w-[100%] cursor-pointer hover:font-medium flex items-center gap-2 justify-between" style={{ color: colorTable }}>
+                          <p className="w-[100%] cursor-pointer hover:font-medium flex items-center gap-2 justify-between" style={{ color: '#8BC6EC' }}>
                             Tổng :
-                            <CounterComponent targetValue={TotalNumber} duration={50000} color={colorTable} />
                           </p>
                           <div className="w-[100%] ml-3">
-                            <RateBar percentage={100} color={colorTable} title={'Tổng hợp'} />
+                            <CounterComponent targetValue={TotalNumber} duration={50000} color={'#8BC6EC'} />
+                            <RateBar percentage={100} color={'#8BC6EC'} title={'Tổng hợp'} />
                           </div>
                         </div>
                       }

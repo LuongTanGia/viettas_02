@@ -32,17 +32,32 @@ function Date({ dataDate, onDateChange }) {
           NgayBatDau: dayjs(startDate).format('YYYY-MM-DD'),
           NgayKetThuc: dayjs(startDate).format('YYYY-MM-DD'),
         })
+        localStorage.setItem('dateLogin', JSON.stringify({ NgayBatDau: dayjs(startDate).format('YYYY-MM-DD'), NgayKetThuc: dayjs(startDate).format('YYYY-MM-DD') }))
         return
-      } else if (DateChange) {
+      } else if (DateChange && startDate && endDate && startDate.isAfter(endDate)) {
         onDateChange({
           NgayBatDau: dayjs(endDate).format('YYYY-MM-DD'),
           NgayKetThuc: dayjs(endDate).format('YYYY-MM-DD'),
         })
+        localStorage.setItem(
+          'dateLogin',
+          JSON.stringify({
+            NgayBatDau: dayjs(endDate).format('YYYY-MM-DD'),
+            NgayKetThuc: dayjs(endDate).format('YYYY-MM-DD'),
+          }),
+        )
       } else {
         onDateChange({
           NgayBatDau: dayjs(startDate).format('YYYY-MM-DD'),
           NgayKetThuc: dayjs(endDate).format('YYYY-MM-DD'),
         })
+        localStorage.setItem(
+          'dateLogin',
+          JSON.stringify({
+            NgayBatDau: dayjs(startDate).format('YYYY-MM-DD'),
+            NgayKetThuc: dayjs(endDate).format('YYYY-MM-DD'),
+          }),
+        )
       }
     }, 300)
   }

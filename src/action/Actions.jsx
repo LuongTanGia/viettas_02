@@ -36,6 +36,7 @@ export const RETOKEN = async () => {
   }
 }
 export const DANHSACHDULIEU = async (API, data) => {
+  console.log('DANHSACHDULIEU')
   try {
     const response = await axiosInstance.post(API, data)
     window.localStorage.setItem('tokenDuLieu', response.data.TKN)
@@ -43,7 +44,7 @@ export const DANHSACHDULIEU = async (API, data) => {
     if (response.data.DataError === 0) {
       return response.data
     } else {
-      handleAPIError(response)
+      console.log('Error')
     }
     return response.data
   } catch (error) {
@@ -51,6 +52,7 @@ export const DANHSACHDULIEU = async (API, data) => {
   }
 }
 export const LOGIN = async (API1, API2, TKN, RemoteDB, data, dispatch) => {
+  console.log('LOGIN')
   try {
     const response = await axiosInstance.post(API1, {
       TokenID: TKN,
@@ -63,16 +65,16 @@ export const LOGIN = async (API1, API2, TKN, RemoteDB, data, dispatch) => {
       window.localStorage.setItem('User', response.data.MappingUser)
 
       dispatch(loginSlice.actions.login(response.data))
-      toast.error(response.data.DataErrorDescription)
 
       return 1
     } else {
       dispatch(loginSlice.actions.login([]))
-      handleAPIError(response)
+      console.log('Error')
     }
 
     if (response.data.DataError !== 0) {
       handleAPIError(response)
+
       await DANHSACHDULIEU(API2, data)
     }
   } catch (error) {
@@ -225,4 +227,17 @@ export const getDateNum = (date) => {
   firstDayOfWeek.setDate(date.getDate() - dayNum)
 
   return firstDayOfWeek
+}
+
+export const refreshTokenGG = (res) => {
+  let refreshTokenGGTime = (res.tokenObj.expires_in || 3600 - 5 * 60) * 1000
+  const refreshToken = async () => {
+    const newAuthRes = await res.reloadAuthResponse()
+    refreshTokenGGTime = (newAuthRes.expires_in || 360 * 5 * 60) * 1000
+    console.log('newAuthRes:', newAuthRes)
+    console.log('new Auth Token ', newAuthRes.id_token)
+
+    setTimeout(refreshToken, refreshTokenGGTime)
+  }
+  setTimeout(refreshToken, refreshTokenGGTime)
 }

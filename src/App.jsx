@@ -24,8 +24,8 @@ function App() {
         <Route path="/login" element={<Login />} />
       </Routes>
       <ToastContainer
-        position="top-right"
-        autoClose={5000}
+        position="bottom-right"
+        autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
@@ -35,11 +35,6 @@ function App() {
         pauseOnHover
         theme="light"
         whiteSpace="nowrap"
-        style={{
-          width: 'fit-content',
-          maxWidth: '30rem',
-          whiteSpace: 'nowrap',
-        }}
       />
     </Router>
   )
