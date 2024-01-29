@@ -19,6 +19,8 @@ function DashBoar() {
   const [dataLoaded, setDataLoaded] = useState(false)
   const [dataTongHop, setDataTongHop] = useState([])
   const [open, setOpen] = useState(false)
+  const [loadingCart, setLoadingCart] = useState(false)
+
   const [titleDr, setTitleDr] = useState('')
   const location = useLocation()
 
@@ -45,12 +47,15 @@ function DashBoar() {
     const params = new URLSearchParams(location.search)
     const titleParam = params.get('title') || 'home'
     titleParam === 'home' ? setOpen(false) : null
-    console.log(dataDate)
     const loadData = async () => {
+      setLoadingCart(true)
       try {
         const data = titleParam === 'home' ? await DATATONGHOP(API.TONGHOP, token, dataDate) : null
         setDataTongHop(data)
         setDataLoaded(true)
+        setTimeout(() => {
+          setLoadingCart(false)
+        }, 700)
       } catch (error) {
         console.error('Error loading data:', error)
       }
@@ -106,8 +111,8 @@ function DashBoar() {
       </div>
       <section className="section dashboard">
         <div className="row">
-          <div className="col-lg-12">
-            <div className="card">
+          <div className="col-lg-12 sticky">
+            <div className="card  ">
               <Date onDateChange={setDataDate} dataDate={dataDate} />
             </div>
           </div>
@@ -120,13 +125,14 @@ function DashBoar() {
                   style={{ cursor: 'pointer' }}
                   className={`col-xxl-12 col-md-12  card_2-content ${resultArray[0]?.DataCode.split('_')[0]}`}
                 >
-                  <Card resultArray={resultArray} formatter={formatter} icon={resultArray[0]?.DataCode.split('_')[0]} />
+                  <Card resultArray={resultArray} formatter={formatter} icon={resultArray[0]?.DataCode.split('_')[0]} loading={loadingCart} />
                 </div>
               ))}
             </div>
           </div>
         </div>
       </section>
+      <div className="z-[1999]"></div>
     </div>
   )
 }

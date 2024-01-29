@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 
 import { format } from 'date-fns'
 import viLocale from 'date-fns/locale/vi'
+import { Link } from 'react-router-dom'
 const DateTimeClock = () => {
   const [currentDateTime, setCurrentDateTime] = useState(new Date())
 
@@ -19,7 +20,9 @@ const DateTimeClock = () => {
 
   return (
     <div className="flex gap-2">
-      <img className="w-[40px]" src="https://www.viettassaigon.vn/uploads/freecontent/VTS_ThongKe_iSale_256.png" alt="logo" />
+      <Link to="/" className="flex">
+        <img className="w-[40px]" src="https://www.viettassaigon.vn/uploads/freecontent/VTS_ThongKe_iSale_256.png" alt="logo" />
+      </Link>
 
       <div className="flex flex-col">
         <h2 className=" text-base font-mono   text-white"> {formatDate(currentDateTime)}</h2>

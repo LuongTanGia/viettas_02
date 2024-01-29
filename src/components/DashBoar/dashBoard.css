@@ -85,21 +85,22 @@
   color: #2fd7a1 !important;
 }
 .highlight-rowChart {
-  background-color: #6071f2;
+  background-color: #8bc6ec;
+}
+.highlight-rowChart:hover {
+  background-color: #8bc6ec !important;
 }
 .highlight-rowChart td.ant-table-cell {
   font-weight: 500 !important;
 }
 .highlight-rowChart .ant-table-cell-fix-right,
 .highlight-rowChart .ant-table-cell-fix-left {
-  background-color: #6071f2 !important;
+  background-color: #8bc6ec !important;
 }
 .highlight-rowChart .progress-bar {
   display: none;
 }
-.highlight_value .ant-table-cell:last-child {
-  background-color: rgb(231, 153, 118);
-}
+
 .ant-drawer-body {
   padding-left: 0 !important;
   padding-right: 0 !important;
@@ -121,3 +122,11 @@
 .setHeight .ant-table {
   height: calc(100vh - 500px) !important;
 }
+/* .sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  font-size: 20px;
+  z-index: 1000;
+  padding-top: 50px;
+} */

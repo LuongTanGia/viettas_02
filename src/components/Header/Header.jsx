@@ -169,6 +169,15 @@ function Header() {
                 <li>
                   <hr className="dropdown-divider" />
                 </li>
+                <li>
+                  <Link className="dropdown-item d-flex align-items-center" to="/Info">
+                    <i className="bi bi-question-circle"></i>
+                    <span>Thông tin ứng dụng</span>
+                  </Link>
+                </li>
+                <li>
+                  <hr className="dropdown-divider" />
+                </li>
 
                 <li onClick={logout}>
                   <Link className="dropdown-item d-flex align-items-center" href="#">

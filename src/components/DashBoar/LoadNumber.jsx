@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 
 const CounterComponent = ({ targetValue, duration, color }) => {
   const [counter, setCounter] = useState(0)
+  const ThongSo = JSON.parse(localStorage.getItem('ThongSo'))
 
   useEffect(() => {
     const increment = targetValue / (duration / 1000)
@@ -20,10 +21,17 @@ const CounterComponent = ({ targetValue, duration, color }) => {
 
     return () => clearInterval(interval)
   }, [targetValue, duration])
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'decimal',
-  })
-  return <div style={{ fontSize: '16px', color: color }}>{formatter.format(counter)}</div>
+  // const formatter = new Intl.NumberFormat('en-US', {
+  //   style: 'decimal',
+  // })
+  return (
+    <div style={{ fontSize: '16px', color: color }}>
+      {Number(counter).toLocaleString('en-US', {
+        minimumFractionDigits: ThongSo.SOLESOTIEN,
+        maximumFractionDigits: ThongSo.SOLESOTIEN,
+      })}
+    </div>
+  )
 }
 
 export default CounterComponent

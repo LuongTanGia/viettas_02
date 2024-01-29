@@ -12,52 +12,96 @@ const { Text } = Typography
 const columnName = {
   DataName: 'Tên Hàng',
   DataDate: 'Thời Gian',
-  DataValue: 'Tỷ Trọng',
+  DataValue: 'Số Tiền',
+  DataValue_TyTrong: 'Tỷ Trọng',
+
   DataDescription: 'Thông Tin',
   DataValueQuantity: 'Số Lượng',
   DataValueAmount: 'Số Tiền',
 }
 
-function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorTable, titleDr, segmented }) {
+function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorTable, titleDr, segmented, title }) {
   const [data, setData] = useState()
+  const ThongSo = JSON.parse(localStorage.getItem('ThongSo'))
+  console.log(title)
   useEffect(() => {
     setData(param)
     const valueList = param?.map(function (item) {
       return item.DataValue
     })
+    const valueList_all = param?.map(function (item) {
+      return item.DataType === 1 ? item.DataValue : null
+    })
 
     const totalPrice = valueList?.reduce(function (sum, price) {
       return sum + price
     }, 0)
-    setTotalNumber(totalPrice)
+    const totalPrice_all = valueList_all?.reduce(function (sum, price) {
+      return sum + price
+    }, 0)
+    setTotalNumber(title === 'all' ? totalPrice_all : totalPrice)
+    console.log(totalPrice)
   }, [param])
 
   const valueList = data?.map(function (item) {
-    return item.DataValue
+    return item.DataType === 1 ? item.DataValue : item.DataValue
   })
-
+  const valueList_all = param?.map(function (item) {
+    return item.DataType === 1 ? item.DataValue : null
+  })
   const totalPrice = valueList?.reduce(function (sum, price) {
+    return sum + price
+  }, 0)
+  const totalPrice_all = valueList_all?.reduce(function (sum, price) {
     return sum + price
   }, 0)
   const DataColumns = data ? data[0] : []
   const keysOnly = Object.keys(DataColumns || []).filter((key) => key !== 'DataType' && key !== 'DataCode' && key !== 'DataGroup' && key !== 'DataOrder' && key !== 'DataName')
-
+  // const sharedOnCell = (_, index) => {
+  //   if (index === 0) {
+  //     return {
+  //       colSpan: 0,
+  //     }
+  //   }
+  //   return {}
+  // }
+  keysOnly.push('DataValue_TyTrong')
   const listColumns = keysOnly?.filter((value) => !hiden?.includes(value))
   const newColumns = listColumns.map((item) => {
-    if (item === 'DataName') {
+    if (item === 'DataDate') {
       return {
         title: columnName[item] || item,
         dataIndex: item,
+        align: 'center',
+        onCell: (record, index) => ({
+          colSpan: record.DataType === -1 ? 5 : 1,
+        }),
+        render: (text, record) => {
+          // Change the parameters of render function
+          if (record.DataType === 0) {
+            return record.DataDate
+          } else if (record.DataType === 1) {
+            return <>Tổng:</>
+          } else if (record.DataType === -1) {
+            return <div>{record.DataName}</div>
+          }
+        },
       }
     }
-    if (item === 'DataValue') {
+
+    if (item === 'DataValue_TyTrong') {
       return {
         title: columnName[item] || item,
         width: 200,
-        dataIndex: item,
+        dataIndex: 'DataValue',
+        align: 'center',
+        onCell: (record, index) => ({
+          colSpan: record.DataType === -1 ? 0 : 1,
+        }),
+        // onCell: sharedOnCell,
         render: (text) =>
           titleDr === 'DOANHSO' ? (
-            <RateBar percentage={((text / totalPrice) * 100).toFixed(2)} color={colorTable} />
+            <RateBar percentage={(text / (title === 'all' ? totalPrice_all : totalPrice)) * 100} color={colorTable} />
           ) : (
             <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base`}>
               {text?.toLocaleString('en-US', {
@@ -68,14 +112,52 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
           ),
       }
     }
+    if (item === 'DataValue') {
+      return {
+        title: columnName[item] || item,
+        width: 200,
+        dataIndex: item,
+        align: 'center',
+        onCell: (record, index) => ({
+          colSpan: record.DataType === -1 ? 0 : 1,
+        }),
+
+        // onCell: sharedOnCell,
+        render: (text) =>
+          titleDr === 'DOANHSO' ? (
+            <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base`}>
+              {text?.toLocaleString('en-US', {
+                minimumFractionDigits: ThongSo.SOLESOTIEN,
+                maximumFractionDigits: ThongSo.SOLESOTIEN,
+              })}
+            </div>
+          ) : (
+            <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base`}>
+              {text?.toLocaleString('en-US', {
+                minimumFractionDigits: ThongSo.SOLESOTIEN,
+                maximumFractionDigits: ThongSo.SOLESOTIEN,
+              })}
+            </div>
+          ),
+      }
+    }
     if (item === 'DataValueAmount') {
       return {
         title: columnName[item] || item,
         width: 200,
         dataIndex: item,
+        align: 'center',
+        onCell: (record, index) => ({
+          colSpan: record.DataType === -1 ? 0 : 1,
+        }),
         render: (text) =>
           titleDr === 'DOANHSO' ? (
-            <RateBar percentage={((text / totalPrice) * 100).toFixed(2)} color={colorTable} />
+            <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base`}>
+              {text?.toLocaleString('en-US', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              })}
+            </div>
           ) : (
             <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base`}>
               {text?.toLocaleString('en-US', {
@@ -91,6 +173,9 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
       dataIndex: item,
       editable: true,
       align: 'center',
+      onCell: (record, index) => ({
+        colSpan: record.DataType === -1 ? 0 : 1,
+      }),
     }
   })
   const columnsThu_Chi = [
@@ -105,7 +190,7 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
           dataIndex: 'DataName',
           render: (text) =>
             titleDr === 'DOANHSO' ? (
-              <RateBar percentage={((text / totalPrice) * 100).toFixed(2)} color={colorTable} />
+              <RateBar percentage={((text / (title === 'all' ? totalPrice_all : totalPrice)) * 100).toFixed(2)} color={colorTable} />
             ) : (
               <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-center`}>{text}</div>
             ),
@@ -118,7 +203,7 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
           dataIndex: 'DataDate',
           render: (text) =>
             titleDr === 'DOANHSO' ? (
-              <RateBar percentage={((text / totalPrice) * 100).toFixed(2)} color={colorTable} />
+              <RateBar percentage={((text / (title === 'all' ? totalPrice_all : totalPrice)) * 100).toFixed(2)} color={colorTable} />
             ) : (
               <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-center`}>{text}</div>
             ),
@@ -144,7 +229,7 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
           dataIndex: 'DataValuePS',
           render: (text) =>
             titleDr === 'DOANHSO' ? (
-              <RateBar percentage={((text / totalPrice) * 100).toFixed(2)} color={colorTable} />
+              <RateBar percentage={((text / (title === 'all' ? totalPrice_all : totalPrice)) * 100).toFixed(2)} color={colorTable} />
             ) : (
               <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right `}>
                 {text?.toLocaleString('en-US', {
@@ -161,7 +246,7 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
           dataIndex: 'DataValueTT',
           render: (text) =>
             titleDr === 'DOANHSO' ? (
-              <RateBar percentage={((text / totalPrice) * 100).toFixed(2)} color={colorTable} />
+              <RateBar percentage={((text / (title === 'all' ? totalPrice_all : totalPrice)) * 100).toFixed(2)} color={colorTable} />
             ) : (
               <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right `}>
                 {text?.toLocaleString('en-US', {
@@ -181,7 +266,12 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
       dataIndex: 'DataValue',
       render: (text) =>
         titleDr === 'DOANHSO' ? (
-          <RateBar percentage={((text / totalPrice) * 100).toFixed(2)} color={colorTable} />
+          <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base`}>
+            {text?.toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
+          </div>
         ) : (
           <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base`}>
             {text?.toLocaleString('en-US', {

@@ -241,3 +241,21 @@ export const refreshTokenGG = (res) => {
   }
   setTimeout(refreshToken, refreshTokenGGTime)
 }
+export const THONGSO = async (API, token) => {
+  console.log('THONGSO')
+  try {
+    const response = await axiosInstance.post(
+      API,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    )
+
+    return response.data
+  } catch (error) {
+    console.error('Error adding user:', error)
+  }
+}

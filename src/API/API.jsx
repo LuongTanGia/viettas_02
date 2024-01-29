@@ -9,6 +9,9 @@ const API = {
   DANHSACHHANGHOA: `${BASE_URL}/api/lists/HangHoa/DanhSach`,
   KHOANNGAY: `${BASE_URL}/api/Settings/KhoanNgay`,
   DOIMATKHAU: `${BASE_URL}/api/NguoiDung/DoiMatKhau`,
+  SoLeHeThong: `${BASE_URL}/api/Settings/SoLeHeThong`,
+
+  //
   //Chart Doanh So (done)
   DoanhSoHangHoa_TopChart: `${BASE_URL}/api/Statistics/DoanhSoHangHoa_TopChart`,
   DoanhSoKhachHang_TopChart: `${BASE_URL}/api/Statistics/DoanhSoKhachHang_TopChart`,

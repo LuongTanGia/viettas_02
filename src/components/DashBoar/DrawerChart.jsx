@@ -30,6 +30,8 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
   const navigate = useNavigate()
   const [childrenDrawer, setChildrenDrawer] = useState(false)
   const [segmented, setSegmented] = useState('')
+  const [valueSegmented, setValueSegmented] = useState('')
+
   const [loading, setLoading] = useState(false)
   const [titleDr_child, setTitleDrChild] = useState('ssss')
   const token = localStorage.getItem('TKN')
@@ -56,6 +58,8 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
   const [dataDate_s, setDataDate] = useState(dataDate)
   const [TotalNumber, setTotalNumber] = useState(0)
   const [TotalChart, setTotalChart] = useState(0)
+  const [title, setTitle] = useState('')
+
   useEffect(() => {
     setDataDate(dataDate)
     const params = new URLSearchParams(location.search)
@@ -72,6 +76,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
       const data_khachhang = titleDr === 'DOANHSO' ? await APIDATA_CHART(API.DoanhSoKhachHang_TopChart, token, dataDate_s) : null
       const data_nhomhang = titleDr === 'DOANHSO' ? await APIDATA_CHART(API.DoanhSoNhomHang_TopChart, token, dataDate_s) : null
       //API Ton Kho
+
       const data_TonKho_TongKho = titleDr === 'TONKHO' ? await APIDATA_CHART(API.TonKho_TongKho, token, dataDate_s) : null
       const TonKho_TongKhoDVTQuyDoi = titleDr === 'TONKHO' ? await APIDATA_CHART(API.TonKho_TongKhoDVTQuyDoi, token, dataDate_s) : null
       const TonKho_TheoKho = titleDr === 'TONKHO' ? await APIDATA_CHART(API.TonKho_TheoKho, token, dataDate_s) : null
@@ -141,6 +146,23 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                     ? 'CHITIEN'
                     : '',
     )
+    setValueSegmented(
+      titleDr === 'DOANHSO'
+        ? 'Khách hàng'
+        : titleDr === 'TONKHO'
+          ? 'TONGHOP'
+          : titleDr === 'PHAITHU' || titleDr === 'PHAITRA'
+            ? 'BIEUDOTYTRONG'
+            : titleDr === 'MUAHANG' || titleDr === 'XUATTRA' || titleDr === 'NHAPTRA'
+              ? 'THEOHANGHOA'
+              : titleDr === 'BANHANG'
+                ? 'BANHANGHANGHOA'
+                : titleDr === 'THU'
+                  ? 'THUTIEN'
+                  : titleDr === 'CHI'
+                    ? 'CHITIEN'
+                    : '',
+    )
     loadData()
   }, [titleDr, dataDate_s?.NgayBatDau, dataDate_s?.NgayKetThuc])
   useEffect(() => {
@@ -177,6 +199,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
   const showChildrenDrawer = async (value, color) => {
     setTitleDrChild(value)
     setColorTable(color)
+    setTitle(value.title)
     const data_ct = await APIDATA_CHART_CT(
       segmented === 'KHACHHANG'
         ? API.DoanhSoKhachHang_CT
@@ -199,7 +222,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
     )
 
     setDataTable(data_ct)
-
+    console.log(data_ct)
     setChildrenDrawer(true)
   }
   const onChildrenDrawerClose = () => {
@@ -238,7 +261,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                   <p
                     className="w-[100%] cursor-pointer hover:font-medium flex items-center gap-2 justify-between"
                     style={{ color: '#8BC6EC' }}
-                    onClick={() => showChildrenDrawer({ DataCode: null, DataCodeRest: 1 })}
+                    onClick={() => showChildrenDrawer({ DataCode: null, DataCodeRest: 1, title: 'all' })}
                   >
                     Tổng:
                   </p>
@@ -260,7 +283,14 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
           <Spin tip="Loading..." spinning={loading}>
             <Date onDateChange={setDataDate} dataDate={dataDate_s} />
             {titleDr === 'DOANHSO' ? (
-              <Segmented options={['KHACHHANG', 'HANGHOA', 'NHOMHANG']} block onChange={(value) => setSegmented(value)} value={segmented} />
+              <Segmented
+                options={['Khách hàng', 'Hàng hóa', 'Nhóm Hàng']}
+                block
+                onChange={(value) => {
+                  setSegmented(value === 'Khách hàng' ? 'KHACHHANG' : value === 'Hàng hóa' ? 'HANGHOA' : 'NHOMHANG'), setValueSegmented(value)
+                }}
+                value={valueSegmented}
+              />
             ) : titleDr === 'TONKHO' ? (
               <Segmented options={['TONGHOP', 'TONGHOPDVT', 'THEOKHO']} block onChange={(value) => setSegmented(value)} value={segmented} />
             ) : titleDr === 'PHAITHU' || titleDr === 'PHAITRA' ? (
@@ -280,7 +310,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
               <Segmented options={['THUTIEN', 'CHITIEN', 'SOQUY']} block onChange={(value) => setSegmented(value)} value={segmented} />
             ) : null}
             {/* segmented */}
-            {segmented === 'KHACHHANG' ? (
+            {valueSegmented === 'Khách hàng' ? (
               <>
                 <PieChart Drawer={true} dataChart={data_khachhang} valueNum={'DataValue'} value={'DataPerc'} name={'DataName'} onClick={showChildrenDrawer} />
               </>
@@ -446,6 +476,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                   height={'setHeight'}
                   hiden={[]}
                   setTotalNumber={setNumber}
+                  title={title}
                 />
               </Drawer>
             ) : null}

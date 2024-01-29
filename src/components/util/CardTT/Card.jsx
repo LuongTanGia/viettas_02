@@ -1,5 +1,6 @@
+import { Skeleton } from 'antd'
 // eslint-disable-next-line react/prop-types
-function Card({ resultArray, formatter, icon }) {
+function Card({ resultArray, icon, loading }) {
   const iconMapping = {
     DOANHSO: 'bi bi-bar-chart-line-fill blue',
     TONKHO: 'fa-solid fa-cart-flatbed blue',
@@ -25,7 +26,7 @@ function Card({ resultArray, formatter, icon }) {
     THU: 'Thu Tiền',
     CHI: 'Chi Tiền',
   }
-
+  const ThongSo = JSON.parse(localStorage.getItem('ThongSo'))
   return (
     <div
       className={`col-xxl-4 col-md-12 ${
@@ -47,17 +48,29 @@ function Card({ resultArray, formatter, icon }) {
             <div className="ps-1">
               {
                 // eslint-disable-next-line react/prop-types
-                resultArray.map((item, itemIndex) => (
-                  <p className="textArray" key={itemIndex}>
-                    {item.DataName}:{' '}
-                    <span className="text-success small  fw-bold">
-                      {item.DataName === 'Số tiền' || item.DataName === 'Số Tiền'
-                        ? // eslint-disable-next-line react/prop-types
-                          formatter.format(item.DataValue)
-                        : item.DataValue}
-                    </span>
-                  </p>
-                ))
+                resultArray.map((item, itemIndex) =>
+                  !loading ? (
+                    <p className="textArray" key={itemIndex}>
+                      {item.DataName}:{' '}
+                      <span className="text-success small  fw-bold">
+                        {item.DataName === 'Số tiền' || item.DataName === 'Số Tiền'
+                          ? // eslint-disable-next-line react/prop-types
+                            Number(item.DataValue).toLocaleString('en-US', {
+                              minimumFractionDigits: ThongSo.SOLESOTIEN,
+                              maximumFractionDigits: ThongSo.SOLESOTIEN,
+                            })
+                          : Number(item.DataValue).toLocaleString('en-US', {
+                              minimumFractionDigits: ThongSo.SOLESOLUONG,
+                              maximumFractionDigits: ThongSo.SOLESOLUONG,
+                            })}
+                      </span>
+                    </p>
+                  ) : (
+                    <>
+                      <Skeleton.Input active size={'small'} block={true} />
+                    </>
+                  ),
+                )
               }
             </div>
           </div>

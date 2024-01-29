@@ -49,7 +49,7 @@ const App = () => {
           setTimeout(() => {
             setDataLoaded(true)
             window.location.href = '/'
-          }, 3000)
+          }, 300)
         } else {
           setDataLoaded(true)
         }
