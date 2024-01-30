@@ -343,6 +343,19 @@ input[type='radio'] {
       'THU'
       'CHI';
   }
+  .footer_main .footer_logo {
+    max-height: 40px;
+    max-width: 100px;
+  }
+  .footer_main .footer_box {
+    gap: 5px;
+  }
+  .footer_main .footer_content p {
+    font-size: 10px;
+  }
+  td.ant-table-cell {
+    font-size: 8px !important;
+  }
 }
 
 /* Đối với tablet */
@@ -367,6 +380,9 @@ input[type='radio'] {
   .cssChart {
     width: 400px;
   }
+  .footer_main .footer_box {
+    gap: 15px;
+  }
 }
 
 /* Đối với PC */
@@ -389,6 +405,9 @@ input[type='radio'] {
   }
   .cssChart {
     width: 400px;
+  }
+  .footer_main .footer_box {
+    gap: 15px;
   }
 }
 

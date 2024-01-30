@@ -35,7 +35,7 @@ function DashBoar() {
   // }, [location.search])
 
   const showDrawer = (value) => {
-    navigate(`?title=${value}`)
+    navigate(`title=${value}`)
     setTitleDr(value || 'Tổng cộng')
     setOpen(true)
   }

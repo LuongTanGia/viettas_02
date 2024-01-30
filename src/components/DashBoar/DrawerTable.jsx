@@ -20,10 +20,10 @@ const columnName = {
   DataValueAmount: 'Số Tiền',
 }
 
-function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorTable, titleDr, segmented, title }) {
+function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, titleDr, segmented, title }) {
   const [data, setData] = useState()
   const ThongSo = JSON.parse(localStorage.getItem('ThongSo'))
-  console.log(title)
+  console.log(param)
   useEffect(() => {
     setData(param)
     const valueList = param?.map(function (item) {
@@ -40,7 +40,6 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
       return sum + price
     }, 0)
     setTotalNumber(title === 'all' ? totalPrice_all : totalPrice)
-    console.log(totalPrice)
   }, [param])
 
   const valueList = data?.map(function (item) {
@@ -56,7 +55,7 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
     return sum + price
   }, 0)
   const DataColumns = data ? data[0] : []
-  const keysOnly = Object.keys(DataColumns || []).filter((key) => key !== 'DataType' && key !== 'DataCode' && key !== 'DataGroup' && key !== 'DataOrder' && key !== 'DataName')
+  const keysOnly = Object.keys(DataColumns || []).filter((key) => key !== 'DataType' && key !== 'DataCode' && key !== 'DataGroup' && key !== 'DataOrder')
   // const sharedOnCell = (_, index) => {
   //   if (index === 0) {
   //     return {
@@ -65,6 +64,36 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
   //   }
   //   return {}
   // }
+  let countByDataGroup = {
+    'SỐ ÂM': 0,
+    'SỐ DƯƠNG': 0,
+    'Kho Bà Rịa': 0,
+    'Kho Nam Kỳ': 0,
+    'Kho Nam Kỳ - (ÂM)': 0,
+    'Kho Bà Rịa - (ÂM)': 0,
+    'Kho Vũng Tàu': 0,
+    'Kho Vũng Tàu - (ÂM)': 0,
+  }
+
+  titleDr === 'TONKHO'
+    ? param?.forEach((record) => {
+        switch (record.DataGroup) {
+          case 'SỐ ÂM':
+          case 'SỐ DƯƠNG':
+          case 'Kho Bà Rịa':
+          case 'Kho Bà Rịa - (ÂM)':
+          case 'Kho Nam Kỳ - (ÂM)':
+          case 'Kho Nam Kỳ':
+          case 'Kho Vũng Tàu':
+          case 'Kho Vũng Tàu - (ÂM)':
+            countByDataGroup[record.DataGroup] += 1
+            break
+          default:
+            break
+        }
+      })
+    : null
+  const hiden = titleDr === 'TONKHO' ? ['DataValue_TyTrong'] : ['DataName']
   keysOnly.push('DataValue_TyTrong')
   const listColumns = keysOnly?.filter((value) => !hiden?.includes(value))
   const newColumns = listColumns.map((item) => {
@@ -88,18 +117,27 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
         },
       }
     }
-
+    if (item === 'DataName') {
+      return {
+        title: columnName[item] || item,
+        dataIndex: item,
+        align: 'center',
+        render: (text) => {
+          return <div className=" text-left">{text}</div>
+        },
+      }
+    }
     if (item === 'DataValue_TyTrong') {
       return {
         title: columnName[item] || item,
-        width: 200,
+        // width: 200,
         dataIndex: 'DataValue',
         align: 'center',
         onCell: (record, index) => ({
           colSpan: record.DataType === -1 ? 0 : 1,
         }),
         // onCell: sharedOnCell,
-        render: (text) =>
+        render: (text, record) =>
           titleDr === 'DOANHSO' ? (
             <RateBar percentage={(text / (title === 'all' ? totalPrice_all : totalPrice)) * 100} color={colorTable} />
           ) : (
@@ -115,21 +153,45 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
     if (item === 'DataValue') {
       return {
         title: columnName[item] || item,
-        width: 200,
+        // width: 200,
         dataIndex: item,
         align: 'center',
         onCell: (record, index) => ({
           colSpan: record.DataType === -1 ? 0 : 1,
         }),
+        sorter: (a, b) => {
+          if (titleDr === 'DOANHSO') {
+            if (a.DataType === -1 || b.DataType === -1 || a.DataType === 1 || b.DataType === 1 || a.DataName !== b.DataName) {
+              return 0
+            } else {
+              return a[item] - b[item]
+            }
+          } else if (titleDr === 'TONKHO') {
+            if (a.DataType === 1 || b.DataType === 1 || a.DataGroup !== b.DataGroup) {
+              return 0
+            } else {
+              return a[item] - b[item]
+            }
+          }
+        },
 
         // onCell: sharedOnCell,
-        render: (text) =>
+        render: (text, record) =>
           titleDr === 'DOANHSO' ? (
             <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base`}>
               {text?.toLocaleString('en-US', {
                 minimumFractionDigits: ThongSo.SOLESOTIEN,
                 maximumFractionDigits: ThongSo.SOLESOTIEN,
               })}
+            </div>
+          ) : record.DataType === 1 && titleDr === 'TONKHO' ? (
+            <div className="text-right">
+              {Object.keys(countByDataGroup).map(
+                (dataGroup, index) =>
+                  // Only render the count if the dataGroup matches the record.DataName
+                  record.DataName === dataGroup && <span key={index}>{countByDataGroup[dataGroup]}</span>,
+              )}
+              (Sản phẩm)
             </div>
           ) : (
             <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base`}>
@@ -144,7 +206,7 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
     if (item === 'DataValueAmount') {
       return {
         title: columnName[item] || item,
-        width: 200,
+        // width: 200,
         dataIndex: item,
         align: 'center',
         onCell: (record, index) => ({
@@ -154,15 +216,15 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
           titleDr === 'DOANHSO' ? (
             <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base`}>
               {text?.toLocaleString('en-US', {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0,
+                minimumFractionDigits: ThongSo.SOLESOTIEN,
+                maximumFractionDigits: ThongSo.SOLESOTIEN,
               })}
             </div>
           ) : (
             <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base`}>
               {text?.toLocaleString('en-US', {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0,
+                minimumFractionDigits: ThongSo.SOLESOTIEN,
+                maximumFractionDigits: ThongSo.SOLESOTIEN,
               })}
             </div>
           ),
@@ -171,61 +233,73 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
     return {
       title: columnName[item] || item,
       dataIndex: item,
-      editable: true,
+
       align: 'center',
       onCell: (record, index) => ({
         colSpan: record.DataType === -1 ? 0 : 1,
       }),
     }
   })
+
   const columnsThu_Chi = [
     {
       title: 'Đầu Kỳ',
       align: 'center',
-      children: [
-        {
-          title: 'Tên',
-          align: 'center',
 
-          dataIndex: 'DataName',
-          render: (text) =>
-            titleDr === 'DOANHSO' ? (
-              <RateBar percentage={((text / (title === 'all' ? totalPrice_all : totalPrice)) * 100).toFixed(2)} color={colorTable} />
-            ) : (
-              <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-center`}>{text}</div>
-            ),
-          sorter: (a, b) => a.DataName - b.DataName,
-        },
+      children: [
         {
           title: 'Ngày',
           align: 'center',
+          onCell: (record, index) => ({
+            colSpan: record.DataType === 1 || record.DataType === 3 ? 3 : 1,
+          }),
+          render: (text, record) => {
+            // Change the parameters of render function
+            if (record.DataType === 0) {
+              return record.DataDate
+            } else if (record.DataType === 1 || record.DataType === 3) {
+              return <>{record.DataName}</>
+            } else if (record.DataType === 2) {
+              return <div>{record.DataDate}</div>
+            } else if (record.DataType === 4) {
+              return null
+            }
+          },
 
           dataIndex: 'DataDate',
-          render: (text) =>
-            titleDr === 'DOANHSO' ? (
-              <RateBar percentage={((text / (title === 'all' ? totalPrice_all : totalPrice)) * 100).toFixed(2)} color={colorTable} />
-            ) : (
-              <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-center`}>{text}</div>
-            ),
+          // render: (text) =>
+          //   titleDr === 'DOANHSO' ? (
+          //     <RateBar percentage={((text / (title === 'all' ? totalPrice_all : totalPrice)) * 100).toFixed(2)} color={colorTable} />
+          //   ) : (
+          //     <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-center`}>{text}</div>
+          //   ),
           sorter: (a, b) => {
-            const dateA = new Date(a.DataDate)
-            const dateB = new Date(b.DataDate)
-
-            if (!isNaN(dateA.getTime()) && !isNaN(dateB.getTime())) {
-              return dateA.getTime() - dateB.getTime()
-            } else if (!isNaN(dateA.getTime())) {
-              return -1
-            } else if (!isNaN(dateB.getTime())) {
-              return 1
-            } else {
+            if (
+              a.DataType === 1 ||
+              b.DataType === 1 ||
+              a.DataCode !== b.DataCode ||
+              a.DataType === 0 ||
+              b.DataType === 0 ||
+              a.DataType === 3 ||
+              b.DataType === 3 ||
+              a.DataType === 4 ||
+              b.DataType === 4
+            ) {
               return 0
+            } else {
+              const dateA = new Date(parseInt(a.DataDate.split('/')[2]), parseInt(a.DataDate.split('/')[1]) - 1, parseInt(a.DataDate.split('/')[0]))
+              const dateB = new Date(parseInt(b.DataDate.split('/')[2]), parseInt(b.DataDate.split('/')[1]) - 1, parseInt(b.DataDate.split('/')[0]))
+
+              return dateA.getTime() - dateB.getTime()
             }
           },
         },
         {
           title: 'Tăng',
           align: 'center',
-
+          onCell: (record, index) => ({
+            colSpan: record.DataType === 1 || record.DataType === 3 ? 0 : 1,
+          }),
           dataIndex: 'DataValuePS',
           render: (text) =>
             titleDr === 'DOANHSO' ? (
@@ -233,29 +307,64 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
             ) : (
               <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right `}>
                 {text?.toLocaleString('en-US', {
-                  minimumFractionDigits: 0,
-                  maximumFractionDigits: 0,
+                  minimumFractionDigits: ThongSo.SOLESOTIEN,
+                  maximumFractionDigits: ThongSo.SOLESOTIEN,
                 })}
               </div>
             ),
-          sorter: (a, b) => a.DataValuePS - b.DataValuePS,
+          sorter: (a, b) => {
+            if (
+              a.DataType === 1 ||
+              b.DataType === 1 ||
+              a.DataCode !== b.DataCode ||
+              a.DataType === 0 ||
+              b.DataType === 0 ||
+              a.DataType === 3 ||
+              b.DataType === 3 ||
+              a.DataType === 4 ||
+              b.DataType === 4
+            ) {
+              return 0
+            } else {
+              return a.DataValuePS - b.DataValuePS
+            }
+          },
         },
         {
           title: 'Giảm',
           align: 'center',
           dataIndex: 'DataValueTT',
-          render: (text) =>
+          onCell: (record, index) => ({
+            colSpan: record.DataType === 1 || record.DataType === 3 ? 0 : 1,
+          }),
+          render: (text, record) =>
             titleDr === 'DOANHSO' ? (
               <RateBar percentage={((text / (title === 'all' ? totalPrice_all : totalPrice)) * 100).toFixed(2)} color={colorTable} />
-            ) : (
+            ) : record.DataType === 4 ? null : (
               <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right `}>
                 {text?.toLocaleString('en-US', {
-                  minimumFractionDigits: 0,
-                  maximumFractionDigits: 0,
+                  minimumFractionDigits: ThongSo.SOLESOTIEN,
+                  maximumFractionDigits: ThongSo.SOLESOTIEN,
                 })}
               </div>
             ),
-          sorter: (a, b) => a.DataValueTT - b.DataValueTT,
+          sorter: (a, b) => {
+            if (
+              a.DataType === 1 ||
+              b.DataType === 1 ||
+              a.DataCode !== b.DataCode ||
+              a.DataType === 0 ||
+              b.DataType === 0 ||
+              a.DataType === 3 ||
+              b.DataType === 3 ||
+              a.DataType === 4 ||
+              b.DataType === 4
+            ) {
+              return 0
+            } else {
+              return a.DataValueTT - b.DataValueTT
+            }
+          },
         },
       ],
     },
@@ -264,23 +373,41 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
       align: 'center',
 
       dataIndex: 'DataValue',
-      render: (text) =>
+      render: (text, record) =>
         titleDr === 'DOANHSO' ? (
-          <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base`}>
+          <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right `}>
             {text?.toLocaleString('en-US', {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
+              minimumFractionDigits: ThongSo.SOLESOTIEN,
+              maximumFractionDigits: ThongSo.SOLESOTIEN,
             })}
           </div>
+        ) : record.DataType === 4 ? (
+          <></>
         ) : (
-          <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base`}>
+          <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right `}>
             {text?.toLocaleString('en-US', {
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
+              minimumFractionDigits: ThongSo.SOLESOTIEN,
+              maximumFractionDigits: ThongSo.SOLESOTIEN,
             })}
           </div>
         ),
-      sorter: (a, b) => a.DataValue - b.DataValue,
+      sorter: (a, b) => {
+        if (
+          a.DataType === 1 ||
+          b.DataType === 1 ||
+          a.DataCode !== b.DataCode ||
+          a.DataType === 0 ||
+          b.DataType === 0 ||
+          a.DataType === 3 ||
+          b.DataType === 3 ||
+          a.DataType === 4 ||
+          b.DataType === 4
+        ) {
+          return 0
+        } else {
+          return a.DataValue - b.DataValue
+        }
+      },
     },
   ]
   const columns = segmented === 'BIEUDOTYTRONG' ? [...columnsThu_Chi] : [...newColumns]
@@ -310,7 +437,7 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
             scroll={
               segmented === 'BIEUDOTYTRONG'
                 ? {
-                    x: 620,
+                    x: 120,
                     y: 500,
                   }
                 : null
@@ -327,28 +454,28 @@ function Tables({ hiden, loadingSearch, param, columName, setTotalNumber, colorT
                     return (
                       <Table.Summary fixed>
                         <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]">Tổng</Table.Summary.Cell>
-                        {segmented === 'BIEUDOTYTRONG' ? <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]"></Table.Summary.Cell> : null}
+                        {/* {segmented === 'BIEUDOTYTRONG' ? <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]"></Table.Summary.Cell> : null} */}
                         <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]">
                           {Number(data?.reduce((total, item) => total + (segmented === 'SOQUY' ? item.DataValueIn : item.DataValuePS), 0)).toLocaleString('en-US', {
-                            minimumFractionDigits: 0,
-                            maximumFractionDigits: 0,
+                            minimumFractionDigits: ThongSo.SOLESOTIEN,
+                            maximumFractionDigits: ThongSo.SOLESOTIEN,
                           })}
                         </Table.Summary.Cell>
                         <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]">
                           {Number(data?.reduce((total, item) => total + (segmented === 'SOQUY' ? item.DataValueOut : item.DataValueTT), 0)).toLocaleString('en-US', {
-                            minimumFractionDigits: 0,
-                            maximumFractionDigits: 0,
+                            minimumFractionDigits: ThongSo.SOLESOTIEN,
+                            maximumFractionDigits: ThongSo.SOLESOTIEN,
                           })}
                         </Table.Summary.Cell>
                         <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]">
                           {segmented !== 'SOQUY'
                             ? Number(data[data.length - 1]?.DataValue).toLocaleString('en-US', {
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 0,
+                                minimumFractionDigits: ThongSo.SOLESOTIEN,
+                                maximumFractionDigits: ThongSo.SOLESOTIEN,
                               })
                             : Number(data?.reduce((total, item) => total + item.DataValueBalance, 0)).toLocaleString('en-US', {
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 0,
+                                minimumFractionDigits: ThongSo.SOLESOTIEN,
+                                maximumFractionDigits: ThongSo.SOLESOTIEN,
                               })}
                         </Table.Summary.Cell>
                       </Table.Summary>

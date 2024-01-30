@@ -13,6 +13,8 @@ import CounterComponent from './LoadNumber'
 import Date from './Date'
 import { useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
+import { Input } from 'antd'
+const { Search } = Input
 const nameMapping = {
   DOANHSO: 'Doanh Số',
   TONKHO: 'Tồn Kho',
@@ -59,6 +61,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
   const [TotalNumber, setTotalNumber] = useState(0)
   const [TotalChart, setTotalChart] = useState(0)
   const [title, setTitle] = useState('')
+  const [searchText, setSearchText] = useState('')
 
   useEffect(() => {
     setDataDate(dataDate)
@@ -69,7 +72,6 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
 
   useEffect(() => {
     const loadData = async () => {
-      console.log(dataDate_s)
       setLoading(true)
       //API Doanh So
       const data_hanghoa = titleDr === 'DOANHSO' ? await APIDATA_CHART(API.DoanhSoHangHoa_TopChart, token, dataDate_s) : null
@@ -77,9 +79,9 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
       const data_nhomhang = titleDr === 'DOANHSO' ? await APIDATA_CHART(API.DoanhSoNhomHang_TopChart, token, dataDate_s) : null
       //API Ton Kho
 
-      const data_TonKho_TongKho = titleDr === 'TONKHO' ? await APIDATA_CHART(API.TonKho_TongKho, token, dataDate_s) : null
-      const TonKho_TongKhoDVTQuyDoi = titleDr === 'TONKHO' ? await APIDATA_CHART(API.TonKho_TongKhoDVTQuyDoi, token, dataDate_s) : null
-      const TonKho_TheoKho = titleDr === 'TONKHO' ? await APIDATA_CHART(API.TonKho_TheoKho, token, dataDate_s) : null
+      const data_TonKho_TongKho = titleDr === 'TONKHO' ? await APIDATA_CHART(API.TonKho_TongKho, token, { ...dataDate_s, FilterText: searchText }) : null
+      const TonKho_TongKhoDVTQuyDoi = titleDr === 'TONKHO' ? await APIDATA_CHART(API.TonKho_TongKhoDVTQuyDoi, token, { ...dataDate_s, FilterText: searchText }) : null
+      const TonKho_TheoKho = titleDr === 'TONKHO' ? await APIDATA_CHART(API.TonKho_TheoKho, token, { ...dataDate_s, FilterText: searchText }) : null
       //API Cong No Thu - Tra
       const CongNoThu_TopChart =
         titleDr === 'PHAITHU' || titleDr === 'PHAITRA' ? await APIDATA_CHART(titleDr === 'PHAITRA' ? API.CongNoTra_TopChart : API.CongNoThu_TopChart, token, dataDate_s) : null
@@ -164,7 +166,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                     : '',
     )
     loadData()
-  }, [titleDr, dataDate_s?.NgayBatDau, dataDate_s?.NgayKetThuc])
+  }, [titleDr, dataDate_s?.NgayBatDau, dataDate_s?.NgayKetThuc, searchText])
   useEffect(() => {
     const dataMapping = {
       HANGHOA: data_hanghoa,
@@ -250,13 +252,14 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
   const handleTouchEnd_op = () => {
     startX_01 = 0
   }
+  const onSearch = (value) => setSearchText(value)
   return (
     <div ref={containerRef} onTouchStart={handleTouchStart_op} onTouchMove={handleTouchMove_op} onTouchEnd={handleTouchEnd_op}>
       <div>
         <Drawer
           footer={
             <div>
-              {segmented !== 'SOQUY' ? (
+              {titleDr !== 'TONKHO' ? (
                 <div className="flex items-center justify-center mb-2">
                   <p
                     className="w-[100%] cursor-pointer hover:font-medium flex items-center gap-2 justify-between"
@@ -273,7 +276,11 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
               ) : null}
             </div>
           }
-          title={nameMapping[titleDr]}
+          title={
+            <div className="flex items-center justify-between">
+              {nameMapping[titleDr]} {titleDr === 'TONKHO' ? <Search onSearch={onSearch} placeholder="Tìm kiếm hàng hóa" loading={loading} className="w-[70%]" /> : ''}
+            </div>
+          }
           closeIcon={<BiLeftArrowAlt />}
           width={1020}
           onClose={onClose}
@@ -292,7 +299,15 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                 value={valueSegmented}
               />
             ) : titleDr === 'TONKHO' ? (
-              <Segmented options={['TONGHOP', 'TONGHOPDVT', 'THEOKHO']} block onChange={(value) => setSegmented(value)} value={segmented} />
+              <Segmented
+                options={['Tổng hợp', 'Tổng hợp (đơn vị tính)', 'Theo kho']}
+                block
+                onChange={(value) => {
+                  setSegmented(value === 'Tổng hợp' ? 'TONGHOP' : value === 'Tổng hợp (đơn vị tính)' ? 'TONGHOPDVT' : value === 'Theo kho' ? 'THEOKHO' : null),
+                    setValueSegmented(value)
+                }}
+                value={valueSegmented}
+              />
             ) : titleDr === 'PHAITHU' || titleDr === 'PHAITRA' ? (
               <Segmented
                 options={titleDr === 'PHAITRA' ? ['BIEUDOTYTRONG', 'DANHSACHNHACUNGCAP'] : ['BIEUDOTYTRONG', 'DANHSACHKHACHHANG']}
@@ -445,7 +460,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
             {titleDr === 'DOANHSO' || titleDr === 'PHAITHU' || titleDr === 'PHAITRA' ? (
               <Drawer
                 footer={
-                  titleDr === 'PHAITHU' || titleDr === 'PHAITRA' ? null : (
+                  titleDr === 'PHAITRA' || titleDr === 'PHAITHU' ? null : (
                     <div>
                       {
                         <div className="flex items-center justify-center mb-2">
@@ -463,7 +478,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                 }
                 className="DrawerCT"
                 title={`${titleDr_child.DataName || 'Tổng Cộng'}(Chi tiết)`}
-                width={720}
+                width={1020}
                 onClose={onChildrenDrawerClose}
                 open={childrenDrawer}
               >

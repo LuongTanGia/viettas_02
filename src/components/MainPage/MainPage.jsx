@@ -74,7 +74,9 @@ function MainPage({ isSidebarVisible }) {
       </div>
       <main id="main" className={isSidebarVisible ? 'main' : 'main show_main'}>
         <Routes>
+          <Route path="/:title" element={<DashBoar />} />
           <Route path="/" element={<DashBoar />} />
+
           <Route path="/Info" element={<InfoApp />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
