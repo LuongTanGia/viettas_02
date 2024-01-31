@@ -137,13 +137,30 @@
   z-index: 1000;
   padding-top: 50px;
 } */
+/* Common styles for both mobile and desktop */
 th.ant-table-cell {
-  /* border: 2px solid; */
-  /* padding: 20px; */
-  /* width: 300px; */
-  resize: horizontal;
   overflow: auto;
 }
+
+/* Responsive styles for mobile */
+@media screen and (max-width: 768px) {
+  th.ant-table-cell {
+    resize: horizontal; /* Enable horizontal resizing on larger screens */
+
+    width: 100%; /* Make the cell take full width on small screens */
+    overflow-x: auto; /* Enable horizontal scrolling if needed */
+    white-space: nowrap; /* Prevent text from wrapping */
+  }
+}
+
+/* Responsive styles for desktop */
+@media screen and (min-width: 769px) {
+  th.ant-table-cell {
+    resize: horizontal; /* Enable horizontal resizing on larger screens */
+    min-width: 100px; /* Set a minimum width for the cell */
+  }
+}
+
 .ant-table-cell-row-hover,
 .ant-table-column-sort {
   background-color: transparent !important;

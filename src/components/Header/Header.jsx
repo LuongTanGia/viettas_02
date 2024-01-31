@@ -27,6 +27,8 @@ function Header() {
     window.localStorage.removeItem('tokenDuLieu')
     window.localStorage.removeItem('RTKN')
     window.localStorage.removeItem('userName')
+    window.localStorage.removeItem('dateLogin')
+
     window.location.href = '/login'
   }
   const handeleChange = () => {
@@ -75,6 +77,8 @@ function Header() {
       window.localStorage.setItem('dateNum', inputDate)
     }
     setIsModalOpen(false)
+    window.localStorage.removeItem('dateLogin')
+
     window.location.href = '/'
   }
   return (
@@ -148,17 +152,18 @@ function Header() {
                 </li>
 
                 {userLogin !== null ? (
-                  <li>
-                    <Link className="dropdown-item d-flex align-items-center" href="users-profile.html" onClick={handeleChange}>
-                      <i className="bi bi-question-circle"></i>
-                      <span>Đổi mật khẩu </span>
-                    </Link>
-                  </li>
+                  <>
+                    <li>
+                      <Link className="dropdown-item d-flex align-items-center" href="users-profile.html" onClick={handeleChange}>
+                        <i className="bi bi-question-circle"></i>
+                        <span>Đổi mật khẩu </span>
+                      </Link>
+                    </li>
+                    <li>
+                      <hr className="dropdown-divider" />
+                    </li>
+                  </>
                 ) : null}
-
-                <li>
-                  <hr className="dropdown-divider" />
-                </li>
 
                 <li>
                   <Link className="dropdown-item d-flex align-items-center" href="pages-faq.html" onClick={showModal}>

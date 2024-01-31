@@ -10,20 +10,20 @@ import RateBar from '../util/Chart/LoadingChart'
 const { Text } = Typography
 
 const columnName = {
-  DataName: 'Tên Hàng',
-  DataDate: 'Thời Gian',
-  DataValue: 'Số Tiền',
-  DataValue_TyTrong: 'Tỷ Trọng',
-
-  DataDescription: 'Thông Tin',
-  DataValueQuantity: 'Số Lượng',
-  DataValueAmount: 'Số Tiền',
+  DataName: 'Tên ',
+  DataDate: 'Thời gian',
+  DataValue: 'Số tiền',
+  DataValue_TyTrong: 'Tỷ trọng',
+  DataDescription: 'Hàng hóa',
+  DataValueQuantity: 'Số lượng',
+  DataValueAmount: 'Số tiền',
 }
 
-function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, titleDr, segmented, title }) {
+function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, titleDr, segmented, title, onClick, typeTable }) {
   const [data, setData] = useState()
+
   const ThongSo = JSON.parse(localStorage.getItem('ThongSo'))
-  console.log(param)
+
   useEffect(() => {
     setData(param)
     const valueList = param?.map(function (item) {
@@ -93,7 +93,12 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
         }
       })
     : null
-  const hiden = titleDr === 'TONKHO' ? ['DataValue_TyTrong'] : ['DataName']
+  const hiden =
+    titleDr === 'TONKHO'
+      ? ['DataValue_TyTrong']
+      : titleDr === 'MUAHANG' || titleDr === 'BANHANG' || titleDr === 'NHAPTRA' || titleDr === 'XUATTRA' || titleDr === 'PHAITHU' || titleDr === 'PHAITRA'
+        ? ['DataValue_TyTrong']
+        : ['DataName']
   keysOnly.push('DataValue_TyTrong')
   const listColumns = keysOnly?.filter((value) => !hiden?.includes(value))
   const newColumns = listColumns.map((item) => {
@@ -115,6 +120,16 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
             return <div>{record.DataName}</div>
           }
         },
+        sorter: (a, b) => {
+          if (a.DataType === -1 || b.DataType === -1 || a.DataCode !== b.DataCode) {
+            return 0
+          } else {
+            const dateA = new Date(parseInt(a.DataDate.split('/')[2]), parseInt(a.DataDate.split('/')[1]) - 1, parseInt(a.DataDate.split('/')[0]))
+            const dateB = new Date(parseInt(b.DataDate.split('/')[2]), parseInt(b.DataDate.split('/')[1]) - 1, parseInt(b.DataDate.split('/')[0]))
+
+            return dateA.getTime() - dateB.getTime()
+          }
+        },
       }
     }
     if (item === 'DataName') {
@@ -123,7 +138,35 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
         dataIndex: item,
         align: 'center',
         render: (text) => {
+          return <div className={` ${segmented === 'DANHSACHKHACHHANG' ? ' underline cursor-pointer' : ''} text-left`}>{text}</div>
+        },
+        sorter: (a, b) => {
+          if (a.DataType === 1 || b.DataType === 1 || a.DataGroup !== b.DataGroup) {
+            return 0
+          } else {
+            const valueA = typeof a[item] === 'string' ? a[item] : ''
+            const valueB = typeof b[item] === 'string' ? b[item] : ''
+            return valueA.localeCompare(valueB)
+          }
+        },
+      }
+    }
+    if (item === 'DataDescription') {
+      return {
+        title: columnName[item] || item,
+        dataIndex: item,
+        align: 'center',
+        render: (text) => {
           return <div className=" text-left">{text}</div>
+        },
+        sorter: (a, b) => {
+          if (a.DataType === 1 || b.DataType === 1 || a.DataGroup !== b.DataGroup) {
+            return 0
+          } else {
+            const valueA = typeof a[item] === 'string' ? a[item] : ''
+            const valueB = typeof b[item] === 'string' ? b[item] : ''
+            return valueA.localeCompare(valueB)
+          }
         },
       }
     }
@@ -136,6 +179,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
         onCell: (record, index) => ({
           colSpan: record.DataType === -1 ? 0 : 1,
         }),
+
         // onCell: sharedOnCell,
         render: (text, record) =>
           titleDr === 'DOANHSO' ? (
@@ -145,6 +189,36 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
               {text?.toLocaleString('en-US', {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
+              })}
+            </div>
+          ),
+      }
+    }
+    if (item === 'DataValueQuantity') {
+      return {
+        title: columnName[item] || item,
+        // width: 200,
+        dataIndex: item,
+        align: 'center',
+        onCell: (record, index) => ({
+          colSpan: record.DataType === -1 ? 0 : 1,
+        }),
+        sorter: (a, b) => {
+          if (a.DataType === 1 || b.DataType === 1 || a.DataGroup !== b.DataGroup) {
+            return 0
+          } else {
+            return a[item] - b[item]
+          }
+        },
+        // onCell: sharedOnCell,
+        render: (text, record) =>
+          titleDr === 'DOANHSO' ? (
+            <RateBar percentage={(text / (title === 'all' ? totalPrice_all : totalPrice)) * 100} color={colorTable} />
+          ) : (
+            <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base`}>
+              {text?.toLocaleString('en-US', {
+                minimumFractionDigits: ThongSo.SOLESOLUONG,
+                maximumFractionDigits: ThongSo.SOLESOLUONG,
               })}
             </div>
           ),
@@ -166,7 +240,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
             } else {
               return a[item] - b[item]
             }
-          } else if (titleDr === 'TONKHO') {
+          } else if (titleDr === 'TONKHO' || titleDr === 'PHAITHU' || titleDr === 'PHAITRA') {
             if (a.DataType === 1 || b.DataType === 1 || a.DataGroup !== b.DataGroup) {
               return 0
             } else {
@@ -178,7 +252,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
         // onCell: sharedOnCell,
         render: (text, record) =>
           titleDr === 'DOANHSO' ? (
-            <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base`}>
+            <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base `}>
               {text?.toLocaleString('en-US', {
                 minimumFractionDigits: ThongSo.SOLESOTIEN,
                 maximumFractionDigits: ThongSo.SOLESOTIEN,
@@ -212,13 +286,31 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
         onCell: (record, index) => ({
           colSpan: record.DataType === -1 ? 0 : 1,
         }),
-        render: (text) =>
+        sorter: (a, b) => {
+          if (a.DataType === 1 || b.DataType === 1 || a.DataGroup !== b.DataGroup) {
+            return 0
+          } else {
+            return a[item] - b[item]
+          }
+        },
+
+        // onCell: sharedOnCell,
+        render: (text, record) =>
           titleDr === 'DOANHSO' ? (
-            <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base`}>
+            <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}   text-right text-base`}>
               {text?.toLocaleString('en-US', {
                 minimumFractionDigits: ThongSo.SOLESOTIEN,
                 maximumFractionDigits: ThongSo.SOLESOTIEN,
               })}
+            </div>
+          ) : record.DataType === 1 && titleDr === 'TONKHO' ? (
+            <div className="text-right">
+              {Object.keys(countByDataGroup).map(
+                (dataGroup, index) =>
+                  // Only render the count if the dataGroup matches the record.DataName
+                  record.DataName === dataGroup && <span key={index}>{countByDataGroup[dataGroup]}</span>,
+              )}
+              (Sản phẩm)
             </div>
           ) : (
             <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base`}>
@@ -230,6 +322,33 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
           ),
       }
     }
+    // if (item === 'DataValueAmount') {
+    //   return {
+    //     title: columnName[item] || item,
+    //     // width: 200,
+    //     dataIndex: item,
+    //     align: 'center',
+    //     onCell: (record, index) => ({
+    //       colSpan: record.DataType === -1 ? 0 : 1,
+    //     }),
+    //     render: (text) =>
+    //       titleDr === 'DOANHSO' ? (
+    //         <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base`}>
+    //           {text?.toLocaleString('en-US', {
+    //             minimumFractionDigits: ThongSo.SOLESOTIEN,
+    //             maximumFractionDigits: ThongSo.SOLESOTIEN,
+    //           })}
+    //         </div>
+    //       ) : (
+    //         <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base`}>
+    //           {text?.toLocaleString('en-US', {
+    //             minimumFractionDigits: ThongSo.SOLESOTIEN,
+    //             maximumFractionDigits: ThongSo.SOLESOTIEN,
+    //           })}
+    //         </div>
+    //       ),
+    //   }
+    // }
     return {
       title: columnName[item] || item,
       dataIndex: item,
@@ -238,6 +357,9 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
       onCell: (record, index) => ({
         colSpan: record.DataType === -1 ? 0 : 1,
       }),
+      render: (text) => {
+        return <div className=" text-right">{text}</div>
+      },
     }
   })
 
@@ -410,11 +532,11 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
       },
     },
   ]
-  const columns = segmented === 'BIEUDOTYTRONG' ? [...columnsThu_Chi] : [...newColumns]
+  const columns = segmented === 'BIEUDOTYTRONG' || typeTable === 1 ? [...columnsThu_Chi] : [...newColumns]
 
   const [form] = Form.useForm()
   const rowClassName = (record) => {
-    if (record.DataType === 0 && segmented === 'BIEUDOTYTRONG') {
+    if (record.DataType === 0 && (segmented === 'BIEUDOTYTRONG' || typeTable === 1)) {
       return 'hidden-row'
     } else if (record.DataType === -1 || record.DataType === 1 || record.DataType === 3) {
       return 'highlight-rowChart'
@@ -435,18 +557,21 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
             dataSource={data}
             bordered
             scroll={
-              segmented === 'BIEUDOTYTRONG'
+              segmented === 'BIEUDOTYTRONG' || typeTable === 1
                 ? {
                     x: 120,
                     y: 500,
                   }
                 : null
             }
+            onRow={(record) => ({
+              onClick: () => onClick(record),
+            })}
             pagination={false}
             size="small"
             className={`color${colorTable?.slice(1)} DrawerTable setHeight`}
             summary={
-              segmented === 'BIEUDOTYTRONG' || segmented === 'SOQUY'
+              segmented === 'BIEUDOTYTRONG' || segmented === 'SOQUY' || typeTable === 1
                 ? () => {
                     if (!data || data.length === 0) {
                       return null

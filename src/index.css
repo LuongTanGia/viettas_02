@@ -353,9 +353,6 @@ input[type='radio'] {
   .footer_main .footer_content p {
     font-size: 10px;
   }
-  td.ant-table-cell {
-    font-size: 8px !important;
-  }
 }
 
 /* Đối với tablet */

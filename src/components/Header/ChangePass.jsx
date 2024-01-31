@@ -21,7 +21,7 @@ function ChangePass({ isShow, close }) {
     <>
       {isShow ? (
         <div className="fixed inset-0 bg-black bg-opacity-25 flex justify-center items-center z-20">
-          <div className="w-[600px] m-6 p-6 absolute shadow-lg bg-white rounded-md flex flex-col">
+          <div className="w-[45%] m-6 p-6 absolute shadow-lg bg-white rounded-md flex flex-col min-w-[300px]">
             <Title level={2}>Thay đổi mật khẩu </Title>
             <Form
               name="basic"
@@ -88,13 +88,8 @@ function ChangePass({ isShow, close }) {
               >
                 <Input.Password />
               </Form.Item>
-              <Form.Item
-                wrapperCol={{
-                  offset: 8,
-                  span: 16,
-                }}
-              >
-                <div className="flex justify-end gap-4  absolute right-0 ">
+              <Form.Item className="flex justify-end">
+                <div className="flex justify-end gap-4  absolute right-0 w-full">
                   <ActionButton color={'slate-50'} title={'Xác Nhận'} background={'blue-500'} bg_hover={'white'} color_hover={'blue-500'} type="primary" />
                   <ActionButton color={'slate-50'} title={'Đóng'} background={'red-500'} bg_hover={'white'} color_hover={'red-500'} handleAction={close} />
                 </div>

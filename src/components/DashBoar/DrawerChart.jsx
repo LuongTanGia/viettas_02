@@ -14,6 +14,7 @@ import Date from './Date'
 import { useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import { Input } from 'antd'
+import dayjs from 'dayjs'
 const { Search } = Input
 const nameMapping = {
   DOANHSO: 'Doanh Số',
@@ -33,6 +34,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
   const [childrenDrawer, setChildrenDrawer] = useState(false)
   const [segmented, setSegmented] = useState('')
   const [valueSegmented, setValueSegmented] = useState('')
+  const [dataSearch, setDataSearch] = useState('')
 
   const [loading, setLoading] = useState(false)
   const [titleDr_child, setTitleDrChild] = useState('ssss')
@@ -88,17 +90,21 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
       const CongNoThu_DanhSach =
         titleDr === 'PHAITHU' || titleDr === 'PHAITRA' ? await APIDATA_CHART(titleDr === 'PHAITRA' ? API.CongNoTra_DanhSach : API.CongNoThu_DanhSach, token, dataDate_s) : null
       //API Mua Hang
-      const MuaHang_HangHoa = titleDr === 'MUAHANG' ? await APIDATA_CHART(API.MuaHang_HangHoa, token, dataDate_s) : null
-      const MuaHang_NhaCungCap = titleDr === 'MUAHANG' ? await APIDATA_CHART(API.MuaHang_NhaCungCap, token, dataDate_s) : null
+      const MuaHang_HangHoa = titleDr === 'MUAHANG' ? await APIDATA_CHART(API.MuaHang_HangHoa, token, { ...dataDate_s, FilterText: searchText }) : null
+      const MuaHang_NhaCungCap = titleDr === 'MUAHANG' ? await APIDATA_CHART(API.MuaHang_NhaCungCap, token, { ...dataDate_s, FilterText: searchText }) : null
       //API Xuat Tra - Nhap Tra
       const XuatTra_HangHoa =
-        titleDr === 'XUATTRA' || titleDr === 'NHAPTRA' ? await APIDATA_CHART(titleDr === 'NHAPTRA' ? API.NhapTra_HangHoa : API.XuatTra_HangHoa, token, dataDate_s) : null
+        titleDr === 'XUATTRA' || titleDr === 'NHAPTRA'
+          ? await APIDATA_CHART(titleDr === 'NHAPTRA' ? API.NhapTra_HangHoa : API.XuatTra_HangHoa, token, { ...dataDate_s, FilterText: searchText })
+          : null
       const XuatTra_NhaCungCap =
-        titleDr === 'XUATTRA' || titleDr === 'NHAPTRA' ? await APIDATA_CHART(titleDr === 'NHAPTRA' ? API.NhapTra_KhachHang : API.XuatTra_NhaCungCap, token, dataDate_s) : null
+        titleDr === 'XUATTRA' || titleDr === 'NHAPTRA'
+          ? await APIDATA_CHART(titleDr === 'NHAPTRA' ? API.NhapTra_KhachHang : API.XuatTra_NhaCungCap, token, { ...dataDate_s, FilterText: searchText })
+          : null
       //API Ban Hang
-      const BanHang_HangHoa = titleDr === 'BANHANG' ? await APIDATA_CHART(API.BanHang_HangHoa, token, dataDate_s) : null
-      const BanHang_QuayLe = titleDr === 'BANHANG' ? await APIDATA_CHART(API.BanHang_QuayLe, token, dataDate_s) : null
-      const BanHang_KhachHang = titleDr === 'BANHANG' ? await APIDATA_CHART(API.BanHang_KhachHang, token, dataDate_s) : null
+      const BanHang_HangHoa = titleDr === 'BANHANG' ? await APIDATA_CHART(API.BanHang_HangHoa, token, { ...dataDate_s, FilterText: searchText }) : null
+      const BanHang_QuayLe = titleDr === 'BANHANG' ? await APIDATA_CHART(API.BanHang_QuayLe, token, { ...dataDate_s, FilterText: searchText }) : null
+      const BanHang_KhachHang = titleDr === 'BANHANG' ? await APIDATA_CHART(API.BanHang_KhachHang, token, { ...dataDate_s, FilterText: searchText }) : null
       // //API Thu - Chi
       const ThuTien = titleDr === 'THU' || titleDr === 'CHI' ? await APIDATA_CHART(API.ThuTien, token, dataDate_s) : null
       const ChiTien = titleDr === 'THU' || titleDr === 'CHI' ? await APIDATA_CHART(API.ChiTien, token, dataDate_s) : null
@@ -121,6 +127,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
       //Cong No Thu - Tra
       setCongNoThu_TopChart(CongNoThu_TopChart ? CongNoThu_TopChart : [])
       setCongNoThu_DanhSach(CongNoThu_DanhSach ? CongNoThu_DanhSach : [])
+      setDataSearch(CongNoThu_DanhSach)
       //Ton Kho
       setdata_TonKho_TongKho(data_TonKho_TongKho ? data_TonKho_TongKho : [])
       setTonKho_TongKhoDVTQuyDoi(TonKho_TongKhoDVTQuyDoi ? TonKho_TongKhoDVTQuyDoi : [])
@@ -152,11 +159,11 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
       titleDr === 'DOANHSO'
         ? 'Khách hàng'
         : titleDr === 'TONKHO'
-          ? 'TONGHOP'
+          ? 'Tổng hợp'
           : titleDr === 'PHAITHU' || titleDr === 'PHAITRA'
-            ? 'BIEUDOTYTRONG'
+            ? 'Biểu đồ tỷ trọng'
             : titleDr === 'MUAHANG' || titleDr === 'XUATTRA' || titleDr === 'NHAPTRA'
-              ? 'THEOHANGHOA'
+              ? 'Theo hàng hóa'
               : titleDr === 'BANHANG'
                 ? 'BANHANGHANGHOA'
                 : titleDr === 'THU'
@@ -175,8 +182,8 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
       BIEUDOTYTRONG: CongNoThu_TopChart,
       DANHSACHKHACHHANG: CongNoThu_DanhSach,
       DANHSACHNHACUNGCAP: CongNoThu_DanhSach,
-      THEOHANGHOA: MuaHang_HangHoa,
-      THEONHACUNGCAP: MuaHang_NhaCungCap,
+      THEOHANGHOA: titleDr === 'NHAPTRA' ? XuatTra_HangHoa : MuaHang_HangHoa,
+      THEONHACUNGCAP: titleDr === 'NHAPTRA' ? XuatTra_NhaCungCap : MuaHang_NhaCungCap,
       BANHANGHANGHOA: BanHang_HangHoa,
       BANHANGQUYLE: BanHang_QuayLe,
       BANHANGKHACHHANG: BanHang_KhachHang,
@@ -185,7 +192,10 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
       SOQUY: SoQuy,
     }
 
-    const valueList = dataMapping[segmented]?.map((item) => (titleDr === 'MUAHANG' || titleDr === 'BANHANG' ? item.DataValueAmount : item.DataValue)) || []
+    const valueList =
+      dataMapping[segmented]?.map((item) =>
+        titleDr === 'MUAHANG' || titleDr === 'BANHANG' || titleDr === 'XUATTRA' || titleDr === 'NHAPTRA' ? item.DataValueAmount : item.DataValue,
+      ) || []
     const totalPrice = valueList.reduce((sum, price) => sum + price, 0)
 
     setTotalChart(totalPrice)
@@ -224,7 +234,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
     )
 
     setDataTable(data_ct)
-    console.log(data_ct)
+
     setChildrenDrawer(true)
   }
   const onChildrenDrawerClose = () => {
@@ -252,14 +262,45 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
   const handleTouchEnd_op = () => {
     startX_01 = 0
   }
+  const isMatch = (value, searchText) => {
+    const stringValue = String(value).toLowerCase()
+    const searchTextLower = searchText.toLowerCase()
+
+    // Check if the string includes the searchText
+    if (stringValue.includes(searchTextLower)) {
+      return true
+    }
+    // Check if it's a valid date and matches (formatted or not)
+    const isDateTime = dayjs(stringValue).isValid()
+    if (isDateTime) {
+      const formattedValue = dayjs(stringValue).format('DD/MM/YYYY').toString()
+      const formattedSearchText = searchTextLower
+      if (formattedValue.includes(formattedSearchText)) {
+        return true
+      }
+    }
+    return false
+  }
+  const handelSerch = (value) => {
+    if (CongNoThu_DanhSach === -1) {
+      setDataSearch([])
+    } else {
+      const newData = CongNoThu_DanhSach?.filter((record) => {
+        return Object.keys(record).some((key) => isMatch(record[key], value))
+      })
+
+      setDataSearch(newData)
+    }
+  }
+
   const onSearch = (value) => setSearchText(value)
   return (
     <div ref={containerRef} onTouchStart={handleTouchStart_op} onTouchMove={handleTouchMove_op} onTouchEnd={handleTouchEnd_op}>
       <div>
         <Drawer
           footer={
-            <div>
-              {titleDr !== 'TONKHO' ? (
+            titleDr === 'TONKHO' ? null : (
+              <div>
                 <div className="flex items-center justify-center mb-2">
                   <p
                     className="w-[100%] cursor-pointer hover:font-medium flex items-center gap-2 justify-between"
@@ -268,17 +309,46 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                   >
                     Tổng:
                   </p>
-                  <div className="w-[100%] mr-4">
+                  <div
+                    className={`w-[100%] mr-4 ${
+                      titleDr === 'MUAHANG' ||
+                      titleDr === 'BANHANG' ||
+                      titleDr === 'NHAPTRA' ||
+                      titleDr === 'XUATTRA' ||
+                      segmented === 'DANHSACHKHACHHANG' ||
+                      segmented === 'DANHSACHNHACUNGCAP'
+                        ? 'text-right'
+                        : ''
+                    } `}
+                  >
                     <CounterComponent targetValue={TotalChart} duration={50000} color={'#8BC6EC'} />
-                    <RateBar percentage={100} color={'#8BC6EC'} title={'Tổng hợp'} />
+                    {titleDr === 'MUAHANG' ||
+                    titleDr === 'BANHANG' ||
+                    titleDr === 'NHAPTRA' ||
+                    titleDr === 'XUATTRA' ||
+                    segmented === 'DANHSACHKHACHHANG' ||
+                    segmented === 'DANHSACHNHACUNGCAP' ? null : (
+                      <RateBar percentage={100} color={'#8BC6EC'} title={'Tổng hợp'} />
+                    )}
                   </div>
                 </div>
-              ) : null}
-            </div>
+              </div>
+            )
           }
           title={
             <div className="flex items-center justify-between">
-              {nameMapping[titleDr]} {titleDr === 'TONKHO' ? <Search onSearch={onSearch} placeholder="Tìm kiếm hàng hóa" loading={loading} className="w-[70%]" /> : ''}
+              {nameMapping[titleDr]}{' '}
+              {titleDr === 'TONKHO' || titleDr === 'MUAHANG' || titleDr === 'BANHANG' || titleDr === 'NHAPTRA' || titleDr === 'XUATTRA' || segmented === 'DANHSACHKHACHHANG' ? (
+                <Search
+                  onChange={(e) => handelSerch(e.target.value)}
+                  onSearch={segmented === 'DANHSACHKHACHHANG' ? null : onSearch}
+                  placeholder="Tìm kiếm hàng hóa"
+                  loading={loading}
+                  className="w-[70%]"
+                />
+              ) : (
+                ''
+              )}
             </div>
           }
           closeIcon={<BiLeftArrowAlt />}
@@ -310,13 +380,31 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
               />
             ) : titleDr === 'PHAITHU' || titleDr === 'PHAITRA' ? (
               <Segmented
-                options={titleDr === 'PHAITRA' ? ['BIEUDOTYTRONG', 'DANHSACHNHACUNGCAP'] : ['BIEUDOTYTRONG', 'DANHSACHKHACHHANG']}
+                options={titleDr === 'PHAITRA' ? ['Biểu đồ tỷ trọng', 'Danh sách nhà cung cấp'] : ['Biểu đồ tỷ trọng', 'Danh sách khách hàng']}
                 block
-                onChange={(value) => setSegmented(value)}
-                value={segmented}
+                onChange={(value) => {
+                  setSegmented(
+                    value === 'Biểu đồ tỷ trọng'
+                      ? 'BIEUDOTYTRONG'
+                      : value === 'Danh sách nhà cung cấp'
+                        ? 'DANHSACHKHACHHANG'
+                        : value === 'Danh sách khách hàng'
+                          ? 'DANHSACHKHACHHANG'
+                          : null,
+                  ),
+                    setValueSegmented(value)
+                }}
+                value={valueSegmented}
               />
             ) : titleDr === 'MUAHANG' ? (
-              <Segmented options={['THEOHANGHOA', 'THEONHACUNGCAP']} block onChange={(value) => setSegmented(value)} value={segmented} />
+              <Segmented
+                options={['Theo hàng hóa', 'Theo nhà cung cấp']}
+                block
+                onChange={(value) => {
+                  setSegmented(value === 'Theo hàng hóa' ? 'THEOHANGHOA' : value === 'Theo nhà cung cấp' ? 'THEONHACUNGCAP' : null), setValueSegmented(value)
+                }}
+                value={valueSegmented}
+              />
             ) : titleDr === 'XUATTRA' || titleDr === 'NHAPTRA' ? (
               <Segmented options={['THEOHANGHOA', 'THEONHACUNGCAP']} block onChange={(value) => setSegmented(value)} value={segmented} />
             ) : titleDr === 'BANHANG' ? (
@@ -325,7 +413,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
               <Segmented options={['THUTIEN', 'CHITIEN', 'SOQUY']} block onChange={(value) => setSegmented(value)} value={segmented} />
             ) : null}
             {/* segmented */}
-            {valueSegmented === 'Khách hàng' ? (
+            {segmented === 'KHACHHANG' ? (
               <>
                 <PieChart Drawer={true} dataChart={data_khachhang} valueNum={'DataValue'} value={'DataPerc'} name={'DataName'} onClick={showChildrenDrawer} />
               </>
@@ -400,11 +488,12 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                 <Table
                   segmented={segmented}
                   titleDr={titleDr}
-                  param={CongNoThu_DanhSach ? CongNoThu_DanhSach : []}
+                  param={CongNoThu_DanhSach ? dataSearch : []}
                   columName={[]}
                   height={'setHeight'}
                   hiden={[]}
                   setTotalNumber={setNumber}
+                  onClick={showChildrenDrawer}
                 />{' '}
               </>
             ) : segmented === 'THEOHANGHOA' ? (
@@ -457,10 +546,10 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
               </>
             ) : null}
 
-            {titleDr === 'DOANHSO' || titleDr === 'PHAITHU' || titleDr === 'PHAITRA' ? (
+            {titleDr === 'DOANHSO' || titleDr === 'PHAITHU' || titleDr === 'PHAITRA' || titleDr !== 'MUAHANG' || titleDr !== 'NHAPTRA' || titleDr !== 'XUATTRA' ? (
               <Drawer
                 footer={
-                  titleDr === 'PHAITRA' || titleDr === 'PHAITHU' ? null : (
+                  titleDr === 'PHAITRA' || titleDr === 'PHAITHU' || titleDr !== 'MUAHANG' ? null : (
                     <div>
                       {
                         <div className="flex items-center justify-center mb-2">
@@ -490,6 +579,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                   columName={[]}
                   height={'setHeight'}
                   hiden={[]}
+                  typeTable={segmented === 'DANHSACHKHACHHANG' ? 1 : 0}
                   setTotalNumber={setNumber}
                   title={title}
                 />
