@@ -27,62 +27,41 @@
 .colorDC634E th.ant-table-cell {
   background: #dc634e !important;
 }
-.colorDC634E td.ant-table-cell {
-  color: #dc634e !important;
-}
+
 .color792ABE th.ant-table-cell {
   background: #792abe !important;
 }
-.color792ABE td.ant-table-cell {
-  color: #792abe !important;
-}
+
 .colorB58400 th.ant-table-cell {
   background: #b58400 !important;
 }
-.colorB58400 td.ant-table-cell {
-  color: #b58400 !important;
-}
+
 .color85CE59 th.ant-table-cell {
   background: #85ce59 !important;
 }
-.color85CE59 td.ant-table-cell {
-  color: #85ce59 !important;
-}
+
 .color8FCCF4 th.ant-table-cell {
   background: #8fccf4 !important;
 }
-.color8FCCF4 td.ant-table-cell {
-  color: #8fccf4 !important;
-}
+
 .colorEA8441 th.ant-table-cell {
   background: #ea8441 !important;
 }
-.colorEA8441 td.ant-table-cell {
-  color: #ea8441 !important;
-}
+
 .color9171B8 th.ant-table-cell {
   background: #9171b8 !important;
 }
-.color9171B8 td.ant-table-cell {
-  color: #9171b8 !important;
-}
+
 .color6A6123 th.ant-table-cell {
   background: #6a6123 !important;
 }
-.color6A6123 td.ant-table-cell {
-  color: #6a6123 !important;
-}
+
 .color22677A th.ant-table-cell {
   background: #22677a !important;
 }
-.color22677A td.ant-table-cell {
-  color: #22677a !important;
-}
+
 .color2FD7A1 th.ant-table-cell {
   background: #2fd7a1 !important;
-}
-.color2FD7A1 td.ant-table-cell {
-  color: #2fd7a1 !important;
 }
 
 .colorundefined th.ant-table-cell {
@@ -120,7 +99,7 @@
 .setHeight .ant-table,
 .setHeight .ant-table-container .ant-table-body {
   /* max-height: unset !important; */
-  height: calc(100vh - 175px) !important;
+  height: calc(100vh - 245px) !important;
 }
 .setHeight .ant-table-container .ant-table-body {
   max-height: unset !important;
@@ -164,20 +143,4 @@ th.ant-table-cell {
 .ant-table-cell-row-hover,
 .ant-table-column-sort {
   background-color: transparent !important;
-}
-@media only screen and (max-width: 600px) {
-  .ant-table-wrapper.setHeight,
-  .setHeight .ant-spin-container,
-  .setHeight .ant-table,
-  .setHeight .ant-table-container .ant-table-body {
-    /* max-height: unset !important; */
-    height: calc(100vh - 165px) !important;
-  }
-  .setHeight .ant-table-container .ant-table-body {
-    max-height: unset !important;
-    /* height: calc(100vh - 500px); */
-  }
-  .setHeight .ant-table {
-    height: calc(100vh - 500px) !important;
-  }
 }

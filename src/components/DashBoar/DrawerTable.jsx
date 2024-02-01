@@ -96,7 +96,14 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
   const hiden =
     titleDr === 'TONKHO'
       ? ['DataValue_TyTrong']
-      : titleDr === 'MUAHANG' || titleDr === 'BANHANG' || titleDr === 'NHAPTRA' || titleDr === 'XUATTRA' || titleDr === 'PHAITHU' || titleDr === 'PHAITRA'
+      : titleDr === 'MUAHANG' ||
+          titleDr === 'BANHANG' ||
+          titleDr === 'NHAPTRA' ||
+          titleDr === 'XUATTRA' ||
+          titleDr === 'PHAITHU' ||
+          titleDr === 'PHAITRA' ||
+          titleDr === 'THU' ||
+          titleDr === 'CHI'
         ? ['DataValue_TyTrong']
         : ['DataName']
   keysOnly.push('DataValue_TyTrong')
@@ -120,6 +127,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
             return <div>{record.DataName}</div>
           }
         },
+        showSorterTooltip: false,
         sorter: (a, b) => {
           if (a.DataType === -1 || b.DataType === -1 || a.DataCode !== b.DataCode) {
             return 0
@@ -140,6 +148,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
         render: (text) => {
           return <div className={` ${segmented === 'DANHSACHKHACHHANG' ? ' underline cursor-pointer' : ''} text-left`}>{text}</div>
         },
+        showSorterTooltip: false,
         sorter: (a, b) => {
           if (a.DataType === 1 || b.DataType === 1 || a.DataGroup !== b.DataGroup) {
             return 0
@@ -159,6 +168,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
         render: (text) => {
           return <div className=" text-left">{text}</div>
         },
+        showSorterTooltip: false,
         sorter: (a, b) => {
           if (a.DataType === 1 || b.DataType === 1 || a.DataGroup !== b.DataGroup) {
             return 0
@@ -203,6 +213,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
         onCell: (record, index) => ({
           colSpan: record.DataType === -1 ? 0 : 1,
         }),
+        showSorterTooltip: false,
         sorter: (a, b) => {
           if (a.DataType === 1 || b.DataType === 1 || a.DataGroup !== b.DataGroup) {
             return 0
@@ -233,6 +244,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
         onCell: (record, index) => ({
           colSpan: record.DataType === -1 ? 0 : 1,
         }),
+        showSorterTooltip: false,
         sorter: (a, b) => {
           if (titleDr === 'DOANHSO') {
             if (a.DataType === -1 || b.DataType === -1 || a.DataType === 1 || b.DataType === 1 || a.DataName !== b.DataName) {
@@ -280,6 +292,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
     if (item === 'DataValueAmount') {
       return {
         title: columnName[item] || item,
+        showSorterTooltip: false,
         // width: 200,
         dataIndex: item,
         align: 'center',
@@ -352,7 +365,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
     return {
       title: columnName[item] || item,
       dataIndex: item,
-
+      showSorterTooltip: false,
       align: 'center',
       onCell: (record, index) => ({
         colSpan: record.DataType === -1 ? 0 : 1,
@@ -375,6 +388,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
           onCell: (record, index) => ({
             colSpan: record.DataType === 1 || record.DataType === 3 ? 3 : 1,
           }),
+          showSorterTooltip: false,
           render: (text, record) => {
             // Change the parameters of render function
             if (record.DataType === 0) {
@@ -532,7 +546,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
       },
     },
   ]
-  const columns = segmented === 'BIEUDOTYTRONG' || typeTable === 1 ? [...columnsThu_Chi] : [...newColumns]
+  const columns = segmented === 'BIEUDOTYTRONG' || typeTable === 1 || segmented === 'SOQUY' ? [...columnsThu_Chi] : [...newColumns]
 
   const [form] = Form.useForm()
   const rowClassName = (record) => {
@@ -557,7 +571,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
             dataSource={data}
             bordered
             scroll={
-              segmented === 'BIEUDOTYTRONG' || typeTable === 1
+              segmented === 'BIEUDOTYTRONG' || typeTable === 1 || segmented === 'SOQUY'
                 ? {
                     x: 120,
                     y: 500,

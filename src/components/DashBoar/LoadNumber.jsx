@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react'
 
-const CounterComponent = ({ targetValue, duration, color }) => {
+const CounterComponent = ({ targetValue, duration }) => {
   const [counter, setCounter] = useState(0)
   const ThongSo = JSON.parse(localStorage.getItem('ThongSo'))
 
@@ -25,7 +25,7 @@ const CounterComponent = ({ targetValue, duration, color }) => {
   //   style: 'decimal',
   // })
   return (
-    <div style={{ fontSize: '16px', color: color }}>
+    <div style={{ fontSize: '18px', color: 'black' }}>
       {Number(counter).toLocaleString('en-US', {
         minimumFractionDigits: ThongSo.SOLESOTIEN,
         maximumFractionDigits: ThongSo.SOLESOTIEN,

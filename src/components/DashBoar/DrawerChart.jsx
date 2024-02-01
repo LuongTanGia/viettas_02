@@ -4,7 +4,7 @@ import PieChart from '../util/Chart/PieChart'
 import { useEffect, useRef, useState } from 'react'
 import { Drawer, Segmented, Spin } from 'antd'
 import './dashBoard.css'
-import { APIDATA_CHART, APIDATA_CHART_CT } from '../../action/Actions'
+import { APIDATA_CHART, APIDATA_CHART_CT, RETOKEN } from '../../action/Actions'
 import API from '../../API/API'
 import { BiLeftArrowAlt } from 'react-icons/bi'
 import RateBar from '../util/Chart/LoadingChart'
@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import { Input } from 'antd'
 import dayjs from 'dayjs'
+import { toast } from 'react-toastify'
 const { Search } = Input
 const nameMapping = {
   DOANHSO: 'Doanh Số',
@@ -35,8 +36,8 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
   const [segmented, setSegmented] = useState('')
   const [valueSegmented, setValueSegmented] = useState('')
   const [dataSearch, setDataSearch] = useState('')
-
   const [loading, setLoading] = useState(false)
+  const [refToken, setRefToken] = useState(false)
   const [titleDr_child, setTitleDrChild] = useState('ssss')
   const token = localStorage.getItem('TKN')
   const [data_hanghoa, setDataChart_hanghoa] = useState([])
@@ -60,10 +61,13 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
   const [dataTable, setDataTable] = useState([])
   const [colorTable, setColorTable] = useState()
   const [dataDate_s, setDataDate] = useState(dataDate)
+  const [dataDate_02, setDataDate_02] = useState(dataDate_s)
+
   const [TotalNumber, setTotalNumber] = useState(0)
   const [TotalChart, setTotalChart] = useState(0)
   const [title, setTitle] = useState('')
   const [searchText, setSearchText] = useState('')
+  const [valueCT, setValueCT] = useState([])
 
   useEffect(() => {
     setDataDate(dataDate)
@@ -110,6 +114,41 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
       const ChiTien = titleDr === 'THU' || titleDr === 'CHI' ? await APIDATA_CHART(API.ChiTien, token, dataDate_s) : null
       const SoQuy = titleDr === 'THU' || titleDr === 'CHI' ? await APIDATA_CHART(API.SoQuy, token, dataDate_s) : null
 
+      if (
+        data_hanghoa === -107 ||
+        data_hanghoa === -108 ||
+        data_TonKho_TongKho === -107 ||
+        data_TonKho_TongKho === -108 ||
+        CongNoThu_TopChart === -107 ||
+        CongNoThu_TopChart === -108 ||
+        MuaHang_HangHoa === -107 ||
+        MuaHang_HangHoa === -108 ||
+        XuatTra_HangHoa === -107 ||
+        XuatTra_HangHoa === -108 ||
+        BanHang_HangHoa === -107 ||
+        BanHang_HangHoa === -108 ||
+        ThuTien === -107 ||
+        ThuTien === -108
+      ) {
+        const newToken = await RETOKEN()
+
+        if (newToken !== '') {
+          setRefToken(!refToken)
+          setTimeout(() => {
+            window.location.href = '/'
+          }, 300)
+        } else if (newToken === 0) {
+          toast.error('Failed to refresh token!')
+          window.localStorage.removeItem('firstLogin')
+          window.localStorage.removeItem('authLogin')
+          window.localStorage.removeItem('TKN')
+          window.localStorage.removeItem('tokenDuLieu')
+          window.localStorage.removeItem('RTKN')
+          window.localStorage.removeItem('userName')
+          window.localStorage.removeItem('dateLogin')
+          navigate('/login')
+        }
+      }
       //Thu - Chi
       setThuTien(ThuTien)
       setChiTien(ChiTien)
@@ -133,9 +172,9 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
       setTonKho_TongKhoDVTQuyDoi(TonKho_TongKhoDVTQuyDoi ? TonKho_TongKhoDVTQuyDoi : [])
       setTonKho_TheoKho(TonKho_TheoKho ? TonKho_TheoKho : [])
       //Doanh So
-      setDataChart_hanghoa(data_hanghoa ? data_hanghoa : [])
-      setDataChart_khachhang(data_khachhang ? data_khachhang : [])
-      setDataChart_nhomhang(data_nhomhang ? data_nhomhang : [])
+      setDataChart_hanghoa(data_hanghoa !== -107 || data_hanghoa !== -108 ? data_hanghoa : [])
+      setDataChart_khachhang(data_khachhang !== -107 || data_khachhang !== -108 ? data_khachhang : [])
+      setDataChart_nhomhang(data_nhomhang !== -107 || data_nhomhang !== -108 ? data_nhomhang : [])
       setLoading(false)
     }
     setSegmented(
@@ -173,7 +212,9 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                     : '',
     )
     loadData()
-  }, [titleDr, dataDate_s?.NgayBatDau, dataDate_s?.NgayKetThuc, searchText])
+    setDataDate_02(dataDate_s)
+  }, [titleDr, dataDate_s?.NgayBatDau, dataDate_s?.NgayKetThuc, searchText, refToken])
+
   useEffect(() => {
     const dataMapping = {
       HANGHOA: data_hanghoa,
@@ -208,7 +249,37 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
   const setNumber = (value) => {
     setTotalNumber(value)
   }
+
+  useEffect(() => {
+    const showChildrenDrawer = async () => {
+      const data_ct = await APIDATA_CHART_CT(
+        segmented === 'KHACHHANG'
+          ? API.DoanhSoKhachHang_CT
+          : segmented === 'HANGHOA'
+            ? API.DoanhSoHangHoa_CT
+            : segmented === 'NHOMHANG'
+              ? API.DoanhSoNhomHang_CT
+              : titleDr === 'PHAITHU'
+                ? API.CongNoThu_CT
+                : titleDr === 'PHAITRA'
+                  ? API.CongNoTra_CT
+                  : null,
+        token,
+        {
+          ...dataDate_02,
+          FilterCode: valueCT.DataCode,
+          IsCodeRest: valueCT.DataCodeRest,
+          IsType: 1,
+        },
+      )
+
+      setDataTable(data_ct)
+      // setChildrenDrawer(true)
+    }
+    showChildrenDrawer()
+  }, [dataDate_02?.NgayBatDau, dataDate_02?.NgayKetThuc])
   const showChildrenDrawer = async (value, color) => {
+    setValueCT(value)
     setTitleDrChild(value)
     setColorTable(color)
     setTitle(value.title)
@@ -226,7 +297,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                 : null,
       token,
       {
-        ...dataDate,
+        ...dataDate_02,
         FilterCode: value.DataCode,
         IsCodeRest: value.DataCodeRest,
         IsType: 1,
@@ -299,12 +370,11 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
       <div>
         <Drawer
           footer={
-            titleDr === 'TONKHO' ? null : (
+            titleDr === 'TONKHO' || segmented === 'SOQUY' ? null : (
               <div>
                 <div className="flex items-center justify-center mb-2">
                   <p
-                    className="w-[100%] cursor-pointer hover:font-medium flex items-center gap-2 justify-between"
-                    style={{ color: '#8BC6EC' }}
+                    className="w-[100%] cursor-pointer hover:font-medium flex items-center gap-2 justify-between text-base"
                     onClick={() => showChildrenDrawer({ DataCode: null, DataCodeRest: 1, title: 'all' })}
                   >
                     Tổng:
@@ -318,7 +388,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                       segmented === 'DANHSACHKHACHHANG' ||
                       segmented === 'DANHSACHNHACUNGCAP'
                         ? 'text-right'
-                        : ''
+                        : 'text-right'
                     } `}
                   >
                     <CounterComponent targetValue={TotalChart} duration={50000} color={'#8BC6EC'} />
@@ -415,24 +485,44 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
             {/* segmented */}
             {segmented === 'KHACHHANG' ? (
               <>
-                <PieChart Drawer={true} dataChart={data_khachhang} valueNum={'DataValue'} value={'DataPerc'} name={'DataName'} onClick={showChildrenDrawer} />
+                {data_khachhang !== -108 || data_khachhang !== -107 ? (
+                  <PieChart
+                    Drawer={true}
+                    dataChart={data_khachhang !== -108 || data_khachhang !== -107 ? data_khachhang : []}
+                    valueNum={'DataValue'}
+                    value={'DataPerc'}
+                    name={'DataName'}
+                    onClick={showChildrenDrawer}
+                  />
+                ) : null}
               </>
             ) : segmented === 'HANGHOA' ? (
               <>
-                <PieChart
-                  titleDr={titleDr}
-                  Drawer={true}
-                  nameChart={segmented}
-                  dataChart={data_hanghoa}
-                  valueNum={'DataValue'}
-                  value={'DataPerc'}
-                  name={'DataName'}
-                  onClick={showChildrenDrawer}
-                />
+                {data_hanghoa !== -108 || data_hanghoa !== -107 ? (
+                  <PieChart
+                    titleDr={titleDr}
+                    Drawer={true}
+                    nameChart={segmented}
+                    dataChart={data_hanghoa !== -108 || data_hanghoa !== -107 ? data_hanghoa : []}
+                    valueNum={'DataValue'}
+                    value={'DataPerc'}
+                    name={'DataName'}
+                    onClick={showChildrenDrawer}
+                  />
+                ) : null}
               </>
             ) : segmented === 'NHOMHANG' ? (
               <>
-                <PieChart Drawer={true} dataChart={data_nhomhang} valueNum={'DataValue'} value={'DataPerc'} name={'DataName'} onClick={showChildrenDrawer} />
+                {data_hanghoa !== -108 || data_hanghoa !== -107 ? (
+                  <PieChart
+                    Drawer={true}
+                    dataChart={data_nhomhang !== -108 || data_nhomhang !== -107 ? data_nhomhang : []}
+                    valueNum={'DataValue'}
+                    value={'DataPerc'}
+                    name={'DataName'}
+                    onClick={showChildrenDrawer}
+                  />
+                ) : null}
               </>
             ) : segmented === 'TONGHOP' ? (
               <>
@@ -546,19 +636,17 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
               </>
             ) : null}
 
-            {titleDr === 'DOANHSO' || titleDr === 'PHAITHU' || titleDr === 'PHAITRA' || titleDr !== 'MUAHANG' || titleDr !== 'NHAPTRA' || titleDr !== 'XUATTRA' ? (
+            {titleDr === 'DOANHSO' || titleDr === 'PHAITHU' || titleDr === 'PHAITRA' ? (
               <Drawer
                 footer={
-                  titleDr === 'PHAITRA' || titleDr === 'PHAITHU' || titleDr !== 'MUAHANG' ? null : (
+                  titleDr === 'PHAITRA' || titleDr === 'PHAITHU' ? null : (
                     <div>
                       {
                         <div className="flex items-center justify-center mb-2">
-                          <p className="w-[100%] cursor-pointer hover:font-medium flex items-center gap-2 justify-between" style={{ color: '#8BC6EC' }}>
-                            Tổng :
-                          </p>
-                          <div className="w-[100%] ml-3">
+                          <p className="w-[100%] cursor-pointer hover:font-medium text-base flex items-center gap-2 justify-between">Tổng :</p>
+                          <div className="w-[100%] ml-3 text-right">
                             <CounterComponent targetValue={TotalNumber} duration={50000} color={'#8BC6EC'} />
-                            <RateBar percentage={100} color={'#8BC6EC'} title={'Tổng hợp'} />
+                            {<RateBar percentage={100} color={'#8BC6EC'} title={'Tổng hợp'} />}
                           </div>
                         </div>
                       }
@@ -571,6 +659,8 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                 onClose={onChildrenDrawerClose}
                 open={childrenDrawer}
               >
+                <Date onDateChange={setDataDate_02} dataDate={dataDate_02} />
+
                 <Table
                   segmented={segmented}
                   titleDr={titleDr}

@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 
 function DashBoar() {
+  console.log('DashBoar')
   const navigate = useNavigate()
   const KhoanNgay = useSelector(khoanNgaySelect)
   const token = localStorage.getItem('TKN')
@@ -49,6 +50,7 @@ function DashBoar() {
     titleParam === 'home' ? setOpen(false) : null
     const loadData = async () => {
       setLoadingCart(true)
+
       try {
         const data = titleParam === 'home' ? await DATATONGHOP(API.TONGHOP, token, dataDate) : null
         setDataTongHop(data)

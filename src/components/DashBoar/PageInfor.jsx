@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 const { Paragraph } = Typography
 const { Title } = Typography
 const App = () => {
+  console.log('aaaaaa')
   return (
     <div className="w-full  flex flex-col justify-center  items-center relative">
       <img

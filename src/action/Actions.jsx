@@ -17,13 +17,16 @@ const handleAPIError = (response) => {
   }
 }
 export const RETOKEN = async () => {
+  console.log('RETOKEN')
+
   const token = window.localStorage.getItem('RTKN')
 
   try {
-    const response = await axiosInstance.post('https://isalewebapi.viettassaigon.vn/api/Auth/RefreshToken', {
+    const response = await axiosInstance.post('https://isalestaapi.viettassaigon.vn/api/Auth/RefreshToken', {
       TokenID: token,
     })
 
+    console.log(response)
     if (response.data.DataError === 0) {
       window.localStorage.setItem('TKN', response.data.TKN)
       return response.data.TKN
@@ -110,7 +113,7 @@ export const DATATONGHOP = async (API, token, KhoanNgay) => {
       },
     })
 
-    if (response.data.DataError === -107) {
+    if (response.data.DataError === -107 || response.data.DataError === -108) {
       const newToken = await RETOKEN()
 
       if (newToken !== 0) {
@@ -155,15 +158,7 @@ export const APIDATA_CHART = async (API, token, data) => {
     })
 
     if (response.data.DataError === -107 || response.data.DataError === -108) {
-      const newToken = await RETOKEN()
-
-      if (newToken !== '') {
-        await APIDATA_CHART(API, newToken, data)
-      } else if (newToken === 0) {
-        toast.error('Failed to refresh token!')
-        window.localStorage.clear()
-        window.location.href = '/login'
-      }
+      return response.data.DataError
     }
 
     return response.data.DataResults
@@ -181,18 +176,20 @@ export const APIDATA_CHART_CT = async (API, token, data) => {
       },
     })
 
+    // if (response.data.DataError === -107 || response.data.DataError === -108) {
+    //   const newToken = await RETOKEN()
+
+    //   if (newToken !== '') {
+    //     await APIDATA_CHART(API, newToken, data)
+    //   } else if (newToken === 0) {
+    //     toast.error('Failed to refresh token!')
+    //     window.localStorage.clear()
+    //     window.location.href = '/login'
+    //   }
+    // }
     if (response.data.DataError === -107 || response.data.DataError === -108) {
-      const newToken = await RETOKEN()
-
-      if (newToken !== '') {
-        await APIDATA_CHART(API, newToken, data)
-      } else if (newToken === 0) {
-        toast.error('Failed to refresh token!')
-        window.localStorage.clear()
-        window.location.href = '/login'
-      }
+      return response.data.DataError
     }
-
     return response.data.DataResults
   } catch (error) {
     console.error('Error adding user:', error)
@@ -258,4 +255,12 @@ export const THONGSO = async (API, token) => {
   } catch (error) {
     console.error('Error adding user:', error)
   }
+}
+export function hexToRGBA(hex, alpha) {
+  hex = hex.replace('#', '')
+  const r = parseInt(hex.substring(0, 2), 16)
+  const g = parseInt(hex.substring(2, 4), 16)
+  const b = parseInt(hex.substring(4, 6), 16)
+  const a = alpha >= 0 && alpha <= 1 ? alpha : 1
+  return `rgba(${r}, ${g}, ${b}, ${a})`
 }
