@@ -108,13 +108,19 @@
 .setHeight .ant-table {
   height: calc(100vh - 500px) !important;
 }
-/* .sticky {
+.sticky {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
   font-size: 20px;
-  z-index: 1000;
+  z-index: 10;
   padding-top: 50px;
+}
+/* .sticky::before {
+  content: 'Thống kê iSale';
+  position: absolute;
+  top: 0;
+  z-index: 0;
 } */
 /* Common styles for both mobile and desktop */
 th.ant-table-cell {

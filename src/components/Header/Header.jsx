@@ -82,7 +82,7 @@ function Header() {
     window.location.href = '/'
   }
   return (
-    <>
+    <div className="z-[1000] p-0 m-0">
       <Modal
         title="Cài đặt"
         open={isModalOpen}
@@ -128,7 +128,7 @@ function Header() {
       </Modal>
       <header
         id="header"
-        className="header fixed-top d-flex align-items-center z-10 h-[50px] flex justify-between bg-center bg-cover bg-no-repeat"
+        className="header p-0 m-0 fixed-top d-flex align-items-center z-[1000] h-[50px] flex justify-between bg-center bg-cover bg-no-repeat"
         style={{
           backgroundImage: `url(${BackGround})`,
         }}
@@ -196,7 +196,7 @@ function Header() {
         </nav>
         <ChangePass isShow={isShow} close={close} />
       </header>
-    </>
+    </div>
   )
 }
 

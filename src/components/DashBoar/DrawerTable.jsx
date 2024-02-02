@@ -2,7 +2,7 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { Table, Typography, Form, Checkbox } from 'antd'
+import { Table, Typography, Form, Checkbox, Spin } from 'antd'
 import '../util/Table/table.css'
 import Nodata from '../../assets/img/9264828.jpg'
 import { useEffect, useState } from 'react'
@@ -562,11 +562,13 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
   }
   return (
     <>
-      {data ? (
+      {data && data?.length !== 0 ? (
         <Form form={form} component={false}>
           <Table
             rowClassName={rowClassName}
             loading={param?.length !== 0 ? false : true}
+            // spin={{ tip: 'Custom Loading Text' }}
+
             columns={columns}
             dataSource={data}
             bordered

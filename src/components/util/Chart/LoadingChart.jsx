@@ -3,7 +3,7 @@ import CounterComponent from '../../DashBoar/LoadNumber'
 
 // eslint-disable-next-line react/prop-types
 const HorizontalProgressBar = ({ percentage, color }) => {
-  const ThongSo = JSON.parse(localStorage.getItem('ThongSo'))
+  // const ThongSo = JSON.parse(localStorage.getItem('ThongSo'))
 
   return (
     <div className="progress-bar" style={{ background: hexToRGBA(color, 0.3) }}>
@@ -16,8 +16,8 @@ const HorizontalProgressBar = ({ percentage, color }) => {
         }}
       >
         {Number(percentage).toLocaleString('en-US', {
-          minimumFractionDigits: ThongSo.SOLETYLE,
-          maximumFractionDigits: ThongSo.SOLETYLE,
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
         })}
         %
       </div>

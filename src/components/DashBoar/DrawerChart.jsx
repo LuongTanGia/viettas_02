@@ -35,8 +35,10 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
   const [childrenDrawer, setChildrenDrawer] = useState(false)
   const [segmented, setSegmented] = useState('')
   const [valueSegmented, setValueSegmented] = useState('')
-  const [dataSearch, setDataSearch] = useState('')
+  const [dataSearch, setDataSearch] = useState([])
   const [loading, setLoading] = useState(false)
+  const [loading_dr2, setLoading_dr2] = useState(false)
+
   const [refToken, setRefToken] = useState(false)
   const [titleDr_child, setTitleDrChild] = useState('ssss')
   const token = localStorage.getItem('TKN')
@@ -166,7 +168,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
       //Cong No Thu - Tra
       setCongNoThu_TopChart(CongNoThu_TopChart ? CongNoThu_TopChart : [])
       setCongNoThu_DanhSach(CongNoThu_DanhSach ? CongNoThu_DanhSach : [])
-      setDataSearch(CongNoThu_DanhSach)
+
       //Ton Kho
       setdata_TonKho_TongKho(data_TonKho_TongKho ? data_TonKho_TongKho : [])
       setTonKho_TongKhoDVTQuyDoi(TonKho_TongKhoDVTQuyDoi ? TonKho_TongKhoDVTQuyDoi : [])
@@ -175,6 +177,14 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
       setDataChart_hanghoa(data_hanghoa !== -107 || data_hanghoa !== -108 ? data_hanghoa : [])
       setDataChart_khachhang(data_khachhang !== -107 || data_khachhang !== -108 ? data_khachhang : [])
       setDataChart_nhomhang(data_nhomhang !== -107 || data_nhomhang !== -108 ? data_nhomhang : [])
+
+      if (titleDr === 'THU') {
+        setDataSearch(ThuTien)
+      } else if (titleDr === 'CHI') {
+        setDataSearch(ChiTien)
+      } else {
+        setDataSearch(CongNoThu_DanhSach)
+      }
       setLoading(false)
     }
     setSegmented(
@@ -204,11 +214,11 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
             : titleDr === 'MUAHANG' || titleDr === 'XUATTRA' || titleDr === 'NHAPTRA'
               ? 'Theo hàng hóa'
               : titleDr === 'BANHANG'
-                ? 'BANHANGHANGHOA'
+                ? 'Bán sỉ theo hàng hóa'
                 : titleDr === 'THU'
-                  ? 'THUTIEN'
+                  ? 'Thu tiền'
                   : titleDr === 'CHI'
-                    ? 'CHITIEN'
+                    ? 'Chi tiền'
                     : '',
     )
     loadData()
@@ -272,13 +282,42 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
           IsType: 1,
         },
       )
+      if (data_ct === -107 || data_ct === -108) {
+        const newToken = await RETOKEN()
 
+        if (newToken !== '') {
+          setRefToken(!refToken)
+          setTimeout(() => {
+            window.location.href = '/'
+          }, 300)
+        } else if (newToken === 0) {
+          toast.error('Failed to refresh token!')
+          window.localStorage.removeItem('firstLogin')
+          window.localStorage.removeItem('authLogin')
+          window.localStorage.removeItem('TKN')
+          window.localStorage.removeItem('tokenDuLieu')
+          window.localStorage.removeItem('RTKN')
+          window.localStorage.removeItem('userName')
+          window.localStorage.removeItem('dateLogin')
+          navigate('/login')
+        }
+      }
       setDataTable(data_ct)
+      setLoading_dr2(false)
+
       // setChildrenDrawer(true)
     }
-    showChildrenDrawer()
+    if (childrenDrawer) {
+      setTimeout(() => {
+        setLoading_dr2(true)
+
+        showChildrenDrawer()
+      }, 1000)
+    }
   }, [dataDate_02?.NgayBatDau, dataDate_02?.NgayKetThuc])
   const showChildrenDrawer = async (value, color) => {
+    setLoading_dr2(true)
+
     setValueCT(value)
     setTitleDrChild(value)
     setColorTable(color)
@@ -297,16 +336,36 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                 : null,
       token,
       {
-        ...dataDate_02,
+        ...dataDate_s,
         FilterCode: value.DataCode,
         IsCodeRest: value.DataCodeRest,
         IsType: 1,
       },
     )
+    if (data_ct === -107 || data_ct === -108) {
+      const newToken = await RETOKEN()
 
+      if (newToken !== '') {
+        setRefToken(!refToken)
+        setTimeout(() => {
+          window.location.href = '/'
+        }, 300)
+      } else if (newToken === 0) {
+        toast.error('Failed to refresh token!')
+        window.localStorage.removeItem('firstLogin')
+        window.localStorage.removeItem('authLogin')
+        window.localStorage.removeItem('TKN')
+        window.localStorage.removeItem('tokenDuLieu')
+        window.localStorage.removeItem('RTKN')
+        window.localStorage.removeItem('userName')
+        window.localStorage.removeItem('dateLogin')
+        navigate('/login')
+      }
+    }
     setDataTable(data_ct)
-
+    setDataDate_02(dataDate_s)
     setChildrenDrawer(true)
+    setLoading_dr2(false)
   }
   const onChildrenDrawerClose = () => {
     setChildrenDrawer(false)
@@ -352,14 +411,33 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
     }
     return false
   }
+  useEffect(() => {
+    if (valueSegmented === 'Thu tiền') {
+      setDataSearch(ThuTien)
+    } else if (valueSegmented === 'Chi tiền') {
+      setDataSearch(ChiTien)
+    } else {
+      setDataSearch(CongNoThu_DanhSach)
+    }
+  }, [valueSegmented])
+
   const handelSerch = (value) => {
-    if (CongNoThu_DanhSach === -1) {
+    if (CongNoThu_DanhSach === -1 || ThuTien === -1 || ChiTien === -1) {
       setDataSearch([])
     } else {
-      const newData = CongNoThu_DanhSach?.filter((record) => {
-        return Object.keys(record).some((key) => isMatch(record[key], value))
-      })
-
+      const newData =
+        segmented === 'THUTIEN'
+          ? ThuTien?.filter((record) => {
+              return Object.keys(record).some((key) => isMatch(record[key], value))
+            })
+          : segmented === 'CHITIEN'
+            ? ChiTien?.filter((record) => {
+                return Object.keys(record).some((key) => isMatch(record[key], value))
+              })
+            : CongNoThu_DanhSach?.filter((record) => {
+                return Object.keys(record).some((key) => isMatch(record[key], value))
+              })
+      console.log(newData)
       setDataSearch(newData)
     }
   }
@@ -372,13 +450,8 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
           footer={
             titleDr === 'TONKHO' || segmented === 'SOQUY' ? null : (
               <div>
-                <div className="flex items-center justify-center mb-2">
-                  <p
-                    className="w-[100%] cursor-pointer hover:font-medium flex items-center gap-2 justify-between text-base"
-                    onClick={() => showChildrenDrawer({ DataCode: null, DataCodeRest: 1, title: 'all' })}
-                  >
-                    Tổng:
-                  </p>
+                <div className="flex cursor-pointer items-center justify-center mb-2" onClick={() => showChildrenDrawer({ DataCode: null, DataCodeRest: 1, title: 'all' })}>
+                  <p className="w-[100%]  hover:font-medium flex items-center gap-2 justify-between text-base">Tổng:</p>
                   <div
                     className={`w-[100%] mr-4 ${
                       titleDr === 'MUAHANG' ||
@@ -408,7 +481,14 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
           title={
             <div className="flex items-center justify-between">
               {nameMapping[titleDr]}{' '}
-              {titleDr === 'TONKHO' || titleDr === 'MUAHANG' || titleDr === 'BANHANG' || titleDr === 'NHAPTRA' || titleDr === 'XUATTRA' || segmented === 'DANHSACHKHACHHANG' ? (
+              {titleDr === 'TONKHO' ||
+              titleDr === 'MUAHANG' ||
+              titleDr === 'BANHANG' ||
+              titleDr === 'NHAPTRA' ||
+              titleDr === 'XUATTRA' ||
+              segmented === 'DANHSACHKHACHHANG' ||
+              segmented === 'THUTIEN' ||
+              segmented === 'CHITIEN' ? (
                 <Search
                   onChange={(e) => handelSerch(e.target.value)}
                   onSearch={segmented === 'DANHSACHKHACHHANG' ? null : onSearch}
@@ -475,12 +555,45 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                 }}
                 value={valueSegmented}
               />
-            ) : titleDr === 'XUATTRA' || titleDr === 'NHAPTRA' ? (
-              <Segmented options={['THEOHANGHOA', 'THEONHACUNGCAP']} block onChange={(value) => setSegmented(value)} value={segmented} />
+            ) : titleDr === 'XUATTRA' ? (
+              <Segmented
+                options={['Theo hàng hóa', 'Theo nhà cung cấp']}
+                block
+                onChange={(value) => {
+                  setSegmented(value === 'Theo hàng hóa' ? 'THEOHANGHOA' : value === 'Theo nhà cung cấp' ? 'THEONHACUNGCAP' : null), setValueSegmented(value)
+                }}
+                value={valueSegmented}
+              />
+            ) : titleDr === 'NHAPTRA' ? (
+              <Segmented
+                options={['Theo hàng hóa', 'Theo khách hàng']}
+                block
+                onChange={(value) => {
+                  setSegmented(value === 'Theo hàng hóa' ? 'THEOHANGHOA' : value === 'Theo khách hàng' ? 'THEONHACUNGCAP' : null), setValueSegmented(value)
+                }}
+                value={valueSegmented}
+              />
             ) : titleDr === 'BANHANG' ? (
-              <Segmented options={['BANHANGHANGHOA', 'BANHANGQUYLE', 'BANHANGKHACHHANG']} block onChange={(value) => setSegmented(value)} value={segmented} />
+              <Segmented
+                options={['Bán sỉ theo hàng hóa', 'Bán sỉ theo khách hàng', 'Bán lẻ']}
+                block
+                onChange={(value) => {
+                  setSegmented(
+                    value === 'Bán sỉ theo hàng hóa' ? 'BANHANGHANGHOA' : value === 'Bán lẻ' ? 'BANHANGQUYLE' : value === 'Bán sỉ theo khách hàng' ? 'BANHANGKHACHHANG' : null,
+                  ),
+                    setValueSegmented(value)
+                }}
+                value={valueSegmented}
+              />
             ) : titleDr === 'THU' || titleDr === 'CHI' ? (
-              <Segmented options={['THUTIEN', 'CHITIEN', 'SOQUY']} block onChange={(value) => setSegmented(value)} value={segmented} />
+              <Segmented
+                options={['Thu tiền', 'Chi tiền', 'Sổ quỹ']}
+                block
+                onChange={(value) => {
+                  setSegmented(value === 'Thu tiền' ? 'THUTIEN' : value === 'Chi tiền' ? 'CHITIEN' : value === 'Sổ quỹ' ? 'SOQUY' : null), setValueSegmented(value)
+                }}
+                value={valueSegmented}
+              />
             ) : null}
             {/* segmented */}
             {segmented === 'KHACHHANG' ? (
@@ -624,11 +737,11 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
               </>
             ) : segmented === 'THUTIEN' ? (
               <>
-                <Table segmented={segmented} titleDr={titleDr} param={ThuTien} columName={[]} height={'setHeight'} hiden={[]} setTotalNumber={setNumber} />{' '}
+                <Table segmented={segmented} titleDr={titleDr} param={dataSearch ? dataSearch : []} columName={[]} height={'setHeight'} hiden={[]} setTotalNumber={setNumber} />{' '}
               </>
             ) : segmented === 'CHITIEN' ? (
               <>
-                <Table segmented={segmented} titleDr={titleDr} param={ChiTien} columName={[]} height={'setHeight'} hiden={[]} setTotalNumber={setNumber} />{' '}
+                <Table segmented={segmented} titleDr={titleDr} param={dataSearch ? dataSearch : []} columName={[]} height={'setHeight'} hiden={[]} setTotalNumber={setNumber} />{' '}
               </>
             ) : segmented === 'SOQUY' ? (
               <>
@@ -659,20 +772,22 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                 onClose={onChildrenDrawerClose}
                 open={childrenDrawer}
               >
-                <Date onDateChange={setDataDate_02} dataDate={dataDate_02} />
+                <Spin tip="Loading..." spinning={loading_dr2}>
+                  <Date onDateChange={setDataDate_02} dataDate={dataDate_02} />
 
-                <Table
-                  segmented={segmented}
-                  titleDr={titleDr}
-                  colorTable={colorTable}
-                  param={dataTable ? dataTable : []}
-                  columName={[]}
-                  height={'setHeight'}
-                  hiden={[]}
-                  typeTable={segmented === 'DANHSACHKHACHHANG' ? 1 : 0}
-                  setTotalNumber={setNumber}
-                  title={title}
-                />
+                  <Table
+                    segmented={segmented}
+                    titleDr={titleDr}
+                    colorTable={colorTable}
+                    param={dataTable ? dataTable : []}
+                    columName={[]}
+                    height={'setHeight'}
+                    hiden={[]}
+                    typeTable={segmented === 'DANHSACHKHACHHANG' ? 1 : 0}
+                    setTotalNumber={setNumber}
+                    title={title}
+                  />
+                </Spin>
               </Drawer>
             ) : null}
           </Spin>

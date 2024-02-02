@@ -12,7 +12,6 @@ import { useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 
 function DashBoar() {
-  console.log('DashBoar')
   const navigate = useNavigate()
   const KhoanNgay = useSelector(khoanNgaySelect)
   const token = localStorage.getItem('TKN')
@@ -114,7 +113,7 @@ function DashBoar() {
       <section className="section dashboard">
         <div className="row">
           <div className="col-lg-12 sticky">
-            <div className="card  ">
+            <div className="card  mb-3">
               <Date onDateChange={setDataDate} dataDate={dataDate} />
             </div>
           </div>

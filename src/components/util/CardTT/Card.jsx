@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Skeleton } from 'antd'
 // eslint-disable-next-line react/prop-types
 function Card({ resultArray, icon, loading }) {
@@ -29,7 +30,7 @@ function Card({ resultArray, icon, loading }) {
   const ThongSo = JSON.parse(localStorage.getItem('ThongSo'))
   return (
     <div
-      className={`col-xxl-4 col-md-12 ${
+      className={`col-xxl-4 col-md-12  ${
         // eslint-disable-next-line react/prop-types
         resultArray[0]?.DataCode.split('_')[0]
       }`}

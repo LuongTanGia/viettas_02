@@ -7,7 +7,7 @@ const { Title } = Typography
 const App = () => {
   console.log('aaaaaa')
   return (
-    <div className="w-full  flex flex-col justify-center  items-center relative">
+    <div className="w-full  flex flex-col justify-center  items-center relative mt-[40px]">
       <img
         style={{
           // zIndex: 10,
