@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 
 import PieChart from '../util/Chart/PieChart'
@@ -63,6 +64,8 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
   const [dataTable, setDataTable] = useState([])
   const [colorTable, setColorTable] = useState()
   const [dataDate_s, setDataDate] = useState(dataDate)
+  // const [dataDate_sS, setDataDateSS] = useState(dataDate_s)
+
   const [dataDate_02, setDataDate_02] = useState(dataDate_s)
 
   const [TotalNumber, setTotalNumber] = useState(0)
@@ -223,8 +226,167 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
     )
     loadData()
     setDataDate_02(dataDate_s)
-  }, [titleDr, dataDate_s?.NgayBatDau, dataDate_s?.NgayKetThuc, searchText, refToken])
+  }, [searchText, titleDr])
+  useEffect(() => {
+    const params = new URLSearchParams(location.search)
+    const titleParam = params.get('title') || 'home'
+    const loadData = async () => {
+      setLoading(true)
+      //API Doanh So
+      const data_hanghoa = titleDr === 'DOANHSO' || titleParam === 'DOANHSO' ? await APIDATA_CHART(API.DoanhSoHangHoa_TopChart, token, dataDate_s) : null
+      const data_khachhang = titleDr === 'DOANHSO' || titleParam === 'DOANHSO' ? await APIDATA_CHART(API.DoanhSoKhachHang_TopChart, token, dataDate_s) : null
+      const data_nhomhang = titleDr === 'DOANHSO' || titleParam === 'DOANHSO' ? await APIDATA_CHART(API.DoanhSoNhomHang_TopChart, token, dataDate_s) : null
+      //API Ton Kho
 
+      const data_TonKho_TongKho = titleDr === 'TONKHO' || titleParam === 'TONKHO' ? await APIDATA_CHART(API.TonKho_TongKho, token, { ...dataDate_s, FilterText: searchText }) : null
+      const TonKho_TongKhoDVTQuyDoi =
+        titleDr === 'TONKHO' || titleParam === 'TONKHO' ? await APIDATA_CHART(API.TonKho_TongKhoDVTQuyDoi, token, { ...dataDate_s, FilterText: searchText }) : null
+      const TonKho_TheoKho = titleDr === 'TONKHO' || titleParam === 'TONKHO' ? await APIDATA_CHART(API.TonKho_TheoKho, token, { ...dataDate_s, FilterText: searchText }) : null
+      //API Cong No Thu - Tra
+      const CongNoThu_TopChart =
+        titleDr === 'PHAITHU' || titleDr === 'PHAITRA' || titleParam === 'PHAITHU' || titleParam === 'PHAITRA'
+          ? await APIDATA_CHART(titleDr === 'PHAITRA' ? API.CongNoTra_TopChart : API.CongNoThu_TopChart, token, dataDate_s)
+          : null
+      const CongNoThu_DanhSach =
+        titleDr === 'PHAITHU' || titleDr === 'PHAITRA' || titleParam === 'PHAITHU' || titleParam === 'PHAITRA'
+          ? await APIDATA_CHART(titleDr === 'PHAITRA' ? API.CongNoTra_DanhSach : API.CongNoThu_DanhSach, token, dataDate_s)
+          : null
+      //API Mua Hang
+      const MuaHang_HangHoa = titleDr === 'MUAHANG' || titleParam === 'MUAHANG' ? await APIDATA_CHART(API.MuaHang_HangHoa, token, { ...dataDate_s, FilterText: searchText }) : null
+      const MuaHang_NhaCungCap =
+        titleDr === 'MUAHANG' || titleParam === 'MUAHANG' ? await APIDATA_CHART(API.MuaHang_NhaCungCap, token, { ...dataDate_s, FilterText: searchText }) : null
+      //API Xuat Tra - Nhap Tra
+      const XuatTra_HangHoa =
+        titleDr === 'XUATTRA' || titleDr === 'NHAPTRA' || titleParam === 'XUATTRA' || titleParam === 'NHAPTRA'
+          ? await APIDATA_CHART(titleDr === 'NHAPTRA' || titleParam === 'NHAPTRA' ? API.NhapTra_HangHoa : API.XuatTra_HangHoa, token, { ...dataDate_s, FilterText: searchText })
+          : null
+      const XuatTra_NhaCungCap =
+        titleDr === 'XUATTRA' || titleDr === 'NHAPTRA' || titleParam === 'XUATTRA' || titleParam === 'NHAPTRA'
+          ? await APIDATA_CHART(titleDr === 'NHAPTRA' || titleParam === 'NHAPTRA' ? API.NhapTra_KhachHang : API.XuatTra_NhaCungCap, token, {
+              ...dataDate_s,
+              FilterText: searchText,
+            })
+          : null
+      //API Ban Hang
+      const BanHang_HangHoa = titleDr === 'BANHANG' || titleParam === 'BANHANG' ? await APIDATA_CHART(API.BanHang_HangHoa, token, { ...dataDate_s, FilterText: searchText }) : null
+      const BanHang_QuayLe = titleDr === 'BANHANG' || titleParam === 'BANHANG' ? await APIDATA_CHART(API.BanHang_QuayLe, token, { ...dataDate_s, FilterText: searchText }) : null
+      const BanHang_KhachHang =
+        titleDr === 'BANHANG' || titleParam === 'BANHANG' ? await APIDATA_CHART(API.BanHang_KhachHang, token, { ...dataDate_s, FilterText: searchText }) : null
+      // //API Thu - Chi
+      const ThuTien = titleDr === 'THU' || titleDr === 'CHI' || titleParam === 'THU' || titleParam === 'CHI' ? await APIDATA_CHART(API.ThuTien, token, dataDate_s) : null
+      const ChiTien = titleDr === 'THU' || titleDr === 'CHI' || titleParam === 'THU' || titleParam === 'CHI' ? await APIDATA_CHART(API.ChiTien, token, dataDate_s) : null
+      const SoQuy = titleDr === 'THU' || titleDr === 'CHI' || titleParam === 'THU' || titleParam === 'CHI' ? await APIDATA_CHART(API.SoQuy, token, dataDate_s) : null
+
+      if (
+        data_hanghoa === -107 ||
+        data_hanghoa === -108 ||
+        data_TonKho_TongKho === -107 ||
+        data_TonKho_TongKho === -108 ||
+        CongNoThu_TopChart === -107 ||
+        CongNoThu_TopChart === -108 ||
+        MuaHang_HangHoa === -107 ||
+        MuaHang_HangHoa === -108 ||
+        XuatTra_HangHoa === -107 ||
+        XuatTra_HangHoa === -108 ||
+        BanHang_HangHoa === -107 ||
+        BanHang_HangHoa === -108 ||
+        ThuTien === -107 ||
+        ThuTien === -108
+      ) {
+        const newToken = await RETOKEN()
+
+        if (newToken !== '') {
+          setRefToken(!refToken)
+          setTimeout(() => {
+            window.location.href = '/'
+          }, 300)
+        } else if (newToken === 0) {
+          toast.error('Failed to refresh token!')
+          window.localStorage.removeItem('firstLogin')
+          window.localStorage.removeItem('authLogin')
+          window.localStorage.removeItem('TKN')
+          window.localStorage.removeItem('tokenDuLieu')
+          window.localStorage.removeItem('RTKN')
+          window.localStorage.removeItem('userName')
+          window.localStorage.removeItem('dateLogin')
+          navigate('/login')
+        }
+      }
+      //Thu - Chi
+      setThuTien(ThuTien)
+      setChiTien(ChiTien)
+      setSoQuy(SoQuy)
+      //Ban Hang
+      setBanHang_HangHoa(BanHang_HangHoa)
+      setBanHang_QuayLe(BanHang_QuayLe)
+      setBanHang_KhachHang(BanHang_KhachHang)
+      //Xuat Tra - Nhap Tra
+      setXuatTra_HangHoa(XuatTra_HangHoa)
+      setXuatTra_NhaCungCap(XuatTra_NhaCungCap)
+      //Mua Hang
+      setMuaHang_HangHoa(MuaHang_HangHoa ? MuaHang_HangHoa : [])
+      setMuaHang_NhaCungCap(MuaHang_NhaCungCap ? MuaHang_NhaCungCap : [])
+      //Cong No Thu - Tra
+      setCongNoThu_TopChart(CongNoThu_TopChart ? CongNoThu_TopChart : [])
+      setCongNoThu_DanhSach(CongNoThu_DanhSach ? CongNoThu_DanhSach : [])
+
+      //Ton Kho
+      setdata_TonKho_TongKho(data_TonKho_TongKho ? data_TonKho_TongKho : [])
+      setTonKho_TongKhoDVTQuyDoi(TonKho_TongKhoDVTQuyDoi ? TonKho_TongKhoDVTQuyDoi : [])
+      setTonKho_TheoKho(TonKho_TheoKho ? TonKho_TheoKho : [])
+      //Doanh So
+      setDataChart_hanghoa(data_hanghoa !== -107 || data_hanghoa !== -108 ? data_hanghoa : [])
+      setDataChart_khachhang(data_khachhang !== -107 || data_khachhang !== -108 ? data_khachhang : [])
+      setDataChart_nhomhang(data_nhomhang !== -107 || data_nhomhang !== -108 ? data_nhomhang : [])
+
+      if (titleDr === 'THU') {
+        setDataSearch(ThuTien)
+      } else if (titleDr === 'CHI') {
+        setDataSearch(ChiTien)
+      } else {
+        setDataSearch(CongNoThu_DanhSach)
+      }
+      setLoading(false)
+    }
+    setSegmented(
+      titleDr === 'DOANHSO' || titleParam === 'DOANHSO'
+        ? 'KHACHHANG'
+        : titleDr === 'TONKHO' || titleParam === 'TONKHO'
+          ? 'TONGHOP'
+          : titleDr === 'PHAITHU' || titleDr === 'PHAITRA' || titleParam === 'PHAITHU' || titleParam === 'PHAITRA'
+            ? 'BIEUDOTYTRONG'
+            : titleDr === 'MUAHANG' || titleDr === 'XUATTRA' || titleDr === 'NHAPTRA' || titleParam === 'MUAHANG' || titleParam === 'XUATTRA' || titleParam === 'NHAPTRA'
+              ? 'THEOHANGHOA'
+              : titleDr === 'BANHANG' || titleParam === 'BANHANG'
+                ? 'BANHANGHANGHOA'
+                : titleDr === 'THU' || titleParam === 'THU'
+                  ? 'THUTIEN'
+                  : titleDr === 'CHI' || titleParam === 'CHI'
+                    ? 'CHITIEN'
+                    : '',
+    )
+    setValueSegmented(
+      titleDr === 'DOANHSO' || titleParam === 'DOANHSO'
+        ? 'Khách hàng'
+        : titleDr === 'TONKHO' || titleParam === 'TONKHO'
+          ? 'Tổng hợp'
+          : titleDr === 'PHAITHU' || titleDr === 'PHAITRA' || titleParam === 'PHAITHU' || titleParam === 'PHAITRA'
+            ? 'Biểu đồ tỷ trọng'
+            : titleDr === 'MUAHANG' || titleDr === 'XUATTRA' || titleDr === 'NHAPTRA' || titleParam === 'MUAHANG' || titleParam === 'XUATTRA' || titleParam === 'NHAPTRA'
+              ? 'Theo hàng hóa'
+              : titleDr === 'BANHANG' || titleParam === 'BANHANG'
+                ? 'Bán sỉ theo hàng hóa'
+                : titleDr === 'THU' || titleParam === 'THU'
+                  ? 'Thu tiền'
+                  : titleDr === 'CHI' || titleParam === 'CHI'
+                    ? 'Chi tiền'
+                    : '',
+    )
+    setTimeout(() => {
+      loadData()
+      setDataDate_02(dataDate_s)
+    }, 1300)
+  }, [dataDate_s?.NgayBatDau, dataDate_s?.NgayKetThuc])
   useEffect(() => {
     const dataMapping = {
       HANGHOA: data_hanghoa,
@@ -243,14 +405,15 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
       SOQUY: SoQuy,
     }
 
-    const valueList =
-      dataMapping[segmented]?.map((item) =>
-        titleDr === 'MUAHANG' || titleDr === 'BANHANG' || titleDr === 'XUATTRA' || titleDr === 'NHAPTRA' ? item.DataValueAmount : item.DataValue,
-      ) || []
+    const valueList = Array.isArray(dataMapping[segmented])
+      ? dataMapping[segmented]?.map((item) =>
+          titleDr === 'MUAHANG' || titleDr === 'BANHANG' || titleDr === 'XUATTRA' || titleDr === 'NHAPTRA' ? item.DataValueAmount : item.DataValue,
+        )
+      : []
     const totalPrice = valueList.reduce((sum, price) => sum + price, 0)
 
-    setTotalChart(totalPrice)
-  }, [segmented, data_hanghoa, data_khachhang, data_nhomhang])
+    setTotalChart(totalPrice || 0)
+  }, [valueSegmented, CongNoThu_DanhSach, data_hanghoa, BanHang_KhachHang, ChiTien, ThuTien, XuatTra_NhaCungCap, MuaHang_NhaCungCap, segmented, titleDr])
 
   const onClose = () => {
     setOpenShow(false)
@@ -449,7 +612,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
         <Drawer
           footer={
             titleDr === 'TONKHO' || segmented === 'SOQUY' ? null : (
-              <div>
+              <div style={{ backgroundColor: 'rgb(241,241,241)' }}>
                 <div className="flex cursor-pointer items-center justify-center mb-2" onClick={() => showChildrenDrawer({ DataCode: null, DataCodeRest: 1, title: 'all' })}>
                   <p className="w-[100%]  hover:font-medium flex items-center gap-2 justify-between text-base">Tổng:</p>
                   <div
@@ -464,11 +627,13 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                         : 'text-right'
                     } `}
                   >
-                    <CounterComponent targetValue={TotalChart} duration={50000} color={'#8BC6EC'} />
+                    <CounterComponent targetValue={TotalChart} duration={100000} color={'#8BC6EC'} />
                     {titleDr === 'MUAHANG' ||
                     titleDr === 'BANHANG' ||
                     titleDr === 'NHAPTRA' ||
                     titleDr === 'XUATTRA' ||
+                    titleDr === 'THU' ||
+                    titleDr === 'CHI' ||
                     segmented === 'DANHSACHKHACHHANG' ||
                     segmented === 'DANHSACHNHACUNGCAP' ? null : (
                       <RateBar percentage={100} color={'#8BC6EC'} title={'Tổng hợp'} />
@@ -601,7 +766,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                 {data_khachhang !== -108 || data_khachhang !== -107 ? (
                   <PieChart
                     Drawer={true}
-                    dataChart={data_khachhang !== -108 || data_khachhang !== -107 ? data_khachhang : []}
+                    dataChart={data_khachhang ? data_khachhang : []}
                     valueNum={'DataValue'}
                     value={'DataPerc'}
                     name={'DataName'}
@@ -616,7 +781,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                     titleDr={titleDr}
                     Drawer={true}
                     nameChart={segmented}
-                    dataChart={data_hanghoa !== -108 || data_hanghoa !== -107 ? data_hanghoa : []}
+                    dataChart={data_hanghoa ? data_hanghoa : []}
                     valueNum={'DataValue'}
                     value={'DataPerc'}
                     name={'DataName'}
@@ -627,14 +792,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
             ) : segmented === 'NHOMHANG' ? (
               <>
                 {data_hanghoa !== -108 || data_hanghoa !== -107 ? (
-                  <PieChart
-                    Drawer={true}
-                    dataChart={data_nhomhang !== -108 || data_nhomhang !== -107 ? data_nhomhang : []}
-                    valueNum={'DataValue'}
-                    value={'DataPerc'}
-                    name={'DataName'}
-                    onClick={showChildrenDrawer}
-                  />
+                  <PieChart Drawer={true} dataChart={data_nhomhang ? data_nhomhang : []} valueNum={'DataValue'} value={'DataPerc'} name={'DataName'} onClick={showChildrenDrawer} />
                 ) : null}
               </>
             ) : segmented === 'TONGHOP' ? (
@@ -758,7 +916,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                         <div className="flex items-center justify-center mb-2">
                           <p className="w-[100%] cursor-pointer hover:font-medium text-base flex items-center gap-2 justify-between">Tổng :</p>
                           <div className="w-[100%] ml-3 text-right">
-                            <CounterComponent targetValue={TotalNumber} duration={50000} color={'#8BC6EC'} />
+                            <CounterComponent targetValue={TotalNumber} duration={100000} color={'#8BC6EC'} />
                             {<RateBar percentage={100} color={'#8BC6EC'} title={'Tổng hợp'} />}
                           </div>
                         </div>
@@ -767,9 +925,10 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                   )
                 }
                 className="DrawerCT"
-                title={`${titleDr_child.DataName || 'Tổng Cộng'}(Chi tiết)`}
+                title={`${nameMapping[titleDr]} ${titleDr_child.DataName || 'Tổng Cộng'}(Chi tiết)`}
                 width={1020}
                 onClose={onChildrenDrawerClose}
+                closeIcon={<BiLeftArrowAlt />}
                 open={childrenDrawer}
               >
                 <Spin tip="Loading..." spinning={loading_dr2}>

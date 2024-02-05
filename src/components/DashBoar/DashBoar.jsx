@@ -10,6 +10,9 @@ import { useSelector } from 'react-redux'
 import { khoanNgaySelect } from '../../redux/selector'
 import { useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
+import { Progress } from 'antd'
+// import CounterComponent from './LoadNumber'
+// import { Progress } from 'antd'
 
 function DashBoar() {
   const navigate = useNavigate()
@@ -20,8 +23,8 @@ function DashBoar() {
   const [dataTongHop, setDataTongHop] = useState([])
   const [open, setOpen] = useState(false)
   const [loadingCart, setLoadingCart] = useState(false)
-
-  const [titleDr, setTitleDr] = useState('')
+  const [progressPercent, setProgressPercent] = useState(0)
+  const [titleDr, setTitleDr] = useState('home')
   const location = useLocation()
 
   // useEffect(() => {
@@ -35,7 +38,7 @@ function DashBoar() {
   // }, [location.search])
 
   const showDrawer = (value) => {
-    navigate(`title=${value}`)
+    navigate(`?title=${value}`)
     setTitleDr(value || 'Tổng cộng')
     setOpen(true)
   }
@@ -46,23 +49,31 @@ function DashBoar() {
   useEffect(() => {
     const params = new URLSearchParams(location.search)
     const titleParam = params.get('title') || 'home'
-    titleParam === 'home' ? setOpen(false) : null
+    setTitleDr(titleParam)
+    console.log(titleParam)
+    titleParam !== 'home' ? setOpen(true) : setOpen(false)
     const loadData = async () => {
       setLoadingCart(true)
+      setProgressPercent(0)
 
       try {
-        const data = titleParam === 'home' ? await DATATONGHOP(API.TONGHOP, token, dataDate) : null
+        const data = await DATATONGHOP(API.TONGHOP, token, dataDate)
         setDataTongHop(data)
         setDataLoaded(true)
+        setProgressPercent(70)
+
+        setTimeout(() => {
+          setProgressPercent(100)
+        }, 700)
         setTimeout(() => {
           setLoadingCart(false)
-        }, 700)
+        }, 1100)
       } catch (error) {
         console.error('Error loading data:', error)
       }
     }
     loadData()
-  }, [dataDate?.NgayKetThuc, dataDate?.NgayBatDau, location.search])
+  }, [dataDate?.NgayKetThuc, dataDate?.NgayBatDau])
 
   if (!dataLoaded) {
     return <LoadingPage />
@@ -88,9 +99,9 @@ function DashBoar() {
     startX = 0
   }
   const data = dataTongHop
-  if (data?.DataResults?.length === 0) {
-    return <p>Dữ liệu trống, vui lòng kiểm tra lại.</p>
-  }
+  // if (data?.DataResults?.length === 0) {
+  //   return <p>Dữ liệu trống, vui lòng kiểm tra lại.</p>
+  // }
   const groupedData = {}
 
   data?.DataResults?.forEach((item) => {
@@ -112,9 +123,21 @@ function DashBoar() {
       </div>
       <section className="section dashboard">
         <div className="row">
-          <div className="col-lg-12 sticky">
-            <div className="card  mb-3">
-              <Date onDateChange={setDataDate} dataDate={dataDate} />
+          <div className="col-lg-12 sticky ">
+            <div className="card  mb-3  ">
+              <Date onDateChange={setDataDate} dataDate={dataDate} dateType={'local'} />
+              <div className=" absolute w-full top-[-16px] ">
+                <Progress
+                  percent={progressPercent}
+                  strokeColor={{
+                    '0%': '#80D0C7',
+                    '100%': '#0093E9',
+                  }}
+                  showInfo={false}
+                  status="active"
+                  className={`${!loadingCart ? 'hidden' : ''}`}
+                />
+              </div>
             </div>
           </div>
           <div className="col-lg-12">

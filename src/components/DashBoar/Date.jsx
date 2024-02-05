@@ -3,7 +3,7 @@ import { DateField } from '@mui/x-date-pickers'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 
-function Date({ dataDate, onDateChange }) {
+function Date({ dataDate, onDateChange, dateType }) {
   const [startDate, setStartDate] = useState(dayjs(dataDate?.NgayBatDau))
   const [endDate, setEndDate] = useState(dayjs(dataDate?.NgayKetThuc))
   const [DateChange, setDateChange] = useState(false)
@@ -32,32 +32,38 @@ function Date({ dataDate, onDateChange }) {
           NgayBatDau: dayjs(startDate).format('YYYY-MM-DD'),
           NgayKetThuc: dayjs(startDate).format('YYYY-MM-DD'),
         })
-        localStorage.setItem('dateLogin', JSON.stringify({ NgayBatDau: dayjs(startDate).format('YYYY-MM-DD'), NgayKetThuc: dayjs(startDate).format('YYYY-MM-DD') }))
+        dateType === 'local'
+          ? localStorage.setItem('dateLogin', JSON.stringify({ NgayBatDau: dayjs(startDate).format('YYYY-MM-DD'), NgayKetThuc: dayjs(startDate).format('YYYY-MM-DD') }))
+          : null
         return
       } else if (DateChange && startDate && endDate && startDate.isAfter(endDate)) {
         onDateChange({
           NgayBatDau: dayjs(endDate).format('YYYY-MM-DD'),
           NgayKetThuc: dayjs(endDate).format('YYYY-MM-DD'),
         })
-        localStorage.setItem(
-          'dateLogin',
-          JSON.stringify({
-            NgayBatDau: dayjs(endDate).format('YYYY-MM-DD'),
-            NgayKetThuc: dayjs(endDate).format('YYYY-MM-DD'),
-          }),
-        )
+        dateType === 'local'
+          ? localStorage.setItem(
+              'dateLogin',
+              JSON.stringify({
+                NgayBatDau: dayjs(endDate).format('YYYY-MM-DD'),
+                NgayKetThuc: dayjs(endDate).format('YYYY-MM-DD'),
+              }),
+            )
+          : null
       } else {
         onDateChange({
           NgayBatDau: dayjs(startDate).format('YYYY-MM-DD'),
           NgayKetThuc: dayjs(endDate).format('YYYY-MM-DD'),
         })
-        localStorage.setItem(
-          'dateLogin',
-          JSON.stringify({
-            NgayBatDau: dayjs(startDate).format('YYYY-MM-DD'),
-            NgayKetThuc: dayjs(endDate).format('YYYY-MM-DD'),
-          }),
-        )
+        dateType === 'local'
+          ? localStorage.setItem(
+              'dateLogin',
+              JSON.stringify({
+                NgayBatDau: dayjs(startDate).format('YYYY-MM-DD'),
+                NgayKetThuc: dayjs(endDate).format('YYYY-MM-DD'),
+              }),
+            )
+          : null
       }
     }, 300)
   }

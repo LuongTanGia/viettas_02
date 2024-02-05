@@ -13,7 +13,10 @@ import dayjs from 'dayjs'
 import InfoApp from '../DashBoar/PageInfor'
 // import PhieuMuaHang from "../DULIEU/PhieuMuaHang";
 // import Home from "../Home/Home";
-
+import { Detector } from 'react-detect-offline'
+import { toast } from 'react-toastify'
+import { FiWifi } from 'react-icons/fi'
+import { FiWifiOff } from 'react-icons/fi'
 // eslint-disable-next-line react/prop-types
 function MainPage({ isSidebarVisible }) {
   const dispatch = useDispatch()
@@ -69,12 +72,32 @@ function MainPage({ isSidebarVisible }) {
   }
   return (
     <div className="MainPage">
+      <div className="hidden">
+        <Detector
+          render={({ online }) =>
+            online
+              ? toast.success(
+                  <div className="flex gap-2 justify-start items-center text-green-500 text-base ">
+                    Đã kết nối
+                    <FiWifi size={20} color="green" fontSize={20} />
+                  </div>,
+                )
+              : toast.error(
+                  <div className="flex gap-1 justify-start items-center  text-red-500 text-base ">
+                    Lỗi kết nối mạng !
+                    <FiWifiOff size={20} fontSize={20} color="red" />
+                  </div>,
+                )
+          }
+        />
+      </div>
+
       <div className="MainPage_bg">
         <AnimatedWaves />
       </div>
       <main id="main" className={isSidebarVisible ? 'main' : 'main show_main'}>
         <Routes>
-          <Route path="/:title" element={<DashBoar />} />
+          <Route path="/?title=DOANHSO" element={<DashBoar />} />
           <Route path="/" element={<DashBoar />} />
 
           <Route path="/Info" element={<InfoApp />} />
