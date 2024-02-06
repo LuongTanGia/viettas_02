@@ -3,7 +3,7 @@ import { DateField } from '@mui/x-date-pickers'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 
-function Date({ dataDate, onDateChange, dateType }) {
+function Date({ dataDate, onDateChange, dateType, titleDr }) {
   const [startDate, setStartDate] = useState(dayjs(dataDate?.NgayBatDau))
   const [endDate, setEndDate] = useState(dayjs(dataDate?.NgayKetThuc))
   const [DateChange, setDateChange] = useState(false)
@@ -75,46 +75,72 @@ function Date({ dataDate, onDateChange, dateType }) {
   }
   return (
     <div className="flex py-3 px-2 w-full justify-center gap-3">
-      <DateField
-        label="Từ Ngày"
-        onBlur={handleDateChange}
-        onKeyDown={handleKeyDown}
-        size="small"
-        format="DD/MM/YYYY"
-        value={startDate}
-        onChange={handleStartDateChange}
-        className="w-[40%]  min-w-[300px]"
-        sx={{
-          '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': { border: '1px solid #007FFF' },
-          '& .MuiButtonBase-root': {
-            padding: '4px',
-          },
-          '& .MuiSvgIcon-root': {
-            width: '18px',
-            height: '18px',
-          },
-        }}
-      />
-      <DateField
-        onBlur={handleDateChange}
-        onKeyDown={handleKeyDown}
-        label="Đến Ngày"
-        size="small"
-        value={endDate}
-        onChange={handleEndDateChange}
-        className="w-[40%] min-w-[300px]"
-        format="DD/MM/YYYY"
-        sx={{
-          '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': { border: '1px solid #007FFF' },
-          '& .MuiButtonBase-root': {
-            padding: '4px',
-          },
-          '& .MuiSvgIcon-root': {
-            width: '18px',
-            height: '18px',
-          },
-        }}
-      />
+      {titleDr === 'TONKHO' || titleDr === 'PHAITRA' || titleDr === 'PHAITHU' ? (
+        <DateField
+          onBlur={handleDateChange}
+          onKeyDown={handleKeyDown}
+          label="Đến Ngày"
+          size="small"
+          value={endDate}
+          onChange={handleEndDateChange}
+          className="w-[40%] min-w-[300px]"
+          format="DD/MM/YYYY"
+          sx={{
+            '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': { border: '1px solid #007FFF' },
+            '& .MuiButtonBase-root': {
+              padding: '4px',
+            },
+            '& .MuiSvgIcon-root': {
+              width: '18px',
+              height: '18px',
+            },
+          }}
+        />
+      ) : (
+        <>
+          {' '}
+          <DateField
+            label="Từ Ngày"
+            onBlur={handleDateChange}
+            onKeyDown={handleKeyDown}
+            size="small"
+            format="DD/MM/YYYY"
+            value={startDate}
+            onChange={handleStartDateChange}
+            className="w-[40%]  min-w-[300px]"
+            sx={{
+              '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': { border: '1px solid #007FFF' },
+              '& .MuiButtonBase-root': {
+                padding: '4px',
+              },
+              '& .MuiSvgIcon-root': {
+                width: '18px',
+                height: '18px',
+              },
+            }}
+          />
+          <DateField
+            onBlur={handleDateChange}
+            onKeyDown={handleKeyDown}
+            label="Đến Ngày"
+            size="small"
+            value={endDate}
+            onChange={handleEndDateChange}
+            className="w-[40%] min-w-[300px]"
+            format="DD/MM/YYYY"
+            sx={{
+              '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': { border: '1px solid #007FFF' },
+              '& .MuiButtonBase-root': {
+                padding: '4px',
+              },
+              '& .MuiSvgIcon-root': {
+                width: '18px',
+                height: '18px',
+              },
+            }}
+          />
+        </>
+      )}
     </div>
   )
 }

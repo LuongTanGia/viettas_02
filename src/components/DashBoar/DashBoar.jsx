@@ -15,12 +15,16 @@ import { Progress } from 'antd'
 // import { Progress } from 'antd'
 
 function DashBoar() {
+  const userTHONGSO = window.localStorage.getItem('UseThongSo')
+  // console.log(userTHONGSO)
   const navigate = useNavigate()
   const KhoanNgay = useSelector(khoanNgaySelect)
   const token = localStorage.getItem('TKN')
   const [dataDate, setDataDate] = useState(!JSON.parse(localStorage.getItem('dateLogin')) ? KhoanNgay : JSON.parse(localStorage.getItem('dateLogin')))
   const [dataLoaded, setDataLoaded] = useState(false)
   const [dataTongHop, setDataTongHop] = useState([])
+  const [dataTongHop_DF, setDataTongHop_DF] = useState([])
+
   const [open, setOpen] = useState(false)
   const [loadingCart, setLoadingCart] = useState(false)
   const [progressPercent, setProgressPercent] = useState(0)
@@ -50,7 +54,7 @@ function DashBoar() {
     const params = new URLSearchParams(location.search)
     const titleParam = params.get('title') || 'home'
     setTitleDr(titleParam)
-    console.log(titleParam)
+    // console.log(titleParam)
     titleParam !== 'home' ? setOpen(true) : setOpen(false)
     const loadData = async () => {
       setLoadingCart(true)
@@ -72,6 +76,21 @@ function DashBoar() {
         console.error('Error loading data:', error)
       }
     }
+
+    setTimeout(() => {
+      const loadData_02 = async () => {
+        try {
+          const data = await DATATONGHOP(API.TONGHOP, token, {
+            NgayBatDau: '2024-01-01',
+            NgayKetThuc: '2024-01-31',
+          })
+          setDataTongHop_DF(data)
+        } catch (error) {
+          console.error('Error loading data:', error)
+        }
+      }
+      loadData_02()
+    }, 1300)
     loadData()
   }, [dataDate?.NgayKetThuc, dataDate?.NgayBatDau])
 
@@ -99,10 +118,13 @@ function DashBoar() {
     startX = 0
   }
   const data = dataTongHop
+  const data_DF = dataTongHop_DF
+
   // if (data?.DataResults?.length === 0) {
   //   return <p>Dữ liệu trống, vui lòng kiểm tra lại.</p>
   // }
   const groupedData = {}
+  const groupedData_DF = {}
 
   data?.DataResults?.forEach((item) => {
     const key = item['DataCode'].split('_')[0]
@@ -111,10 +133,19 @@ function DashBoar() {
     }
     groupedData[key].push(item)
   })
+  data_DF?.DataResults?.forEach((item) => {
+    const key = item['DataCode'].split('_')[0]
+    if (!groupedData_DF[key]) {
+      groupedData_DF[key] = []
+    }
+    groupedData_DF[key].push(item)
+  })
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'decimal',
   })
   const resultArrays = Object.values(groupedData)
+  const resultArrays_DF = Object.values(groupedData_DF)
+  // console.log(resultArrays_DF, 'resultArrays_DF')
 
   return (
     <div ref={containerRef} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
@@ -149,9 +180,33 @@ function DashBoar() {
                   style={{ cursor: 'pointer' }}
                   className={`col-xxl-12 col-md-12  card_2-content ${resultArray[0]?.DataCode.split('_')[0]}`}
                 >
-                  <Card resultArray={resultArray} formatter={formatter} icon={resultArray[0]?.DataCode.split('_')[0]} loading={loadingCart} />
+                  <Card
+                    resultArray={resultArray}
+                    resultArray_DF={resultArrays_DF[arrayIndex]}
+                    formatter={formatter}
+                    icon={resultArray[0]?.DataCode.split('_')[0]}
+                    loading={loadingCart}
+                    useThongke={userTHONGSO}
+                  />
                 </div>
               ))}
+
+              <div style={{ cursor: 'pointer' }} className=" col-xxl-12 col-md-12  card_2-content SOQUY" onClick={() => showDrawer('SOQUY')}>
+                <div className="col-xxl-4 col-md-12  SOQUY">
+                  <div className="card info-card sales-card">
+                    <div className="card-body min-h-[110px]">
+                      <h5 className="card-title">{'Sổ quỹ '}</h5>
+                      <div className="flex flex-col gap-1">
+                        <span className="text-success small  fw-bold">Số tiền: 100000000000</span>
+                        <span className="text-success small  fw-bold">Số tiền: 100000000000</span>
+                        <span className="text-success small  fw-bold">Số tiền: 100000000000</span>
+                        <span className="text-success small  fw-bold">Số tiền: 100000000000</span>
+                        {/* <span className="text-success small  fw-bold">Số tiền: 100000000000</span> */}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

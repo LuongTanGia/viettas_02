@@ -11,6 +11,7 @@ const { Text } = Typography
 
 function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, titleDr, segmented, title, onClick, typeTable }) {
   const [data, setData] = useState()
+  console.log(param, 'param')
   const columnName = {
     DataName: titleDr === 'TONKHO' ? 'Hàng hóa' : 'Tên ',
     DataDate: 'Thời gian',
@@ -379,136 +380,132 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
 
   const columnsThu_Chi = [
     {
-      title: 'Đầu Kỳ',
+      title: 'Ngày',
       align: 'center',
+      onCell: (record, index) => ({
+        colSpan: record.DataType === 1 || record.DataType === 3 || record.DataType === 0 ? 3 : 1,
+      }),
+      showSorterTooltip: false,
+      render: (text, record) => {
+        // Change the parameters of render function
+        if (record.DataType === 0 && record.DataCode !== '-') {
+          return record.DataDate
+        } else if (record.DataType === 0 && record.DataCode === '-') {
+          return 'Đầu kỳ'
+        } else if (record.DataType === 1 || record.DataType === 3) {
+          return <>{record.DataName}</>
+        } else if (record.DataType === 2) {
+          return <div>{record.DataDate}</div>
+        } else if (record.DataCode === '-') {
+          return record.DataNam
+        }
+      },
 
-      children: [
-        {
-          title: 'Ngày',
-          align: 'center',
-          onCell: (record, index) => ({
-            colSpan: record.DataType === 1 || record.DataType === 3 ? 3 : 1,
-          }),
-          showSorterTooltip: false,
-          render: (text, record) => {
-            // Change the parameters of render function
-            if (record.DataType === 0) {
-              return record.DataDate
-            } else if (record.DataType === 1 || record.DataType === 3) {
-              return <>{record.DataName}</>
-            } else if (record.DataType === 2) {
-              return <div>{record.DataDate}</div>
-            } else if (record.DataType === 4) {
-              return null
-            }
-          },
+      dataIndex: 'DataDate',
+      // render: (text) =>
+      //   titleDr === 'DOANHSO' ? (
+      //     <RateBar percentage={((text / (title === 'all' ? totalPrice_all : totalPrice)) * 100).toFixed(2)} color={colorTable} />
+      //   ) : (
+      //     <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-center`}>{text}</div>
+      //   ),
+      sorter: (a, b) => {
+        if (
+          a.DataType === 1 ||
+          b.DataType === 1 ||
+          a.DataCode !== b.DataCode ||
+          a.DataType === 0 ||
+          b.DataType === 0 ||
+          a.DataType === 3 ||
+          b.DataType === 3 ||
+          a.DataType === 4 ||
+          b.DataType === 4
+        ) {
+          return 0
+        } else {
+          const dateA = new Date(parseInt(a.DataDate.split('/')[2]), parseInt(a.DataDate.split('/')[1]) - 1, parseInt(a.DataDate.split('/')[0]))
+          const dateB = new Date(parseInt(b.DataDate.split('/')[2]), parseInt(b.DataDate.split('/')[1]) - 1, parseInt(b.DataDate.split('/')[0]))
 
-          dataIndex: 'DataDate',
-          // render: (text) =>
-          //   titleDr === 'DOANHSO' ? (
-          //     <RateBar percentage={((text / (title === 'all' ? totalPrice_all : totalPrice)) * 100).toFixed(2)} color={colorTable} />
-          //   ) : (
-          //     <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-center`}>{text}</div>
-          //   ),
-          sorter: (a, b) => {
-            if (
-              a.DataType === 1 ||
-              b.DataType === 1 ||
-              a.DataCode !== b.DataCode ||
-              a.DataType === 0 ||
-              b.DataType === 0 ||
-              a.DataType === 3 ||
-              b.DataType === 3 ||
-              a.DataType === 4 ||
-              b.DataType === 4
-            ) {
-              return 0
-            } else {
-              const dateA = new Date(parseInt(a.DataDate.split('/')[2]), parseInt(a.DataDate.split('/')[1]) - 1, parseInt(a.DataDate.split('/')[0]))
-              const dateB = new Date(parseInt(b.DataDate.split('/')[2]), parseInt(b.DataDate.split('/')[1]) - 1, parseInt(b.DataDate.split('/')[0]))
-
-              return dateA.getTime() - dateB.getTime()
-            }
-          },
-        },
-        {
-          title: 'Tăng',
-          align: 'center',
-          onCell: (record, index) => ({
-            colSpan: record.DataType === 1 || record.DataType === 3 ? 0 : 1,
-          }),
-          showSorterTooltip: false,
-
-          dataIndex: 'DataValuePS',
-          render: (text) =>
-            titleDr === 'DOANHSO' ? (
-              <RateBar percentage={((text / (title === 'all' ? totalPrice_all : totalPrice)) * 100).toFixed(2)} color={colorTable} />
-            ) : (
-              <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right `}>
-                {text?.toLocaleString('en-US', {
-                  minimumFractionDigits: ThongSo.SOLESOTIEN,
-                  maximumFractionDigits: ThongSo.SOLESOTIEN,
-                })}
-              </div>
-            ),
-          sorter: (a, b) => {
-            if (
-              a.DataType === 1 ||
-              b.DataType === 1 ||
-              a.DataCode !== b.DataCode ||
-              a.DataType === 0 ||
-              b.DataType === 0 ||
-              a.DataType === 3 ||
-              b.DataType === 3 ||
-              a.DataType === 4 ||
-              b.DataType === 4
-            ) {
-              return 0
-            } else {
-              return a.DataValuePS - b.DataValuePS
-            }
-          },
-        },
-        {
-          title: 'Giảm',
-          align: 'center',
-          dataIndex: 'DataValueTT',
-          onCell: (record, index) => ({
-            colSpan: record.DataType === 1 || record.DataType === 3 ? 0 : 1,
-          }),
-          showSorterTooltip: false,
-
-          render: (text, record) =>
-            titleDr === 'DOANHSO' ? (
-              <RateBar percentage={((text / (title === 'all' ? totalPrice_all : totalPrice)) * 100).toFixed(2)} color={colorTable} />
-            ) : record.DataType === 4 ? null : (
-              <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right `}>
-                {text?.toLocaleString('en-US', {
-                  minimumFractionDigits: ThongSo.SOLESOTIEN,
-                  maximumFractionDigits: ThongSo.SOLESOTIEN,
-                })}
-              </div>
-            ),
-          sorter: (a, b) => {
-            if (
-              a.DataType === 1 ||
-              b.DataType === 1 ||
-              a.DataCode !== b.DataCode ||
-              a.DataType === 0 ||
-              b.DataType === 0 ||
-              a.DataType === 3 ||
-              b.DataType === 3 ||
-              a.DataType === 4 ||
-              b.DataType === 4
-            ) {
-              return 0
-            } else {
-              return a.DataValueTT - b.DataValueTT
-            }
-          },
-        },
-      ],
+          return dateA.getTime() - dateB.getTime()
+        }
+      },
     },
+    {
+      title: 'Tăng',
+      align: 'center',
+      onCell: (record, index) => ({
+        colSpan: record.DataType === 1 || record.DataType === 3 || record.DataType === 0 ? 0 : 1,
+      }),
+      showSorterTooltip: false,
+
+      dataIndex: 'DataValuePS',
+      render: (text) =>
+        titleDr === 'DOANHSO' ? (
+          <RateBar percentage={((text / (title === 'all' ? totalPrice_all : totalPrice)) * 100).toFixed(2)} color={colorTable} />
+        ) : (
+          <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right `}>
+            {text?.toLocaleString('en-US', {
+              minimumFractionDigits: ThongSo.SOLESOTIEN,
+              maximumFractionDigits: ThongSo.SOLESOTIEN,
+            })}
+          </div>
+        ),
+      sorter: (a, b) => {
+        if (
+          a.DataType === 1 ||
+          b.DataType === 1 ||
+          a.DataCode !== b.DataCode ||
+          a.DataType === 0 ||
+          b.DataType === 0 ||
+          a.DataType === 3 ||
+          b.DataType === 3 ||
+          a.DataType === 4 ||
+          b.DataType === 4
+        ) {
+          return 0
+        } else {
+          return a.DataValuePS - b.DataValuePS
+        }
+      },
+    },
+    {
+      title: 'Giảm',
+      align: 'center',
+      dataIndex: 'DataValueTT',
+      onCell: (record, index) => ({
+        colSpan: record.DataType === 1 || record.DataType === 3 || record.DataType === 0 ? 0 : 1,
+      }),
+      showSorterTooltip: false,
+
+      render: (text, record) =>
+        titleDr === 'DOANHSO' ? (
+          <RateBar percentage={((text / (title === 'all' ? totalPrice_all : totalPrice)) * 100).toFixed(2)} color={colorTable} />
+        ) : record.DataType === 4 ? null : (
+          <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right `}>
+            {text?.toLocaleString('en-US', {
+              minimumFractionDigits: ThongSo.SOLESOTIEN,
+              maximumFractionDigits: ThongSo.SOLESOTIEN,
+            })}
+          </div>
+        ),
+      sorter: (a, b) => {
+        if (
+          a.DataType === 1 ||
+          b.DataType === 1 ||
+          a.DataCode !== b.DataCode ||
+          a.DataType === 0 ||
+          b.DataType === 0 ||
+          a.DataType === 3 ||
+          b.DataType === 3 ||
+          a.DataType === 4 ||
+          b.DataType === 4
+        ) {
+          return 0
+        } else {
+          return a.DataValueTT - b.DataValueTT
+        }
+      },
+    },
+
     {
       title: 'Còn Lại',
       align: 'center',
@@ -554,138 +551,132 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
   ]
   const columnsSOQUY = [
     {
-      title: 'Đầu Kỳ',
+      title: 'Diễn giải',
       align: 'center',
+      onCell: (record, index) => ({
+        colSpan: record.DataType === 1 ? 3 : 1,
+      }),
+      showSorterTooltip: false,
+      render: (text, record) => {
+        // Change the parameters of render function
+        if (record.DataType === 4) {
+          return null
+        } else {
+          return text
+        }
+      },
 
-      children: [
-        {
-          title: 'Diễn giải',
-          align: 'center',
-          onCell: (record, index) => ({
-            colSpan: record.DataType === 1 ? 3 : 1,
-          }),
-          showSorterTooltip: false,
-          render: (text, record) => {
-            // Change the parameters of render function
-            if (record.DataType === 4) {
-              return null
-            } else {
-              return text
-            }
-          },
+      dataIndex: 'DataName',
+      // render: (text) =>
+      //   titleDr === 'DOANHSO' ? (
+      //     <RateBar percentage={((text / (title === 'all' ? totalPrice_all : totalPrice)) * 100).toFixed(2)} color={colorTable} />
+      //   ) : (
+      //     <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-center`}>{text}</div>
+      //   ),
+      sorter: (a, b) => {
+        if (
+          a.DataType === 1 ||
+          b.DataType === 1 ||
+          a.DataCode !== b.DataCode ||
+          a.DataType === 0 ||
+          b.DataType === 0 ||
+          a.DataType === 3 ||
+          b.DataType === 3 ||
+          a.DataType === 4 ||
+          b.DataType === 4
+        ) {
+          return 0
+        } else {
+          const dateA = new Date(parseInt(a.DataDate.split('/')[2]), parseInt(a.DataDate.split('/')[1]) - 1, parseInt(a.DataDate.split('/')[0]))
+          const dateB = new Date(parseInt(b.DataDate.split('/')[2]), parseInt(b.DataDate.split('/')[1]) - 1, parseInt(b.DataDate.split('/')[0]))
 
-          dataIndex: 'DataName',
-          // render: (text) =>
-          //   titleDr === 'DOANHSO' ? (
-          //     <RateBar percentage={((text / (title === 'all' ? totalPrice_all : totalPrice)) * 100).toFixed(2)} color={colorTable} />
-          //   ) : (
-          //     <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-center`}>{text}</div>
-          //   ),
-          sorter: (a, b) => {
-            if (
-              a.DataType === 1 ||
-              b.DataType === 1 ||
-              a.DataCode !== b.DataCode ||
-              a.DataType === 0 ||
-              b.DataType === 0 ||
-              a.DataType === 3 ||
-              b.DataType === 3 ||
-              a.DataType === 4 ||
-              b.DataType === 4
-            ) {
-              return 0
-            } else {
-              const dateA = new Date(parseInt(a.DataDate.split('/')[2]), parseInt(a.DataDate.split('/')[1]) - 1, parseInt(a.DataDate.split('/')[0]))
-              const dateB = new Date(parseInt(b.DataDate.split('/')[2]), parseInt(b.DataDate.split('/')[1]) - 1, parseInt(b.DataDate.split('/')[0]))
-
-              return dateA.getTime() - dateB.getTime()
-            }
-          },
-        },
-        {
-          title: 'Tăng',
-          align: 'center',
-          onCell: (record, index) => ({
-            colSpan: record.DataType === 1 ? 0 : 1,
-          }),
-          showSorterTooltip: false,
-
-          dataIndex: 'DataValueIn',
-          render: (text, record) => {
-            if (record.DataType === 4) {
-              return null
-            } else {
-              titleDr === 'DOANHSO' ? (
-                <RateBar percentage={((text / (title === 'all' ? totalPrice_all : totalPrice)) * 100).toFixed(2)} color={colorTable} />
-              ) : (
-                <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right `}>
-                  {text?.toLocaleString('en-US', {
-                    minimumFractionDigits: ThongSo.SOLESOTIEN,
-                    maximumFractionDigits: ThongSo.SOLESOTIEN,
-                  })}
-                </div>
-              )
-            }
-          },
-
-          sorter: (a, b) => {
-            if (
-              a.DataType === 1 ||
-              b.DataType === 1 ||
-              a.DataCode !== b.DataCode ||
-              a.DataType === 0 ||
-              b.DataType === 0 ||
-              a.DataType === 3 ||
-              b.DataType === 3 ||
-              a.DataType === 4 ||
-              b.DataType === 4
-            ) {
-              return 0
-            } else {
-              return a.DataValuePS - b.DataValuePS
-            }
-          },
-        },
-        {
-          title: 'Giảm',
-          align: 'center',
-          dataIndex: 'DataValueOut',
-          onCell: (record, index) => ({
-            colSpan: record.DataType === 1 ? 0 : 1,
-          }),
-          showSorterTooltip: false,
-
-          render: (text, record) =>
-            titleDr === 'DOANHSO' ? (
-              <RateBar percentage={((text / (title === 'all' ? totalPrice_all : totalPrice)) * 100).toFixed(2)} color={colorTable} />
-            ) : record.DataType === 4 ? null : (
-              <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right `}>
-                {text?.toLocaleString('en-US', {
-                  minimumFractionDigits: ThongSo.SOLESOTIEN,
-                  maximumFractionDigits: ThongSo.SOLESOTIEN,
-                })}
-              </div>
-            ),
-          sorter: (a, b) => {
-            if (
-              a.DataType === 1 ||
-              b.DataType === 1 ||
-              a.DataCode !== b.DataCode ||
-              a.DataType === 0 ||
-              b.DataType === 0 ||
-              a.DataType === 3 ||
-              b.DataType === 3 ||
-              a.DataType === 4 ||
-              b.DataType === 4
-            ) {
-              return 0
-            } else {
-              return a.DataValueTT - b.DataValueTT
-            }
-          },
-        },
-      ],
+          return dateA.getTime() - dateB.getTime()
+        }
+      },
     },
+    {
+      title: 'Tăng',
+      align: 'center',
+      onCell: (record, index) => ({
+        colSpan: record.DataType === 1 ? 0 : 1,
+      }),
+      showSorterTooltip: false,
+
+      dataIndex: 'DataValueIn',
+      render: (text, record) => {
+        if (record.DataType === 4) {
+          return null
+        } else {
+          titleDr === 'DOANHSO' ? (
+            <RateBar percentage={((text / (title === 'all' ? totalPrice_all : totalPrice)) * 100).toFixed(2)} color={colorTable} />
+          ) : (
+            <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right `}>
+              {text?.toLocaleString('en-US', {
+                minimumFractionDigits: ThongSo.SOLESOTIEN,
+                maximumFractionDigits: ThongSo.SOLESOTIEN,
+              })}
+            </div>
+          )
+        }
+      },
+
+      sorter: (a, b) => {
+        if (
+          a.DataType === 1 ||
+          b.DataType === 1 ||
+          a.DataCode !== b.DataCode ||
+          a.DataType === 0 ||
+          b.DataType === 0 ||
+          a.DataType === 3 ||
+          b.DataType === 3 ||
+          a.DataType === 4 ||
+          b.DataType === 4
+        ) {
+          return 0
+        } else {
+          return a.DataValuePS - b.DataValuePS
+        }
+      },
+    },
+    {
+      title: 'Giảm',
+      align: 'center',
+      dataIndex: 'DataValueOut',
+      onCell: (record, index) => ({
+        colSpan: record.DataType === 1 ? 0 : 1,
+      }),
+      showSorterTooltip: false,
+
+      render: (text, record) =>
+        titleDr === 'DOANHSO' ? (
+          <RateBar percentage={((text / (title === 'all' ? totalPrice_all : totalPrice)) * 100).toFixed(2)} color={colorTable} />
+        ) : record.DataType === 4 ? null : (
+          <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right `}>
+            {text?.toLocaleString('en-US', {
+              minimumFractionDigits: ThongSo.SOLESOTIEN,
+              maximumFractionDigits: ThongSo.SOLESOTIEN,
+            })}
+          </div>
+        ),
+      sorter: (a, b) => {
+        if (
+          a.DataType === 1 ||
+          b.DataType === 1 ||
+          a.DataCode !== b.DataCode ||
+          a.DataType === 0 ||
+          b.DataType === 0 ||
+          a.DataType === 3 ||
+          b.DataType === 3 ||
+          a.DataType === 4 ||
+          b.DataType === 4
+        ) {
+          return 0
+        } else {
+          return a.DataValueTT - b.DataValueTT
+        }
+      },
+    },
+
     {
       title: 'Còn Lại',
       align: 'center',
@@ -734,7 +725,9 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
   const [form] = Form.useForm()
   const rowClassName = (record) => {
     if (record.DataType === 0 && (segmented === 'BIEUDOTYTRONG' || typeTable === 1)) {
-      return 'hidden-row'
+      return 'highlight-rowChart stickyTable'
+    } else if (segmented === 'SOQUY' && record.DataType === 1) {
+      return 'stickyTable highlight-rowChart'
     } else if (segmented !== 'SOQUY' ? record.DataType === -1 || record.DataType === 1 || record.DataType === 3 : record.DataType === 1) {
       return 'highlight-rowChart'
     } else if (record.DataValue < 0) {

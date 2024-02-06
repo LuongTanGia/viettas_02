@@ -341,7 +341,8 @@ input[type='radio'] {
       'BANHANG'
       'NHAPTRA'
       'THU'
-      'CHI';
+      'CHI'
+      'SOQUY';
   }
   .footer_main .footer_logo {
     max-height: 40px;
@@ -367,7 +368,8 @@ input[type='radio'] {
       'PHAITHU PHAITRA'
       'MUAHANG XUATTRA '
       'BANHANG NHAPTRA'
-      'THU CHI ';
+      'THU CHI '
+      'SOQUY SOQUY';
   }
   .PhoneCss {
     flex-direction: column;
@@ -393,7 +395,7 @@ input[type='radio'] {
     grid-template-areas:
       'DOANHSO  TONKHO PHAITHU PHAITRA'
       'MUAHANG XUATTRA BANHANG NHAPTRA'
-      'THU THU CHI CHI ';
+      'THU CHI CHI SOQUY  ';
   }
   .PhoneCss {
     flex-direction: column;
@@ -437,6 +439,9 @@ input[type='radio'] {
 }
 #gridMain .CHI {
   grid-area: CHI;
+}
+#gridMain .SOQUY {
+  grid-area: SOQUY;
 }
 .MainPage_bg svg {
   position: absolute;

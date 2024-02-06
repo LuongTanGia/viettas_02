@@ -126,7 +126,14 @@
 th.ant-table-cell {
   overflow: auto;
 }
+.stickyTable {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 
+  /* font-size: 20px;   */
+}
 /* Responsive styles for mobile */
 @media screen and (max-width: 768px) {
   th.ant-table-cell {

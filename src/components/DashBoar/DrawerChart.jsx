@@ -29,6 +29,7 @@ const nameMapping = {
   NHAPTRA: 'Hàng Bán Trở Lại',
   THU: 'Thu Tiền',
   CHI: 'Chi Tiền',
+  SOQUY: 'Sổ Quỹ',
 }
 function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
   const location = useLocation()
@@ -115,9 +116,9 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
       const BanHang_QuayLe = titleDr === 'BANHANG' ? await APIDATA_CHART(API.BanHang_QuayLe, token, { ...dataDate_s, FilterText: searchText }) : null
       const BanHang_KhachHang = titleDr === 'BANHANG' ? await APIDATA_CHART(API.BanHang_KhachHang, token, { ...dataDate_s, FilterText: searchText }) : null
       // //API Thu - Chi
-      const ThuTien = titleDr === 'THU' || titleDr === 'CHI' ? await APIDATA_CHART(API.ThuTien, token, dataDate_s) : null
-      const ChiTien = titleDr === 'THU' || titleDr === 'CHI' ? await APIDATA_CHART(API.ChiTien, token, dataDate_s) : null
-      const SoQuy = titleDr === 'THU' || titleDr === 'CHI' ? await APIDATA_CHART(API.SoQuy, token, dataDate_s) : null
+      const ThuTien = titleDr === 'THU' || titleDr === 'CHI' || titleDr === 'SOQUY' ? await APIDATA_CHART(API.ThuTien, token, dataDate_s) : null
+      const ChiTien = titleDr === 'THU' || titleDr === 'CHI' || titleDr === 'SOQUY' ? await APIDATA_CHART(API.ChiTien, token, dataDate_s) : null
+      const SoQuy = titleDr === 'THU' || titleDr === 'CHI' || titleDr === 'SOQUY' ? await APIDATA_CHART(API.SoQuy, token, dataDate_s) : null
 
       if (
         data_hanghoa === -107 ||
@@ -205,7 +206,9 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                   ? 'THUTIEN'
                   : titleDr === 'CHI'
                     ? 'CHITIEN'
-                    : '',
+                    : titleDr === 'SOQUY'
+                      ? 'SOQUY'
+                      : '',
     )
     setValueSegmented(
       titleDr === 'DOANHSO'
@@ -222,7 +225,9 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                   ? 'Thu tiền'
                   : titleDr === 'CHI'
                     ? 'Chi tiền'
-                    : '',
+                    : titleDr === 'SOQUY'
+                      ? 'Sổ quỹ'
+                      : '',
     )
     loadData()
     setDataDate_02(dataDate_s)
@@ -673,7 +678,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
           className="bg-gray-500"
         >
           <Spin tip="Loading..." spinning={loading}>
-            <Date onDateChange={setDataDate} dataDate={dataDate_s} />
+            <Date onDateChange={setDataDate} dataDate={dataDate_s} titleDr={titleDr} />
             {titleDr === 'DOANHSO' ? (
               <Segmented
                 options={['Khách hàng', 'Hàng hóa', 'Nhóm Hàng']}
@@ -750,7 +755,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                 }}
                 value={valueSegmented}
               />
-            ) : titleDr === 'THU' || titleDr === 'CHI' ? (
+            ) : titleDr === 'THU' || titleDr === 'CHI' || titleDr === 'SOQUY' ? (
               <Segmented
                 options={['Thu tiền', 'Chi tiền', 'Sổ quỹ']}
                 block
@@ -915,9 +920,17 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                       {
                         <div className="flex items-center justify-center mb-2">
                           <p className="w-[100%] cursor-pointer hover:font-medium text-base flex items-center gap-2 justify-between">Tổng :</p>
-                          <div className="w-[100%] ml-3 text-right">
+                          <div className={`w-[100%] ml-3 text-right ${titleDr === 'DOANHSO' ? 'flex w-full justify-end gap-2 items-center' : ''}`}>
                             <CounterComponent targetValue={TotalNumber} duration={100000} color={'#8BC6EC'} />
-                            {<RateBar percentage={100} color={'#8BC6EC'} title={'Tổng hợp'} />}
+                            {titleDr === 'DOANHSO' ? (
+                              <div className="w-[53%]">
+                                <RateBar percentage={100} color={'#8BC6EC'} title={'Tổng hợp'} />
+                              </div>
+                            ) : (
+                              <div>
+                                <RateBar percentage={100} color={'#8BC6EC'} title={'Tổng hợp'} />
+                              </div>
+                            )}
                           </div>
                         </div>
                       }
