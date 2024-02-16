@@ -6,13 +6,13 @@ import { useState } from 'react'
 import BackGround from '../../assets/login_background.svg'
 import DateTimeClock from '../util/testComponents/DateTime'
 import { InputNumber, Modal, Switch } from 'antd'
-
+import Cookies from 'js-cookie'
 // eslint-disable-next-line react/prop-types
 function Header() {
   const userLogin = window.localStorage.getItem('userName')
   const settingDate = window.localStorage.getItem('dateSetting')
   const userTHONGSO = window.localStorage.getItem('UseThongSo')
-
+  const titleApp = Cookies.get('remoteDb')
   const userInfor = JSON.parse(window.localStorage.getItem('userInfo'))
   const [isModalOpen, setIsModalOpen] = useState(false)
   // const [checkDateWeek, setCheckDateWeek] = useState(settingDate === 'DW' ? true : false)
@@ -146,7 +146,7 @@ function Header() {
           backgroundImage: `url(${BackGround})`,
         }}
       >
-        <DateTimeClock />
+        <DateTimeClock titleApp={titleApp} />
 
         <nav className="header-nav ">
           <ul className="d-flex align-items-center p-0">

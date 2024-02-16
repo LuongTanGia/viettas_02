@@ -1,10 +1,11 @@
+/* eslint-disable react/prop-types */
 // import { useState, useEffect } from 'react'
 
 // import { format } from 'date-fns'
 // import viLocale from 'date-fns/locale/vi'
 import { Link } from 'react-router-dom'
 import './test.css'
-const DateTimeClock = () => {
+const DateTimeClock = ({ titleApp }) => {
   // const [currentDateTime, setCurrentDateTime] = useState(new Date())
 
   // useEffect(() => {
@@ -26,7 +27,7 @@ const DateTimeClock = () => {
       </Link>
 
       {/* <h2 className=" text-base font-mono   text-white"> {formatDate(currentDateTime)}</h2> */}
-      <h1>ISALE - DEMO</h1>
+      <h1>{titleApp}</h1>
 
       <div>{/* <h2 className=" text-base font-mono   text-white pt-1">Chia sẻ thành công, kết nối đam mê</h2> */}</div>
     </div>

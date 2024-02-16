@@ -11,7 +11,7 @@ const { Text } = Typography
 
 function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, titleDr, segmented, title, onClick, typeTable }) {
   const [data, setData] = useState()
-  console.log(param, 'param')
+  // console.log(param, 'param')
   const columnName = {
     DataName: titleDr === 'TONKHO' ? 'Hàng hóa' : 'Tên ',
     DataDate: 'Thời gian',

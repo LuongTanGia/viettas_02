@@ -17,7 +17,7 @@ const handleAPIError = (response) => {
   }
 }
 export const RETOKEN = async () => {
-  console.log('RETOKEN')
+  // console.log('RETOKEN')
 
   const token = window.localStorage.getItem('RTKN')
 
@@ -39,7 +39,7 @@ export const RETOKEN = async () => {
   }
 }
 export const DANHSACHDULIEU = async (API, data) => {
-  console.log('DANHSACHDULIEU')
+  // console.log('DANHSACHDULIEU')
   try {
     const response = await axiosInstance.post(API, data)
     window.localStorage.setItem('tokenDuLieu', response.data.TKN)
@@ -55,7 +55,7 @@ export const DANHSACHDULIEU = async (API, data) => {
   }
 }
 export const LOGIN = async (API1, API2, TKN, RemoteDB, data, dispatch) => {
-  console.log('LOGIN')
+  // console.log('LOGIN')
   try {
     const response = await axiosInstance.post(API1, {
       TokenID: TKN,
@@ -85,7 +85,7 @@ export const LOGIN = async (API1, API2, TKN, RemoteDB, data, dispatch) => {
   }
 }
 export const KHOANNGAY = async (API, token) => {
-  console.log('KHOANNGAY')
+  // console.log('KHOANNGAY')
   try {
     const response = await axiosInstance.post(
       API,
@@ -103,7 +103,7 @@ export const KHOANNGAY = async (API, token) => {
   }
 }
 export const DATATONGHOP = async (API, token, KhoanNgay) => {
-  console.log('DATATONGHOP')
+  // console.log('DATATONGHOP')
 
   try {
     const response = await axiosInstance.post(API, KhoanNgay, {
@@ -149,7 +149,7 @@ export const THAYDOIRMATKHAU = async (API, data, token) => {
   }
 }
 export const APIDATA_CHART = async (API, token, data) => {
-  console.log('APIDATA_CHART')
+  // console.log('APIDATA_CHART')
   try {
     const response = await axiosInstance.post(API, data, {
       headers: {
@@ -167,7 +167,7 @@ export const APIDATA_CHART = async (API, token, data) => {
   }
 }
 export const APIDATA_CHART_CT = async (API, token, data) => {
-  console.log('APIDATA_CHART_CT')
+  // console.log('APIDATA_CHART_CT')
 
   try {
     const response = await axiosInstance.post(API, data, {
@@ -226,18 +226,6 @@ export const getDateNum = (date) => {
   return firstDayOfWeek
 }
 
-export const refreshTokenGG = (res) => {
-  let refreshTokenGGTime = (res.tokenObj.expires_in || 3600 - 5 * 60) * 1000
-  const refreshToken = async () => {
-    const newAuthRes = await res.reloadAuthResponse()
-    refreshTokenGGTime = (newAuthRes.expires_in || 360 * 5 * 60) * 1000
-    console.log('newAuthRes:', newAuthRes)
-    console.log('new Auth Token ', newAuthRes.id_token)
-
-    setTimeout(refreshToken, refreshTokenGGTime)
-  }
-  setTimeout(refreshToken, refreshTokenGGTime)
-}
 export const THONGSO = async (API, token) => {
   console.log('THONGSO')
   try {
