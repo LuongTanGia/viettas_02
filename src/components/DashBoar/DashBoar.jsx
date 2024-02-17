@@ -53,7 +53,7 @@ function DashBoar() {
   useEffect(() => {
     const params = new URLSearchParams(location.search)
     const titleParam = params.get('title') || 'home'
-    setTitleDr(titleParam)
+
     // console.log(titleParam)
     titleParam !== 'home' ? setOpen(true) : setOpen(false)
     const loadData = async () => {
@@ -63,6 +63,7 @@ function DashBoar() {
       try {
         const data = await DATATONGHOP(API.TONGHOP, token, dataDate)
         setDataTongHop(data)
+        setDataTongHop_DF(data)
         setDataLoaded(true)
         setProgressPercent(70)
 
@@ -77,22 +78,26 @@ function DashBoar() {
       }
     }
 
-    setTimeout(() => {
-      const loadData_02 = async () => {
-        try {
-          const data = await DATATONGHOP(API.TONGHOP, token, {
-            NgayBatDau: '2024-01-01',
-            NgayKetThuc: '2024-01-31',
-          })
-          setDataTongHop_DF(data)
-        } catch (error) {
-          console.error('Error loading data:', error)
-        }
-      }
-      loadData_02()
-    }, 1300)
-    loadData()
-  }, [dataDate?.NgayKetThuc, dataDate?.NgayBatDau])
+    // setTimeout(() => {
+    //   const loadData_02 = async () => {
+    //     try {
+    //       const data = await DATATONGHOP(API.TONGHOP, token, {
+    //         NgayBatDau: '2024-01-01',
+    //         NgayKetThuc: '2024-01-31',
+    //       })
+    //       setDataTongHop_DF(data)
+    //     } catch (error) {
+    //       console.error('Error loading data:', error)
+    //     }
+    //   }
+    //   loadData_02()
+    // }, 1300)
+
+    if (titleParam === 'home') {
+      setTitleDr(titleParam)
+      loadData()
+    }
+  }, [dataDate?.NgayKetThuc, dataDate?.NgayBatDau, token, location.search])
 
   if (!dataLoaded) {
     return <LoadingPage />
@@ -156,7 +161,9 @@ function DashBoar() {
         <div className="row">
           <div className="col-lg-12 sticky ">
             <div className="card  mb-3  ">
-              <Date onDateChange={setDataDate} dataDate={dataDate} dateType={'local'} />
+              <div className="py-2 w-full bg-white">
+                <Date onDateChange={setDataDate} dataDate={dataDate} dateType={'local'} />
+              </div>
               <div className=" absolute w-full top-[-16px] ">
                 <Progress
                   percent={progressPercent}
@@ -190,23 +197,6 @@ function DashBoar() {
                   />
                 </div>
               ))}
-
-              <div style={{ cursor: 'pointer' }} className=" col-xxl-12 col-md-12  card_2-content SOQUY" onClick={() => showDrawer('SOQUY')}>
-                <div className="col-xxl-4 col-md-12  SOQUY">
-                  <div className="card info-card sales-card">
-                    <div className="card-body min-h-[110px]">
-                      <h5 className="card-title">{'Sổ quỹ '}</h5>
-                      <div className="flex flex-col gap-1">
-                        <span className="text-success small  fw-bold">Số tiền: 100000000000</span>
-                        <span className="text-success small  fw-bold">Số tiền: 100000000000</span>
-                        <span className="text-success small  fw-bold">Số tiền: 100000000000</span>
-                        <span className="text-success small  fw-bold">Số tiền: 100000000000</span>
-                        {/* <span className="text-success small  fw-bold">Số tiền: 100000000000</span> */}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

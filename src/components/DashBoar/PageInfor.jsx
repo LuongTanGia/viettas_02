@@ -11,7 +11,7 @@ const App = () => {
       <img
         style={{
           // zIndex: 10,
-          width: '100%',
+          width: '80%',
           maxWidth: 400,
           position: 'relative',
           maxHeight: 200,

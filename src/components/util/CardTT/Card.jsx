@@ -20,6 +20,7 @@ function Card({ resultArray, icon, loading, resultArray_DF, useThongke }) {
     NHAPTRA: 'fa-solid fa-cart-shopping red',
     THU: 'fa-solid fa-dollar-sign blue',
     CHI: 'fa-solid fa-dollar-sign red',
+    QUYTIENMAT: 'fa-solid fa-dollar-sign red',
   }
 
   const nameMapping = {
@@ -33,6 +34,7 @@ function Card({ resultArray, icon, loading, resultArray_DF, useThongke }) {
     NHAPTRA: 'Hàng Bán Trở Lại',
     THU: 'Thu Tiền',
     CHI: 'Chi Tiền',
+    QUYTIENMAT: 'Sổ Quỹ',
   }
   // resultArray_DF.map(())
   const ThongSo = JSON.parse(localStorage.getItem('ThongSo'))
@@ -44,7 +46,7 @@ function Card({ resultArray, icon, loading, resultArray_DF, useThongke }) {
       }`}
     >
       <div className="card info-card sales-card">
-        <div className="card-body min-h-[110px]">
+        <div className={`card-body min-h-[110px] ${resultArray[0]?.DataCode.split('_')[0] === 'QUYTIENMAT' ? ' min-h-[149.6px]' : ''}`}>
           <h5 className="card-title">
             {
               // eslint-disable-next-line react/prop-types

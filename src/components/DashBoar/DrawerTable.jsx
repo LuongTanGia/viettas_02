@@ -115,9 +115,12 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
       return {
         title: columnName[item] || item,
         dataIndex: item,
+        // width: 200,
+
         align: 'center',
+
         onCell: (record, index) => ({
-          colSpan: record.DataType === -1 ? 5 : 1,
+          colSpan: record.DataType === -1 ? 3 : 1,
         }),
         render: (text, record) => {
           // Change the parameters of render function
@@ -197,7 +200,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
           titleDr === 'DOANHSO' ? (
             <RateBar percentage={(text / (title === 'all' ? totalPrice_all : totalPrice)) * 100} color={colorTable} />
           ) : (
-            <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base`}>
+            <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right `}>
               {text?.toLocaleString('en-US', {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
@@ -228,7 +231,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
           titleDr === 'DOANHSO' ? (
             <RateBar percentage={(text / (title === 'all' ? totalPrice_all : totalPrice)) * 100} color={colorTable} />
           ) : (
-            <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base`}>
+            <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right `}>
               {text?.toLocaleString('en-US', {
                 minimumFractionDigits: ThongSo.SOLESOLUONG,
                 maximumFractionDigits: ThongSo.SOLESOLUONG,
@@ -266,7 +269,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
         // onCell: sharedOnCell,
         render: (text, record) =>
           titleDr === 'DOANHSO' ? (
-            <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base `}>
+            <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right  `}>
               {text?.toLocaleString('en-US', {
                 minimumFractionDigits: ThongSo.SOLESOTIEN,
                 maximumFractionDigits: ThongSo.SOLESOTIEN,
@@ -282,7 +285,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
               (Sản phẩm)
             </div>
           ) : (
-            <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base`}>
+            <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right `}>
               {text?.toLocaleString('en-US', {
                 minimumFractionDigits: ThongSo.SOLESOLUONG,
                 maximumFractionDigits: ThongSo.SOLESOLUONG,
@@ -312,7 +315,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
         // onCell: sharedOnCell,
         render: (text, record) =>
           titleDr === 'DOANHSO' ? (
-            <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}   text-right text-base`}>
+            <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}   text-right `}>
               {text?.toLocaleString('en-US', {
                 minimumFractionDigits: ThongSo.SOLESOTIEN,
                 maximumFractionDigits: ThongSo.SOLESOTIEN,
@@ -328,7 +331,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
               (Sản phẩm)
             </div>
           ) : (
-            <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right text-base`}>
+            <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right `}>
               {text?.toLocaleString('en-US', {
                 minimumFractionDigits: ThongSo.SOLESOTIEN,
                 maximumFractionDigits: ThongSo.SOLESOTIEN,
@@ -549,7 +552,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
       },
     },
   ]
-  const columnsSOQUY = [
+  const columnsQUYTIENMAT = [
     {
       title: 'Diễn giải',
       align: 'center',
@@ -720,18 +723,18 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
       },
     },
   ]
-  const columns = segmented === 'BIEUDOTYTRONG' || typeTable === 1 ? [...columnsThu_Chi] : segmented === 'SOQUY' ? [...columnsSOQUY] : [...newColumns]
+  const columns = segmented === 'BIEUDOTYTRONG' || typeTable === 1 ? [...columnsThu_Chi] : segmented === 'QUYTIENMAT' ? [...columnsQUYTIENMAT] : [...newColumns]
 
   const [form] = Form.useForm()
   const rowClassName = (record) => {
     if (record.DataType === 0 && (segmented === 'BIEUDOTYTRONG' || typeTable === 1)) {
       return 'highlight-rowChart stickyTable'
-    } else if (segmented === 'SOQUY' && record.DataType === 1) {
+    } else if (segmented === 'QUYTIENMAT' && record.DataType === 1) {
       return 'stickyTable highlight-rowChart'
-    } else if (segmented !== 'SOQUY' ? record.DataType === -1 || record.DataType === 1 || record.DataType === 3 : record.DataType === 1) {
+    } else if (segmented !== 'QUYTIENMAT' ? record.DataType === -1 || record.DataType === 1 || record.DataType === 3 : record.DataType === 1) {
       return 'highlight-rowChart'
     } else if (record.DataValue < 0) {
-      return 'highlight_value'
+      return 'highlight_value '
     } else {
       return ''
     }
@@ -749,12 +752,15 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
             dataSource={data}
             bordered
             scroll={
-              segmented === 'BIEUDOTYTRONG' || typeTable === 1 || segmented === 'SOQUY'
+              segmented === 'BIEUDOTYTRONG' || typeTable === 1 || segmented === 'QUYTIENMAT'
                 ? {
                     x: 120,
                     y: 500,
                   }
-                : null
+                : {
+                    x: 0,
+                    y: 500,
+                  }
             }
             onRow={(record) => ({
               onClick: () => onClick(record),
@@ -763,33 +769,33 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
             size="small"
             className={`color${colorTable?.slice(1)} DrawerTable setHeight`}
             summary={
-              segmented === 'BIEUDOTYTRONG' || segmented === 'SOQUY' || typeTable === 1
+              segmented === 'TONKHO' || segmented === 'BIEUDOTYTRONG' || segmented === 'QUYTIENMAT' || typeTable === 1
                 ? () => {
                     if (!data || data.length === 0) {
                       return null
                     }
                     return (
                       <Table.Summary fixed>
-                        <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]">Tổng</Table.Summary.Cell>
+                        <Table.Summary.Cell className="text-center font-bold bg-[#f1f1f1] ">Tổng</Table.Summary.Cell>
                         {/* {segmented === 'BIEUDOTYTRONG' ? <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]"></Table.Summary.Cell> : null} */}
-                        <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]">
+                        <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1] ">
                           {Number(
-                            data?.reduce((total, item) => total + (segmented === 'SOQUY' ? item.DataValueIn : item.DataValuePS), 0) / (segmented === 'SOQUY' ? 2 : 1),
+                            data?.reduce((total, item) => total + (segmented === 'QUYTIENMAT' ? item.DataValueIn : item.DataValuePS), 0) / (segmented === 'QUYTIENMAT' ? 2 : 1),
                           ).toLocaleString('en-US', {
                             minimumFractionDigits: ThongSo.SOLESOTIEN,
                             maximumFractionDigits: ThongSo.SOLESOTIEN,
                           })}
                         </Table.Summary.Cell>
-                        <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]">
+                        <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1] ">
                           {Number(
-                            data?.reduce((total, item) => total + (segmented === 'SOQUY' ? item.DataValueOut : item.DataValueTT), 0) / (segmented === 'SOQUY' ? 2 : 1),
+                            data?.reduce((total, item) => total + (segmented === 'QUYTIENMAT' ? item.DataValueOut : item.DataValueTT), 0) / (segmented === 'QUYTIENMAT' ? 2 : 1),
                           ).toLocaleString('en-US', {
                             minimumFractionDigits: ThongSo.SOLESOTIEN,
                             maximumFractionDigits: ThongSo.SOLESOTIEN,
                           })}
                         </Table.Summary.Cell>
-                        <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]">
-                          {segmented !== 'SOQUY'
+                        <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1] ">
+                          {segmented !== 'QUYTIENMAT'
                             ? Number(data[data.length - 1]?.DataValue).toLocaleString('en-US', {
                                 minimumFractionDigits: ThongSo.SOLESOTIEN,
                                 maximumFractionDigits: ThongSo.SOLESOTIEN,

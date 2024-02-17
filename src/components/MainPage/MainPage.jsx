@@ -76,12 +76,7 @@ function MainPage({ isSidebarVisible }) {
         <Detector
           render={({ online }) =>
             online
-              ? toast.success(
-                  <div className="flex gap-2 justify-start items-center text-green-500 text-base ">
-                    Đã kết nối
-                    <FiWifi size={20} color="green" fontSize={20} />
-                  </div>,
-                )
+              ? null
               : toast.error(
                   <div className="flex gap-1 justify-start items-center  text-red-500 text-base ">
                     Lỗi kết nối mạng !

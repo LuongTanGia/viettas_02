@@ -8,6 +8,8 @@ import Cookies from 'js-cookie'
 import { Spin } from 'antd'
 const CollectionCreateForm = ({ isShow, close, data, dataUser }) => {
   const [RemoteDB, setRemoteDB] = useState(Cookies.get('remoteDb'))
+  const [RemoteDBValue, setRemoteDBValue] = useState(window.localStorage.getItem('appName'))
+
   const [isRemoteChanged, setIsRemoteChanged] = useState(Cookies.get('remoteDb') !== undefined ? true : false || false)
   const token = window.localStorage.getItem('tokenDuLieu')
   const dispatch = useDispatch()
@@ -21,6 +23,7 @@ const CollectionCreateForm = ({ isShow, close, data, dataUser }) => {
     setLoading(false)
 
     window.localStorage.setItem('firstLogin', true)
+    window.localStorage.setItem('appName', RemoteDBValue)
 
     if (response === 1) {
       Cookies.set('remoteDb', RemoteDB)
@@ -33,6 +36,11 @@ const CollectionCreateForm = ({ isShow, close, data, dataUser }) => {
   const handleChangeRadio = (e) => {
     const newRemoteDB = e.target.value
     setRemoteDB(newRemoteDB)
+
+    const newValue = data?.DataResults?.filter((item) => {
+      return item.RemoteDB === newRemoteDB
+    })
+    setRemoteDBValue(newValue[0].RemoteDBDescription)
     setIsRemoteChanged(true)
   }
 

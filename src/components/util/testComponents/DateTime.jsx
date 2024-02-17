@@ -27,7 +27,7 @@ const DateTimeClock = ({ titleApp }) => {
       </Link>
 
       {/* <h2 className=" text-base font-mono   text-white"> {formatDate(currentDateTime)}</h2> */}
-      <h1>{titleApp}</h1>
+      <h1 className="w-[50%] ">{titleApp}</h1>
 
       <div>{/* <h2 className=" text-base font-mono   text-white pt-1">Chia sẻ thành công, kết nối đam mê</h2> */}</div>
     </div>

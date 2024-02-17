@@ -13,6 +13,7 @@ const HorizontalProgressBar = ({ percentage, color }) => {
           width: `${percentage}%`,
           color: '#fff',
           background: color,
+          fontSize: 12,
         }}
       >
         {Number(percentage).toLocaleString('en-US', {

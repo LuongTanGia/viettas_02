@@ -74,70 +74,42 @@ function Date({ dataDate, onDateChange, dateType, titleDr }) {
     }
   }
   return (
-    <div className="flex py-3 px-2 w-full justify-center gap-3">
+    <div className="flex pt-2 pb-1 w-full justify-center items-end gap-2 sticky bg-white top-0  ">
       {titleDr === 'TONKHO' || titleDr === 'PHAITRA' || titleDr === 'PHAITHU' ? (
-        <DateField
-          onBlur={handleDateChange}
-          onKeyDown={handleKeyDown}
-          label="Đến Ngày"
-          size="small"
-          value={endDate}
-          onChange={handleEndDateChange}
-          className="w-[40%] min-w-[300px]"
-          format="DD/MM/YYYY"
-          sx={{
-            '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': { border: '1px solid #007FFF' },
-            '& .MuiButtonBase-root': {
-              padding: '4px',
-            },
-            '& .MuiSvgIcon-root': {
-              width: '18px',
-              height: '18px',
-            },
-          }}
-        />
+        <>
+          <p className=" text-base">Tới</p>
+          <DateField
+            onBlur={handleDateChange}
+            onKeyDown={handleKeyDown}
+            size="small"
+            value={endDate}
+            onChange={handleEndDateChange}
+            className="w-[30%] min-w-[300px]"
+            format="DD/MM/YYYY"
+          />
+        </>
       ) : (
         <>
-          {' '}
+          <p className=" text-base">Từ</p>
           <DateField
-            label="Từ Ngày"
             onBlur={handleDateChange}
             onKeyDown={handleKeyDown}
             size="small"
             format="DD/MM/YYYY"
             value={startDate}
             onChange={handleStartDateChange}
-            className="w-[40%]  min-w-[300px]"
-            sx={{
-              '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': { border: '1px solid #007FFF' },
-              '& .MuiButtonBase-root': {
-                padding: '4px',
-              },
-              '& .MuiSvgIcon-root': {
-                width: '18px',
-                height: '18px',
-              },
-            }}
+            className="w-[30%]  min-w-[300px]"
           />
+          <p className=" text-base">Tới</p>
+
           <DateField
             onBlur={handleDateChange}
             onKeyDown={handleKeyDown}
-            label="Đến Ngày"
             size="small"
             value={endDate}
             onChange={handleEndDateChange}
-            className="w-[40%] min-w-[300px]"
+            className="w-[30%] min-w-[300px]"
             format="DD/MM/YYYY"
-            sx={{
-              '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': { border: '1px solid #007FFF' },
-              '& .MuiButtonBase-root': {
-                padding: '4px',
-              },
-              '& .MuiSvgIcon-root': {
-                width: '18px',
-                height: '18px',
-              },
-            }}
           />
         </>
       )}

@@ -25,7 +25,7 @@ const CounterComponent = ({ targetValue, duration }) => {
   //   style: 'decimal',
   // })
   return (
-    <div style={{ fontSize: '18px', color: 'black' }}>
+    <div style={{ fontSize: '16px', color: 'black', fontWeight: '500' }}>
       {Number(counter).toLocaleString('en-US', {
         minimumFractionDigits: ThongSo.SOLESOTIEN,
         maximumFractionDigits: ThongSo.SOLESOTIEN,

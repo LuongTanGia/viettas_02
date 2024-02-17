@@ -9,6 +9,7 @@ import backgroundImg from '../../assets/img/backgroud.jfif'
 import CollectionCreateForm from './Popup'
 import FAQ from '../FAQ/FAQ'
 import './auth.css'
+import { toast } from 'react-toastify'
 
 const App = () => {
   const [rememberMe, setRememberMe] = useState(Cookies.get('useCookies') === 'true')
@@ -78,19 +79,24 @@ const App = () => {
       const response = await DANHSACHDULIEU(API.DANHSACHDULIEU, user, dispatch)
       setData(response)
       setLoading(false)
-
-      if (response.DataResults.length === 1) {
-        const remoteDB = response.DataResults[0].RemoteDB
-        await LOGIN(API.DANGNHAP, API.DANHSACHDULIEU, response.TKN, remoteDB, {}, dispatch)
-        window.localStorage.setItem('firstLogin', true)
-        window.location.href = '/'
-        console.log(response)
-      } else if (response?.DataResults.length > 1) {
-        console.log(response)
-        setIsLoggedIn(true)
+      console.log(typeof response)
+      if (typeof response === 'string') {
+        toast.error(response)
+        // console.log(response)
+      } else {
+        if (response.DataResults.length === 1) {
+          const remoteDB = response.DataResults[0].RemoteDB
+          await LOGIN(API.DANGNHAP, API.DANHSACHDULIEU, response.TKN, remoteDB, {}, dispatch)
+          window.localStorage.setItem('firstLogin', true)
+          window.location.href = '/'
+          console.log(response)
+        } else if (response?.DataResults.length > 1) {
+          console.log(response)
+          setIsLoggedIn(true)
+        }
       }
     } catch (error) {
-      console.log('')
+      console.log(error)
     }
   }
 

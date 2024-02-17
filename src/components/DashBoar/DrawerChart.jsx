@@ -29,7 +29,7 @@ const nameMapping = {
   NHAPTRA: 'Hàng Bán Trở Lại',
   THU: 'Thu Tiền',
   CHI: 'Chi Tiền',
-  SOQUY: 'Sổ Quỹ',
+  QUYTIENMAT: 'Sổ Quỹ',
 }
 function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
   const location = useLocation()
@@ -77,6 +77,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
 
   useEffect(() => {
     setDataDate(dataDate)
+    setChildrenDrawer(false)
     const params = new URLSearchParams(location.search)
     const titleParam = params.get('title') || 'home'
     titleParam === 'home' ? setChildrenDrawer(false) : null
@@ -116,9 +117,9 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
       const BanHang_QuayLe = titleDr === 'BANHANG' ? await APIDATA_CHART(API.BanHang_QuayLe, token, { ...dataDate_s, FilterText: searchText }) : null
       const BanHang_KhachHang = titleDr === 'BANHANG' ? await APIDATA_CHART(API.BanHang_KhachHang, token, { ...dataDate_s, FilterText: searchText }) : null
       // //API Thu - Chi
-      const ThuTien = titleDr === 'THU' || titleDr === 'CHI' || titleDr === 'SOQUY' ? await APIDATA_CHART(API.ThuTien, token, dataDate_s) : null
-      const ChiTien = titleDr === 'THU' || titleDr === 'CHI' || titleDr === 'SOQUY' ? await APIDATA_CHART(API.ChiTien, token, dataDate_s) : null
-      const SoQuy = titleDr === 'THU' || titleDr === 'CHI' || titleDr === 'SOQUY' ? await APIDATA_CHART(API.SoQuy, token, dataDate_s) : null
+      const ThuTien = titleDr === 'THU' || titleDr === 'CHI' || titleDr === 'QUYTIENMAT' ? await APIDATA_CHART(API.ThuTien, token, dataDate_s) : null
+      const ChiTien = titleDr === 'THU' || titleDr === 'CHI' || titleDr === 'QUYTIENMAT' ? await APIDATA_CHART(API.ChiTien, token, dataDate_s) : null
+      const SoQuy = titleDr === 'THU' || titleDr === 'CHI' || titleDr === 'QUYTIENMAT' ? await APIDATA_CHART(API.SoQuy, token, dataDate_s) : null
 
       if (
         data_hanghoa === -107 ||
@@ -206,8 +207,8 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                   ? 'THUTIEN'
                   : titleDr === 'CHI'
                     ? 'CHITIEN'
-                    : titleDr === 'SOQUY'
-                      ? 'SOQUY'
+                    : titleDr === 'QUYTIENMAT'
+                      ? 'QUYTIENMAT'
                       : '',
     )
     setValueSegmented(
@@ -225,7 +226,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                   ? 'Thu tiền'
                   : titleDr === 'CHI'
                     ? 'Chi tiền'
-                    : titleDr === 'SOQUY'
+                    : titleDr === 'QUYTIENMAT'
                       ? 'Sổ quỹ'
                       : '',
     )
@@ -407,7 +408,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
       BANHANGKHACHHANG: BanHang_KhachHang,
       THUTIEN: ThuTien,
       CHITIEN: ChiTien,
-      SOQUY: SoQuy,
+      QUYTIENMAT: SoQuy,
     }
 
     const valueList = Array.isArray(dataMapping[segmented])
@@ -484,6 +485,11 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
     }
   }, [dataDate_02?.NgayBatDau, dataDate_02?.NgayKetThuc])
   const showChildrenDrawer = async (value, color) => {
+    // const url = window.location.href
+    // console.log(url.split('?')[1])
+    // navigate(`?${url.split('?')[1]}` + '_detail')
+    navigate(`?title=Detal`)
+
     setLoading_dr2(true)
 
     setValueCT(value)
@@ -616,10 +622,10 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
       <div>
         <Drawer
           footer={
-            titleDr === 'TONKHO' || segmented === 'SOQUY' ? null : (
+            titleDr === 'TONKHO' || segmented === 'QUYTIENMAT' ? null : (
               <div style={{ backgroundColor: 'rgb(241,241,241)' }}>
                 <div className="flex cursor-pointer items-center justify-center mb-2" onClick={() => showChildrenDrawer({ DataCode: null, DataCodeRest: 1, title: 'all' })}>
-                  <p className="w-[100%]  hover:font-medium flex items-center gap-2 justify-between text-base">Tổng:</p>
+                  <p className="w-[100%]  hover:font-medium flex items-center gap-2 justify-between text-base font-medium pl-4">Tổng:</p>
                   <div
                     className={`w-[100%] mr-4 ${
                       titleDr === 'MUAHANG' ||
@@ -639,6 +645,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                     titleDr === 'XUATTRA' ||
                     titleDr === 'THU' ||
                     titleDr === 'CHI' ||
+                    titleDr === 'QUYTIENMAT' ||
                     segmented === 'DANHSACHKHACHHANG' ||
                     segmented === 'DANHSACHNHACUNGCAP' ? null : (
                       <RateBar percentage={100} color={'#8BC6EC'} title={'Tổng hợp'} />
@@ -678,93 +685,104 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
           className="bg-gray-500"
         >
           <Spin tip="Loading..." spinning={loading}>
-            <Date onDateChange={setDataDate} dataDate={dataDate_s} titleDr={titleDr} />
-            {titleDr === 'DOANHSO' ? (
-              <Segmented
-                options={['Khách hàng', 'Hàng hóa', 'Nhóm Hàng']}
-                block
-                onChange={(value) => {
-                  setSegmented(value === 'Khách hàng' ? 'KHACHHANG' : value === 'Hàng hóa' ? 'HANGHOA' : 'NHOMHANG'), setValueSegmented(value)
-                }}
-                value={valueSegmented}
-              />
-            ) : titleDr === 'TONKHO' ? (
-              <Segmented
-                options={['Tổng hợp', 'Tổng hợp (đơn vị tính)', 'Theo kho']}
-                block
-                onChange={(value) => {
-                  setSegmented(value === 'Tổng hợp' ? 'TONGHOP' : value === 'Tổng hợp (đơn vị tính)' ? 'TONGHOPDVT' : value === 'Theo kho' ? 'THEOKHO' : null),
-                    setValueSegmented(value)
-                }}
-                value={valueSegmented}
-              />
-            ) : titleDr === 'PHAITHU' || titleDr === 'PHAITRA' ? (
-              <Segmented
-                options={titleDr === 'PHAITRA' ? ['Biểu đồ tỷ trọng', 'Danh sách nhà cung cấp'] : ['Biểu đồ tỷ trọng', 'Danh sách khách hàng']}
-                block
-                onChange={(value) => {
-                  setSegmented(
-                    value === 'Biểu đồ tỷ trọng'
-                      ? 'BIEUDOTYTRONG'
-                      : value === 'Danh sách nhà cung cấp'
-                        ? 'DANHSACHKHACHHANG'
-                        : value === 'Danh sách khách hàng'
+            <div className="stickyTable top-0 bg-white">
+              <Date onDateChange={setDataDate} dataDate={dataDate_s} titleDr={titleDr} />
+              {titleDr === 'DOANHSO' ? (
+                <Segmented
+                  options={['Khách hàng', 'Hàng hóa', 'Nhóm Hàng']}
+                  block
+                  onChange={(value) => {
+                    setSegmented(value === 'Khách hàng' ? 'KHACHHANG' : value === 'Hàng hóa' ? 'HANGHOA' : 'NHOMHANG'), setValueSegmented(value)
+                  }}
+                  value={valueSegmented}
+                  className="text-base font-medium"
+                />
+              ) : titleDr === 'TONKHO' ? (
+                <Segmented
+                  options={['Tổng hợp', 'Tổng hợp (đơn vị tính)', 'Theo kho']}
+                  block
+                  onChange={(value) => {
+                    setSegmented(value === 'Tổng hợp' ? 'TONGHOP' : value === 'Tổng hợp (đơn vị tính)' ? 'TONGHOPDVT' : value === 'Theo kho' ? 'THEOKHO' : null),
+                      setValueSegmented(value)
+                  }}
+                  value={valueSegmented}
+                  className="text-base font-medium"
+                />
+              ) : titleDr === 'PHAITHU' || titleDr === 'PHAITRA' ? (
+                <Segmented
+                  options={titleDr === 'PHAITRA' ? ['Biểu đồ tỷ trọng', 'Danh sách nhà cung cấp'] : ['Biểu đồ tỷ trọng', 'Danh sách khách hàng']}
+                  block
+                  onChange={(value) => {
+                    setSegmented(
+                      value === 'Biểu đồ tỷ trọng'
+                        ? 'BIEUDOTYTRONG'
+                        : value === 'Danh sách nhà cung cấp'
                           ? 'DANHSACHKHACHHANG'
-                          : null,
-                  ),
-                    setValueSegmented(value)
-                }}
-                value={valueSegmented}
-              />
-            ) : titleDr === 'MUAHANG' ? (
-              <Segmented
-                options={['Theo hàng hóa', 'Theo nhà cung cấp']}
-                block
-                onChange={(value) => {
-                  setSegmented(value === 'Theo hàng hóa' ? 'THEOHANGHOA' : value === 'Theo nhà cung cấp' ? 'THEONHACUNGCAP' : null), setValueSegmented(value)
-                }}
-                value={valueSegmented}
-              />
-            ) : titleDr === 'XUATTRA' ? (
-              <Segmented
-                options={['Theo hàng hóa', 'Theo nhà cung cấp']}
-                block
-                onChange={(value) => {
-                  setSegmented(value === 'Theo hàng hóa' ? 'THEOHANGHOA' : value === 'Theo nhà cung cấp' ? 'THEONHACUNGCAP' : null), setValueSegmented(value)
-                }}
-                value={valueSegmented}
-              />
-            ) : titleDr === 'NHAPTRA' ? (
-              <Segmented
-                options={['Theo hàng hóa', 'Theo khách hàng']}
-                block
-                onChange={(value) => {
-                  setSegmented(value === 'Theo hàng hóa' ? 'THEOHANGHOA' : value === 'Theo khách hàng' ? 'THEONHACUNGCAP' : null), setValueSegmented(value)
-                }}
-                value={valueSegmented}
-              />
-            ) : titleDr === 'BANHANG' ? (
-              <Segmented
-                options={['Bán sỉ theo hàng hóa', 'Bán sỉ theo khách hàng', 'Bán lẻ']}
-                block
-                onChange={(value) => {
-                  setSegmented(
-                    value === 'Bán sỉ theo hàng hóa' ? 'BANHANGHANGHOA' : value === 'Bán lẻ' ? 'BANHANGQUYLE' : value === 'Bán sỉ theo khách hàng' ? 'BANHANGKHACHHANG' : null,
-                  ),
-                    setValueSegmented(value)
-                }}
-                value={valueSegmented}
-              />
-            ) : titleDr === 'THU' || titleDr === 'CHI' || titleDr === 'SOQUY' ? (
-              <Segmented
-                options={['Thu tiền', 'Chi tiền', 'Sổ quỹ']}
-                block
-                onChange={(value) => {
-                  setSegmented(value === 'Thu tiền' ? 'THUTIEN' : value === 'Chi tiền' ? 'CHITIEN' : value === 'Sổ quỹ' ? 'SOQUY' : null), setValueSegmented(value)
-                }}
-                value={valueSegmented}
-              />
-            ) : null}
+                          : value === 'Danh sách khách hàng'
+                            ? 'DANHSACHKHACHHANG'
+                            : null,
+                    ),
+                      setValueSegmented(value)
+                  }}
+                  value={valueSegmented}
+                  className="text-base font-medium"
+                />
+              ) : titleDr === 'MUAHANG' ? (
+                <Segmented
+                  options={['Theo hàng hóa', 'Theo nhà cung cấp']}
+                  block
+                  onChange={(value) => {
+                    setSegmented(value === 'Theo hàng hóa' ? 'THEOHANGHOA' : value === 'Theo nhà cung cấp' ? 'THEONHACUNGCAP' : null), setValueSegmented(value)
+                  }}
+                  value={valueSegmented}
+                  className="text-base font-medium"
+                />
+              ) : titleDr === 'XUATTRA' ? (
+                <Segmented
+                  options={['Theo hàng hóa', 'Theo nhà cung cấp']}
+                  block
+                  onChange={(value) => {
+                    setSegmented(value === 'Theo hàng hóa' ? 'THEOHANGHOA' : value === 'Theo nhà cung cấp' ? 'THEONHACUNGCAP' : null), setValueSegmented(value)
+                  }}
+                  value={valueSegmented}
+                  className="text-base font-medium"
+                />
+              ) : titleDr === 'NHAPTRA' ? (
+                <Segmented
+                  options={['Theo hàng hóa', 'Theo khách hàng']}
+                  block
+                  onChange={(value) => {
+                    setSegmented(value === 'Theo hàng hóa' ? 'THEOHANGHOA' : value === 'Theo khách hàng' ? 'THEONHACUNGCAP' : null), setValueSegmented(value)
+                  }}
+                  value={valueSegmented}
+                  className="text-base font-medium"
+                />
+              ) : titleDr === 'BANHANG' ? (
+                <Segmented
+                  options={['Bán sỉ theo hàng hóa', 'Bán sỉ theo khách hàng', 'Bán lẻ']}
+                  block
+                  onChange={(value) => {
+                    setSegmented(
+                      value === 'Bán sỉ theo hàng hóa' ? 'BANHANGHANGHOA' : value === 'Bán lẻ' ? 'BANHANGQUYLE' : value === 'Bán sỉ theo khách hàng' ? 'BANHANGKHACHHANG' : null,
+                    ),
+                      setValueSegmented(value)
+                  }}
+                  value={valueSegmented}
+                  className="text-base font-medium"
+                />
+              ) : titleDr === 'THU' || titleDr === 'CHI' || titleDr === 'QUYTIENMAT' ? (
+                <Segmented
+                  options={['Thu tiền', 'Chi tiền', 'Sổ quỹ']}
+                  block
+                  onChange={(value) => {
+                    setSegmented(value === 'Thu tiền' ? 'THUTIEN' : value === 'Chi tiền' ? 'CHITIEN' : value === 'Sổ quỹ' ? 'QUYTIENMAT' : null), setValueSegmented(value)
+                  }}
+                  value={valueSegmented}
+                  className="text-base font-medium"
+                />
+              ) : null}
+            </div>
+
             {/* segmented */}
             {segmented === 'KHACHHANG' ? (
               <>
@@ -906,7 +924,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
               <>
                 <Table segmented={segmented} titleDr={titleDr} param={dataSearch ? dataSearch : []} columName={[]} height={'setHeight'} hiden={[]} setTotalNumber={setNumber} />{' '}
               </>
-            ) : segmented === 'SOQUY' ? (
+            ) : segmented === 'QUYTIENMAT' ? (
               <>
                 <Table segmented={segmented} titleDr={titleDr} param={SoQuy} columName={[]} height={'setHeight'} hiden={[]} setTotalNumber={setNumber} />{' '}
               </>
@@ -918,13 +936,13 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                   titleDr === 'PHAITRA' || titleDr === 'PHAITHU' ? null : (
                     <div>
                       {
-                        <div className="flex items-center justify-center mb-2">
-                          <p className="w-[100%] cursor-pointer hover:font-medium text-base flex items-center gap-2 justify-between">Tổng :</p>
-                          <div className={`w-[100%] ml-3 text-right ${titleDr === 'DOANHSO' ? 'flex w-full justify-end gap-2 items-center' : ''}`}>
-                            <CounterComponent targetValue={TotalNumber} duration={100000} color={'#8BC6EC'} />
+                        <div className="flex items-center justify-center mb-2 px-2">
+                          <p className="w-[100%] cursor-pointer hover:font-medium text-base flex items-center gap-2 justify-between font-medium ">Tổng :</p>
+                          <div className={`  w-[100%] ml-3 text-right ${titleDr === 'DOANHSO' ? 'flex w-full justify-end gap-2 items-center' : ''}`}>
+                            <CounterComponent targetValue={TotalNumber} duration={100000} color={colorTable} />
                             {titleDr === 'DOANHSO' ? (
-                              <div className="w-[53%]">
-                                <RateBar percentage={100} color={'#8BC6EC'} title={'Tổng hợp'} />
+                              <div className="min-w-[110px] w-[100%]">
+                                <RateBar percentage={100} color={colorTable} title={'Tổng hợp'} />
                               </div>
                             ) : (
                               <div>

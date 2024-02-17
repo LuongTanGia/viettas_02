@@ -26,11 +26,11 @@ h1 {
 /* Đối với điện thoại */
 @media only screen and (max-width: 600px) {
   h1 {
-    font-size: 18px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 1000;
   }
   .infoApp {
-    clip-path: polygon(0 0, 70% 0%, 60% 100%, 0% 100%);
+    clip-path: polygon(0 0, 75% 0%, 65% 100%, 0% 100%);
     flex: 1;
     background-color: #fff;
     padding: 5px;
@@ -41,7 +41,7 @@ h1 {
 /* Đối với tablet */
 @media only screen and (min-width: 601px) and (max-width: 1024px) {
   .infoApp {
-    clip-path: polygon(0 0, 50% 0%, 40% 100%, 0% 100%);
+    clip-path: polygon(0 0, 55% 0%, 45% 100%, 0% 100%);
     flex: 1;
     background-color: #fff;
     padding: 5px;
@@ -52,7 +52,7 @@ h1 {
 /* Đối với PC */
 @media only screen and (min-width: 1025px) {
   .infoApp {
-    clip-path: polygon(0 0, 30% 0%, 20% 100%, 0% 100%);
+    clip-path: polygon(0 0, 45% 0%, 41% 100%, 0% 100%);
     flex: 1;
     background-color: #fff;
     padding: 5px;

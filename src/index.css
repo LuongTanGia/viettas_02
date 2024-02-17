@@ -19,6 +19,7 @@ body {
   height: 100vh;
   overflow-x: hidden;
   overflow-y: auto;
+  font-size: 16px !important;
 }
 a {
   text-decoration: none;
@@ -241,7 +242,7 @@ input[type='radio'] {
 
 /* custom DatePicker MUI*/
 
-.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
+/* .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
   height: 24px;
   width: 150px;
 }
@@ -256,7 +257,7 @@ input[type='radio'] {
 .css-9yxuw4-MuiAutocomplete-root .MuiAutocomplete-inputRoot .MuiAutocomplete-input {
   height: 13px;
   font-size: 14px;
-}
+} */
 /* end */
 
 #main {
@@ -305,7 +306,7 @@ input[type='radio'] {
 
   .boxRate {
     overflow: scroll;
-    max-height: 50vh !important;
+    max-height: 35vh !important;
   }
   /* @media (min-width: 375px) {
     .boxRate {
@@ -329,6 +330,10 @@ input[type='radio'] {
   body {
     font-size: 14px;
   }
+  table {
+    font-size: 7px;
+  }
+
   #gridMain {
     display: grid !important;
     grid-template-areas:
@@ -342,7 +347,7 @@ input[type='radio'] {
       'NHAPTRA'
       'THU'
       'CHI'
-      'SOQUY';
+      'QUYTIENMAT';
   }
   .footer_main .footer_logo {
     max-height: 40px;
@@ -352,7 +357,7 @@ input[type='radio'] {
     gap: 5px;
   }
   .footer_main .footer_content p {
-    font-size: 10px;
+    font-size: 12px;
   }
 }
 
@@ -361,6 +366,10 @@ input[type='radio'] {
   body {
     font-size: 16px;
   }
+  table {
+    font-size: 12px;
+  }
+
   #gridMain {
     display: grid !important;
     grid-template-areas:
@@ -369,7 +378,7 @@ input[type='radio'] {
       'MUAHANG XUATTRA '
       'BANHANG NHAPTRA'
       'THU CHI '
-      'SOQUY SOQUY';
+      'QUYTIENMAT QUYTIENMAT';
   }
   .PhoneCss {
     flex-direction: column;
@@ -389,13 +398,17 @@ input[type='radio'] {
   body {
     font-size: 18px;
   }
+  table {
+    font-size: 16px;
+  }
+
   #gridMain {
     display: grid !important;
 
     grid-template-areas:
       'DOANHSO  TONKHO PHAITHU PHAITRA'
       'MUAHANG XUATTRA BANHANG NHAPTRA'
-      'THU CHI CHI SOQUY  ';
+      'THU CHI CHI QUYTIENMAT  ';
   }
   .PhoneCss {
     flex-direction: column;
@@ -440,15 +453,15 @@ input[type='radio'] {
 #gridMain .CHI {
   grid-area: CHI;
 }
-#gridMain .SOQUY {
-  grid-area: SOQUY;
+#gridMain .QUYTIENMAT {
+  grid-area: QUYTIENMAT;
 }
 .MainPage_bg svg {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   box-sizing: border-box;
   display: block;
   background-color: #0e4166;

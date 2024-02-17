@@ -13,7 +13,7 @@ const axiosInstance = axios.create({
 
 const handleAPIError = (response) => {
   if (response.data.DataError !== 0) {
-    toast.error(response.data.DataErrorDescription)
+    // toast.error(response.data.DataErrorDescription)
   }
 }
 export const RETOKEN = async () => {
@@ -47,9 +47,8 @@ export const DANHSACHDULIEU = async (API, data) => {
     if (response.data.DataError === 0) {
       return response.data
     } else {
-      console.log('Error')
+      return response.data.DataErrorDescription
     }
-    return response.data
   } catch (error) {
     console.error('Error adding user:', error)
   }
@@ -104,6 +103,7 @@ export const KHOANNGAY = async (API, token) => {
 }
 export const DATATONGHOP = async (API, token, KhoanNgay) => {
   // console.log('DATATONGHOP')
+  // toast.info('DATATONGHOP')
 
   try {
     const response = await axiosInstance.post(API, KhoanNgay, {
