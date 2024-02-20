@@ -39,7 +39,7 @@ export const RETOKEN = async () => {
   }
 }
 export const DANHSACHDULIEU = async (API, data) => {
-  // console.log('DANHSACHDULIEU')
+  console.log('DANHSACHDULIEU')
   try {
     const response = await axiosInstance.post(API, data)
     window.localStorage.setItem('tokenDuLieu', response.data.TKN)
@@ -77,7 +77,7 @@ export const LOGIN = async (API1, API2, TKN, RemoteDB, data, dispatch) => {
     if (response.data.DataError !== 0) {
       handleAPIError(response)
 
-      await DANHSACHDULIEU(API2, data)
+      return response.data.DataErrorDescription
     }
   } catch (error) {
     console.error('Error adding user:', error)

@@ -18,9 +18,9 @@ function Header() {
   // const [checkDateWeek, setCheckDateWeek] = useState(settingDate === 'DW' ? true : false)
   const [checkDateMonth, setCheckDateMonth] = useState(settingDate === 'DM' ? true : false)
   const [UseThongSo, setUseThongSo] = useState(userTHONGSO === 'true' ? true : false)
-
   // const [checkDateHT, setCheckDateHT] = useState(settingDate === 'DHT' ? true : false)
   const [inputDate, setInputDate] = useState(window.localStorage.getItem('dateNum') || 0)
+
   const [isShow, setIsShow] = useState(false)
   const user = localStorage.getItem('User')
   const logout = () => {
@@ -79,7 +79,11 @@ function Header() {
     if (checkDateMonth) {
       window.localStorage.setItem('dateSetting', 'DM')
       window.localStorage.setItem('dateNum', inputDate)
-    } else {
+    }
+    if (inputDate === '0') {
+      window.localStorage.setItem('dateSetting', '')
+      window.localStorage.setItem('dateNum', inputDate)
+    } else if (inputDate !== '0') {
       window.localStorage.setItem('dateSetting', 'DN')
       window.localStorage.setItem('dateNum', inputDate)
     }

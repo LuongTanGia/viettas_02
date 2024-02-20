@@ -77,12 +77,13 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
 
   useEffect(() => {
     setDataDate(dataDate)
+  }, [showOpen])
+  useEffect(() => {
     setChildrenDrawer(false)
     const params = new URLSearchParams(location.search)
     const titleParam = params.get('title') || 'home'
     titleParam === 'home' ? setChildrenDrawer(false) : null
-  }, [showOpen, location.search])
-
+  }, [location.search])
   useEffect(() => {
     const loadData = async () => {
       setLoading(true)
@@ -874,7 +875,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                   titleDr={titleDr}
                   param={CongNoThu_DanhSach ? dataSearch : []}
                   columName={[]}
-                  height={'setHeight'}
+                  height={'setTableDr1'}
                   hiden={[]}
                   setTotalNumber={setNumber}
                   onClick={showChildrenDrawer}
@@ -887,7 +888,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                   titleDr={titleDr}
                   param={titleDr === 'MUAHANG' ? MuaHang_HangHoa : XuatTra_HangHoa}
                   columName={[]}
-                  height={'setHeight'}
+                  height={'setTableDr1'}
                   hiden={[]}
                   setTotalNumber={setNumber}
                 />{' '}
@@ -899,34 +900,34 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                   titleDr={titleDr}
                   param={titleDr === 'MUAHANG' ? MuaHang_NhaCungCap : XuatTra_NhaCungCap}
                   columName={[]}
-                  height={'setHeight'}
+                  height={'setTableDr1'}
                   hiden={[]}
                   setTotalNumber={setNumber}
                 />{' '}
               </>
             ) : segmented === 'BANHANGHANGHOA' ? (
               <>
-                <Table segmented={segmented} titleDr={titleDr} param={BanHang_HangHoa} columName={[]} height={'setHeight'} hiden={[]} setTotalNumber={setNumber} />{' '}
+                <Table segmented={segmented} titleDr={titleDr} param={BanHang_HangHoa} columName={[]} height={'setTableDr1'} hiden={[]} setTotalNumber={setNumber} />{' '}
               </>
             ) : segmented === 'BANHANGQUYLE' ? (
               <>
-                <Table segmented={segmented} titleDr={titleDr} param={BanHang_QuayLe} columName={[]} height={'setHeight'} hiden={[]} setTotalNumber={setNumber} />{' '}
+                <Table segmented={segmented} titleDr={titleDr} param={BanHang_QuayLe} columName={[]} height={'setTableDr1'} hiden={[]} setTotalNumber={setNumber} />{' '}
               </>
             ) : segmented === 'BANHANGKHACHHANG' ? (
               <>
-                <Table segmented={segmented} titleDr={titleDr} param={BanHang_KhachHang} columName={[]} height={'setHeight'} hiden={[]} setTotalNumber={setNumber} />{' '}
+                <Table segmented={segmented} titleDr={titleDr} param={BanHang_KhachHang} columName={[]} height={'setTableDr1'} hiden={[]} setTotalNumber={setNumber} />{' '}
               </>
             ) : segmented === 'THUTIEN' ? (
               <>
-                <Table segmented={segmented} titleDr={titleDr} param={dataSearch ? dataSearch : []} columName={[]} height={'setHeight'} hiden={[]} setTotalNumber={setNumber} />{' '}
+                <Table segmented={segmented} titleDr={titleDr} param={dataSearch ? dataSearch : []} columName={[]} height={'setTableDr1'} hiden={[]} setTotalNumber={setNumber} />{' '}
               </>
             ) : segmented === 'CHITIEN' ? (
               <>
-                <Table segmented={segmented} titleDr={titleDr} param={dataSearch ? dataSearch : []} columName={[]} height={'setHeight'} hiden={[]} setTotalNumber={setNumber} />{' '}
+                <Table segmented={segmented} titleDr={titleDr} param={dataSearch ? dataSearch : []} columName={[]} height={'setTableDr1'} hiden={[]} setTotalNumber={setNumber} />{' '}
               </>
             ) : segmented === 'QUYTIENMAT' ? (
               <>
-                <Table segmented={segmented} titleDr={titleDr} param={SoQuy} columName={[]} height={'setHeight'} hiden={[]} setTotalNumber={setNumber} />{' '}
+                <Table segmented={segmented} titleDr={titleDr} param={SoQuy} columName={[]} height={'setTableDr1'} hiden={[]} setTotalNumber={setNumber} />{' '}
               </>
             ) : null}
 
@@ -963,7 +964,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                 open={childrenDrawer}
               >
                 <Spin tip="Loading..." spinning={loading_dr2}>
-                  <Date onDateChange={setDataDate_02} dataDate={dataDate_02} />
+                  <Date onDateChange={setDataDate_02} dataDate={dataDate_02} titleDr={titleDr} />
 
                   <Table
                     segmented={segmented}

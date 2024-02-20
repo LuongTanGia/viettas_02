@@ -22,6 +22,7 @@ function DashBoar() {
   const token = localStorage.getItem('TKN')
   const [dataDate, setDataDate] = useState(!JSON.parse(localStorage.getItem('dateLogin')) ? KhoanNgay : JSON.parse(localStorage.getItem('dateLogin')))
   const [dataLoaded, setDataLoaded] = useState(false)
+
   const [dataTongHop, setDataTongHop] = useState([])
   const [dataTongHop_DF, setDataTongHop_DF] = useState([])
 
@@ -59,7 +60,7 @@ function DashBoar() {
     const loadData = async () => {
       setLoadingCart(true)
       setProgressPercent(0)
-
+      console.log(dataDate)
       try {
         const data = await DATATONGHOP(API.TONGHOP, token, dataDate)
         setDataTongHop(data)

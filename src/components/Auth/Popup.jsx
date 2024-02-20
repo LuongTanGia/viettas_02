@@ -6,6 +6,7 @@ import API from '../../API/API'
 import { useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
 import { Spin } from 'antd'
+import { toast } from 'react-toastify'
 const CollectionCreateForm = ({ isShow, close, data, dataUser }) => {
   const [RemoteDB, setRemoteDB] = useState(Cookies.get('remoteDb'))
   const [RemoteDBValue, setRemoteDBValue] = useState(window.localStorage.getItem('appName'))
@@ -21,7 +22,9 @@ const CollectionCreateForm = ({ isShow, close, data, dataUser }) => {
     setLoading(true)
     const response = await LOGIN(API.DANGNHAP, API.DANHSACHDULIEU, token, RemoteDB, dataUser, dispatch)
     setLoading(false)
-
+    if (typeof response === 'string') {
+      toast.error(response)
+    }
     window.localStorage.setItem('firstLogin', true)
     window.localStorage.setItem('appName', RemoteDBValue)
 
@@ -30,12 +33,14 @@ const CollectionCreateForm = ({ isShow, close, data, dataUser }) => {
       window.location.href = '/'
     } else {
       setRemoteDB('')
+      setIsRemoteChanged(false)
     }
   }
 
   const handleChangeRadio = (e) => {
     const newRemoteDB = e.target.value
     setRemoteDB(newRemoteDB)
+    Cookies.set('remoteDb', newRemoteDB)
 
     const newValue = data?.DataResults?.filter((item) => {
       return item.RemoteDB === newRemoteDB

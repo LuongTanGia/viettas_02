@@ -99,14 +99,23 @@
 .setHeight .ant-table,
 .setHeight .ant-table-container .ant-table-body {
   /* max-height: unset !important; */
-  height: calc(100vh - 158px) !important;
+  height: calc(100vh - 171px) !important;
 }
+
+.ant-table-wrapper.setHeight,
+.setHeight.setTableDr1 .ant-spin-container,
+.setHeight.setTableDr1 .ant-table,
+.setHeight.setTableDr1 .ant-table-container .ant-table-body {
+  /* max-height: unset !important; */
+  height: calc(100vh - 210px) !important;
+}
+
 .setHeight .ant-table-container .ant-table-body {
   max-height: unset !important;
   /* height: calc(100vh - 500px); */
 }
 .setHeight .ant-table {
-  height: calc(100vh - 500px) !important;
+  /* height: calc(100vh - 1000px) !important; */
 }
 .sticky {
   position: -webkit-sticky;
@@ -157,7 +166,8 @@ th.ant-table-cell {
   background-color: rgb(241, 241, 241);
 }
 
-.css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+.css-1d3z3hw-MuiOutlinedInput-notchedOutline,
+.css-1o6z5ng {
   border-radius: unset !important;
   border: none !important;
   border-bottom: 1px solid !important;
@@ -170,4 +180,7 @@ th.ant-table-cell {
 }
 .ant-drawer-footer {
   padding: 0 !important;
+}
+.ant-drawer-body {
+  /* overflow: hidden !important; */
 }

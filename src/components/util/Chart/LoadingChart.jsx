@@ -32,7 +32,7 @@ const RateBar = ({ percentage, color, valueNum, numberShow }) => {
     <div className="flex flex-col items-end">
       {numberShow ? <CounterComponent targetValue={valueNum} duration={50000} color={''} /> : null}
 
-      <HorizontalProgressBar percentage={percentage} color={color || '#8bc6ec'} />
+      <HorizontalProgressBar percentage={percentage > 0 ? percentage : 0} color={color || '#8bc6ec'} />
     </div>
   )
 }

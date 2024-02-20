@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react'
 import RateBar from '../util/Chart/LoadingChart'
 const { Text } = Typography
 
-function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, titleDr, segmented, title, onClick, typeTable }) {
+function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, titleDr, segmented, title, onClick, typeTable, height }) {
   const [data, setData] = useState()
   // console.log(param, 'param')
   const columnName = {
@@ -767,7 +767,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
             })}
             pagination={false}
             size="small"
-            className={`color${colorTable?.slice(1)} DrawerTable setHeight`}
+            className={`color${colorTable?.slice(1)} DrawerTable setHeight ${height}`}
             summary={
               segmented === 'TONKHO' || segmented === 'BIEUDOTYTRONG' || segmented === 'QUYTIENMAT' || typeTable === 1
                 ? () => {
