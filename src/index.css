@@ -298,16 +298,20 @@ input[type='radio'] {
 .PhoneCss {
   gap: 3px;
 }
+.boxRate {
+  overflow: scroll;
+  max-height: 31vh !important;
+}
+.boxRate_scroll {
+  overflow: scroll;
+  max-height: 35vh;
+}
 @media only screen and (max-width: 667px) {
   /* Styles for mobile screens */
   body {
     font-size: 14px;
   }
 
-  .boxRate {
-    overflow: scroll;
-    max-height: 35vh !important;
-  }
   /* @media (min-width: 375px) {
     .boxRate {
       max-height: 240px !important;
@@ -359,6 +363,10 @@ input[type='radio'] {
   .footer_main .footer_content p {
     font-size: 12px;
   }
+  .DOANHSO_ct {
+    width: 46%;
+    margin-left: 8px;
+  }
 }
 
 /* Đối với tablet */
@@ -369,7 +377,10 @@ input[type='radio'] {
   table {
     font-size: 12px;
   }
-
+  .DOANHSO_ct {
+    width: 50%;
+    margin-left: 8px;
+  }
   #gridMain {
     display: grid !important;
     grid-template-areas:

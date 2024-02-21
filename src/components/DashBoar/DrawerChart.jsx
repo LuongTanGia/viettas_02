@@ -623,8 +623,10 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
       <div>
         <Drawer
           footer={
-            titleDr === 'TONKHO' || segmented === 'QUYTIENMAT' ? null : (
-              <div style={{ backgroundColor: 'rgb(241,241,241)' }}>
+            titleDr === 'TONKHO' || segmented === 'QUYTIENMAT' ? (
+              <div className="h-[50px] " style={{ backgroundColor: 'rgb(241,241,241)' }}></div>
+            ) : (
+              <div className="h-[50px]  items-center" style={{ backgroundColor: 'rgb(241,241,241)' }}>
                 <div className="flex cursor-pointer items-center justify-center mb-2" onClick={() => showChildrenDrawer({ DataCode: null, DataCodeRest: 1, title: 'all' })}>
                   <p className="w-[100%]  hover:font-medium flex items-center gap-2 justify-between text-base font-medium pl-4">Tổng:</p>
                   <div
@@ -683,7 +685,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
           width={1020}
           onClose={onClose}
           open={showOpen}
-          className="bg-gray-500"
+          className={`bg-gray-500 ${titleDr}`}
         >
           <Spin tip="Loading..." spinning={loading}>
             <div className="stickyTable top-0 bg-white">
@@ -934,15 +936,17 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
             {titleDr === 'DOANHSO' || titleDr === 'PHAITHU' || titleDr === 'PHAITRA' ? (
               <Drawer
                 footer={
-                  titleDr === 'PHAITRA' || titleDr === 'PHAITHU' ? null : (
+                  titleDr === 'PHAITRA' || titleDr === 'PHAITHU' ? (
+                    <div className="h-[55px] " style={{ backgroundColor: 'rgb(241,241,241)' }}></div>
+                  ) : (
                     <div>
                       {
-                        <div className="flex items-center justify-center mb-2 px-2">
-                          <p className="w-[100%] cursor-pointer hover:font-medium text-base flex items-center gap-2 justify-between font-medium ">Tổng :</p>
-                          <div className={`  w-[100%] ml-3 text-right ${titleDr === 'DOANHSO' ? 'flex w-full justify-end gap-2 items-center' : ''}`}>
+                        <div className=" h-[55px] flex items-center justify-center mb-2 px-2">
+                          <p className="w-[50%] cursor-pointer hover:font-medium text-base flex items-center gap-2 justify-between font-medium ">Tổng :</p>
+                          <div className={`  w-[100%] text-right ${titleDr === 'DOANHSO' ? 'flex w-full justify-end gap-2 items-center' : ''}`}>
                             <CounterComponent targetValue={TotalNumber} duration={100000} color={colorTable} />
                             {titleDr === 'DOANHSO' ? (
-                              <div className="min-w-[110px] w-[100%]">
+                              <div className="DOANHSO_ct">
                                 <RateBar percentage={100} color={colorTable} title={'Tổng hợp'} />
                               </div>
                             ) : (
@@ -957,7 +961,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                   )
                 }
                 className="DrawerCT"
-                title={`${nameMapping[titleDr]} ${titleDr_child.DataName || 'Tổng Cộng'}(Chi tiết)`}
+                title={`${nameMapping[titleDr]} / ${titleDr_child.DataName || 'Tổng Cộng'}(Chi tiết)`}
                 width={1020}
                 onClose={onChildrenDrawerClose}
                 closeIcon={<BiLeftArrowAlt />}

@@ -24,22 +24,26 @@ function Card({ resultArray, icon, loading, resultArray_DF, useThongke }) {
   }
 
   const nameMapping = {
-    DOANHSO: 'Doanh Số',
-    TONKHO: 'Tồn Kho',
-    PHAITHU: 'Phải Thu',
-    PHAITRA: 'Phải Trả',
-    MUAHANG: 'Mua Hàng',
-    XUATTRA: 'Xuất Trả Nhà Cung Cấp',
-    BANHANG: 'Bán Hàng',
-    NHAPTRA: 'Hàng Bán Trở Lại',
-    THU: 'Thu Tiền',
-    CHI: 'Chi Tiền',
-    QUYTIENMAT: 'Sổ Quỹ',
+    DOANHSO: 'Doanh số',
+    TONKHO: 'Tồn kho',
+    PHAITHU: 'Phải thu',
+    PHAITRA: 'Phải trả',
+    MUAHANG: 'Mua hàng',
+    XUATTRA: 'Xuất trả nhà cung cấp',
+    BANHANG: 'Bán hàng',
+    NHAPTRA: 'Hàng bán trả lại',
+    THU: 'Thu tiền',
+    CHI: 'Chi tiền',
+    QUYTIENMAT: 'Sổ quỹ',
   }
   // resultArray_DF.map(())
   const ThongSo = JSON.parse(localStorage.getItem('ThongSo'))
+  // function randomDegree() {
+  //   return Math.random() * 360
+  // }
   return (
     <div
+      // style={{ transform: `scale(1.15) rotateZ(${randomDegree()}deg)` }}
       className={`col-xxl-4 col-md-12  ${
         // eslint-disable-next-line react/prop-types
         resultArray[0]?.DataCode.split('_')[0]

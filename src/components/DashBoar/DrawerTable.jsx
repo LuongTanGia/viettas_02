@@ -171,7 +171,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
         dataIndex: item,
         align: 'center',
         render: (text) => {
-          return <div className=" text-left">{text}</div>
+          return <div className=" text-left truncate">{text}</div>
         },
         showSorterTooltip: false,
         sorter: (a, b) => {
@@ -283,6 +283,13 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
                   record.DataName === dataGroup && <span key={index}>{countByDataGroup[dataGroup]}</span>,
               )}
               (Sản phẩm)
+            </div>
+          ) : segmented === 'TONGHOPDVT' ? (
+            <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right `}>
+              {text?.toLocaleString('en-US', {
+                minimumFractionDigits: 3,
+                maximumFractionDigits: 3,
+              })}
             </div>
           ) : (
             <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-right `}>
@@ -564,8 +571,10 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
         // Change the parameters of render function
         if (record.DataType === 4) {
           return null
-        } else {
+        } else if (record.DataType === 1) {
           return text
+        } else {
+          return <div className=" text-left">{text}</div>
         }
       },
 
@@ -577,23 +586,12 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
       //     <div className={`${text < 0 ? 'text-red-500 ' : text === 0 ? 'text-transparent' : ''}  text-center`}>{text}</div>
       //   ),
       sorter: (a, b) => {
-        if (
-          a.DataType === 1 ||
-          b.DataType === 1 ||
-          a.DataCode !== b.DataCode ||
-          a.DataType === 0 ||
-          b.DataType === 0 ||
-          a.DataType === 3 ||
-          b.DataType === 3 ||
-          a.DataType === 4 ||
-          b.DataType === 4
-        ) {
+        if (a.DataType === 1 || b.DataType === 1) {
           return 0
         } else {
-          const dateA = new Date(parseInt(a.DataDate.split('/')[2]), parseInt(a.DataDate.split('/')[1]) - 1, parseInt(a.DataDate.split('/')[0]))
-          const dateB = new Date(parseInt(b.DataDate.split('/')[2]), parseInt(b.DataDate.split('/')[1]) - 1, parseInt(b.DataDate.split('/')[0]))
-
-          return dateA.getTime() - dateB.getTime()
+          const valueA = typeof a['DataName'] === 'string' ? a['DataName'] : ''
+          const valueB = typeof b['DataName'] === 'string' ? b['DataName'] : ''
+          return valueA.localeCompare(valueB)
         }
       },
     },
@@ -624,20 +622,10 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
       },
 
       sorter: (a, b) => {
-        if (
-          a.DataType === 1 ||
-          b.DataType === 1 ||
-          a.DataCode !== b.DataCode ||
-          a.DataType === 0 ||
-          b.DataType === 0 ||
-          a.DataType === 3 ||
-          b.DataType === 3 ||
-          a.DataType === 4 ||
-          b.DataType === 4
-        ) {
+        if (a.DataType === 1 || b.DataType === 1) {
           return 0
         } else {
-          return a.DataValuePS - b.DataValuePS
+          return a.DataValueIn - b.DataValueIn
         }
       },
     },
@@ -662,20 +650,10 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
           </div>
         ),
       sorter: (a, b) => {
-        if (
-          a.DataType === 1 ||
-          b.DataType === 1 ||
-          a.DataCode !== b.DataCode ||
-          a.DataType === 0 ||
-          b.DataType === 0 ||
-          a.DataType === 3 ||
-          b.DataType === 3 ||
-          a.DataType === 4 ||
-          b.DataType === 4
-        ) {
+        if (a.DataType === 1 || b.DataType === 1) {
           return 0
         } else {
-          return a.DataValueTT - b.DataValueTT
+          return a.DataValueOut - b.DataValueOut
         }
       },
     },
@@ -705,20 +683,10 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
           </div>
         ),
       sorter: (a, b) => {
-        if (
-          a.DataType === 1 ||
-          b.DataType === 1 ||
-          a.DataCode !== b.DataCode ||
-          a.DataType === 0 ||
-          b.DataType === 0 ||
-          a.DataType === 3 ||
-          b.DataType === 3 ||
-          a.DataType === 4 ||
-          b.DataType === 4
-        ) {
+        if (a.DataType === 1 || b.DataType === 1) {
           return 0
         } else {
-          return a.DataValue - b.DataValue
+          return a.DataValueBalance - b.DataValueBalance
         }
       },
     },
@@ -728,15 +696,15 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
   const [form] = Form.useForm()
   const rowClassName = (record) => {
     if (record.DataType === 0 && (segmented === 'BIEUDOTYTRONG' || typeTable === 1)) {
-      return 'highlight-rowChart stickyTable'
+      return `highlight-rowChart stickyTable color${colorTable?.slice(1)}`
     } else if (segmented === 'QUYTIENMAT' && record.DataType === 1) {
       return 'stickyTable highlight-rowChart'
     } else if (segmented !== 'QUYTIENMAT' ? record.DataType === -1 || record.DataType === 1 || record.DataType === 3 : record.DataType === 1) {
-      return 'highlight-rowChart'
+      return `highlight-rowChart  color${colorTable?.slice(1)}`
     } else if (record.DataValue < 0) {
       return 'highlight_value '
-    } else {
-      return ''
+    } else if (record.DataType === 4) {
+      return 'highlight_soquy'
     }
   }
   return (
