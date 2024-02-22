@@ -3,7 +3,7 @@
 }
 
 .DrawerTable {
-  height: 95% !important;
+  height: calc(100% - 36.4px - 46px) !important;
   min-width: 95% !important;
 }
 /* .DrawerTable .ant-spin-container,
@@ -262,3 +262,47 @@ th.ant-table-cell {
     transform: rotate(360deg);
   }
 } */
+/* .ant-spin-container {
+  height: 98%;
+}
+.ant-table-body {
+  height: calc(86% - 32px);
+  max-height: unset !important;
+} */
+.ant-spin-nested-loading,
+.ant-spin-container,
+.ant-spin-nested-loading,
+.ant-table,
+.ant-table-container {
+  height: 100% !important;
+}
+.ant-table-body {
+  overflow: auto scroll;
+  max-height: 95% !important;
+  min-height: 95% !important;
+}
+.QUYTIENMAT .ant-table-body {
+  overflow: auto scroll;
+  max-height: 95% !important;
+  min-height: calc(95% - 34.5px) !important;
+}
+.TONKHO .ant-table-body {
+  overflow: auto scroll;
+  max-height: 97% !important;
+}
+.TONKHO .ant-spin-nested-loading,
+.TONKHO .ant-spin-container,
+.TONKHO .ant-spin-nested-loading,
+.TONKHO .ant-table,
+.TONKHO .ant-table-container {
+  height: 97%;
+}
+.TONKHO .ant-table-body {
+  overflow: auto scroll;
+  max-height: 100% !important;
+  min-height: 100% !important;
+}
+.TONKHO .DrawerTable {
+  height: 94% !important;
+  min-width: 95% !important;
+}

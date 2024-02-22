@@ -235,6 +235,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
     setDataDate_02(dataDate_s)
   }, [searchText, titleDr])
   useEffect(() => {
+    console.log(1)
     const params = new URLSearchParams(location.search)
     const titleParam = params.get('title') || 'home'
     const loadData = async () => {
@@ -280,9 +281,18 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
       const BanHang_KhachHang =
         titleDr === 'BANHANG' || titleParam === 'BANHANG' ? await APIDATA_CHART(API.BanHang_KhachHang, token, { ...dataDate_s, FilterText: searchText }) : null
       // //API Thu - Chi
-      const ThuTien = titleDr === 'THU' || titleDr === 'CHI' || titleParam === 'THU' || titleParam === 'CHI' ? await APIDATA_CHART(API.ThuTien, token, dataDate_s) : null
-      const ChiTien = titleDr === 'THU' || titleDr === 'CHI' || titleParam === 'THU' || titleParam === 'CHI' ? await APIDATA_CHART(API.ChiTien, token, dataDate_s) : null
-      const SoQuy = titleDr === 'THU' || titleDr === 'CHI' || titleParam === 'THU' || titleParam === 'CHI' ? await APIDATA_CHART(API.SoQuy, token, dataDate_s) : null
+      const ThuTien =
+        titleDr === 'THU' || titleDr === 'CHI' || titleParam === 'THU' || titleParam === 'CHI' || titleDr === 'QUYTIENMAT' || titleParam === 'QUYTIENMAT'
+          ? await APIDATA_CHART(API.ThuTien, token, dataDate_s)
+          : null
+      const ChiTien =
+        titleDr === 'THU' || titleDr === 'CHI' || titleParam === 'THU' || titleParam === 'CHI' || titleDr === 'QUYTIENMAT' || titleParam === 'QUYTIENMAT'
+          ? await APIDATA_CHART(API.ChiTien, token, dataDate_s)
+          : null
+      const SoQuy =
+        titleDr === 'THU' || titleDr === 'CHI' || titleParam === 'THU' || titleParam === 'CHI' || titleDr === 'QUYTIENMAT' || titleParam === 'QUYTIENMAT'
+          ? await APIDATA_CHART(API.SoQuy, token, dataDate_s)
+          : null
 
       if (
         data_hanghoa === -107 ||
@@ -370,7 +380,9 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                   ? 'THUTIEN'
                   : titleDr === 'CHI' || titleParam === 'CHI'
                     ? 'CHITIEN'
-                    : '',
+                    : titleDr === 'QUYTIENMAT'
+                      ? 'QUYTIENMAT'
+                      : '',
     )
     setValueSegmented(
       titleDr === 'DOANHSO' || titleParam === 'DOANHSO'
@@ -387,7 +399,9 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                   ? 'Thu tiền'
                   : titleDr === 'CHI' || titleParam === 'CHI'
                     ? 'Chi tiền'
-                    : '',
+                    : titleDr === 'QUYTIENMAT' || titleParam === 'QUYTIENMAT'
+                      ? 'Sổ quỹ'
+                      : '',
     )
     setTimeout(() => {
       loadData()
@@ -623,10 +637,8 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
       <div>
         <Drawer
           footer={
-            titleDr === 'TONKHO' || segmented === 'QUYTIENMAT' ? (
-              <div className="h-[50px] " style={{ backgroundColor: 'rgb(241,241,241)' }}></div>
-            ) : (
-              <div className="h-[50px]  items-center" style={{ backgroundColor: 'rgb(241,241,241)' }}>
+            titleDr === 'TONKHO' || segmented === 'QUYTIENMAT' ? null : ( // <div className="h-[50px] " style={{ backgroundColor: 'rgb(241,241,241)' }}></div>
+              <div className="  items-center" style={{ backgroundColor: 'rgb(241,241,241)' }}>
                 <div className="flex cursor-pointer items-center justify-center mb-2" onClick={() => showChildrenDrawer({ DataCode: null, DataCodeRest: 1, title: 'all' })}>
                   <p className="w-[100%]  hover:font-medium flex items-center gap-2 justify-between text-base font-medium pl-4">Tổng:</p>
                   <div
@@ -702,11 +714,10 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                 />
               ) : titleDr === 'TONKHO' ? (
                 <Segmented
-                  options={['Tổng hợp', 'Tổng hợp (đơn vị tính)', 'Theo kho']}
+                  options={['Tổng hợp', 'T.hợp (ĐVT)', 'Theo kho']}
                   block
                   onChange={(value) => {
-                    setSegmented(value === 'Tổng hợp' ? 'TONGHOP' : value === 'Tổng hợp (đơn vị tính)' ? 'TONGHOPDVT' : value === 'Theo kho' ? 'THEOKHO' : null),
-                      setValueSegmented(value)
+                    setSegmented(value === 'Tổng hợp' ? 'TONGHOP' : value === 'T.hợp (ĐVT)' ? 'TONGHOPDVT' : value === 'Theo kho' ? 'THEOKHO' : null), setValueSegmented(value)
                   }}
                   value={valueSegmented}
                   className="text-base font-medium"
@@ -936,12 +947,10 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
             {titleDr === 'DOANHSO' || titleDr === 'PHAITHU' || titleDr === 'PHAITRA' ? (
               <Drawer
                 footer={
-                  titleDr === 'PHAITRA' || titleDr === 'PHAITHU' ? (
-                    <div className="h-[55px] " style={{ backgroundColor: 'rgb(241,241,241)' }}></div>
-                  ) : (
+                  titleDr === 'PHAITRA' || titleDr === 'PHAITHU' ? null : ( // <div className=" " style={{ backgroundColor: 'rgb(241,241,241)' }}></div>
                     <div>
                       {
-                        <div className=" h-[55px] flex items-center justify-center mb-2 px-2">
+                        <div className="  flex items-center justify-center mb-2 px-2">
                           <p className="w-[50%] cursor-pointer hover:font-medium text-base flex items-center gap-2 justify-between font-medium ">Tổng :</p>
                           <div className={`  w-[100%] text-right ${titleDr === 'DOANHSO' ? 'flex w-full justify-end gap-2 items-center' : ''}`}>
                             <CounterComponent targetValue={TotalNumber} duration={100000} color={colorTable} />
@@ -961,7 +970,8 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                   )
                 }
                 className="DrawerCT"
-                title={`${nameMapping[titleDr]} / ${titleDr_child.DataName || 'Tổng Cộng'}(Chi tiết)`}
+                //${nameMapping[titleDr]}
+                title={`${titleDr_child.DataName || 'Tổng Cộng'}(Chi tiết)`}
                 width={1020}
                 onClose={onChildrenDrawerClose}
                 closeIcon={<BiLeftArrowAlt />}

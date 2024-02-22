@@ -574,7 +574,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
         } else if (record.DataType === 1) {
           return text
         } else {
-          return <div className=" text-left">{text}</div>
+          return <div className=" text-left truncate">{text}</div>
         }
       },
 
@@ -700,7 +700,8 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
     } else if (segmented === 'QUYTIENMAT' && record.DataType === 1) {
       return 'stickyTable highlight-rowChart'
     } else if (segmented !== 'QUYTIENMAT' ? record.DataType === -1 || record.DataType === 1 || record.DataType === 3 : record.DataType === 1) {
-      return `highlight-rowChart  color${colorTable?.slice(1)}`
+      return `highlight-rowChart 
+        color${colorTable?.slice(1)}`
     } else if (record.DataValue < 0) {
       return 'highlight_value '
     } else if (record.DataType === 4) {
@@ -726,7 +727,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
                     y: 500,
                   }
                 : {
-                    x: 0,
+                    x: 120,
                     y: 500,
                   }
             }

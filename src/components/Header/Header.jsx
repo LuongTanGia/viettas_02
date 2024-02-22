@@ -34,9 +34,9 @@ function Header() {
 
     window.location.href = '/login'
   }
-  const handeleChange = () => {
-    setIsShow(true)
-  }
+  // const handeleChange = () => {
+  //   setIsShow(true)
+  // }
   const close = () => {
     setIsShow(false)
   }
@@ -168,19 +168,7 @@ function Header() {
                   <hr className="dropdown-divider" />
                 </li>
 
-                {userLogin !== null ? (
-                  <>
-                    <li>
-                      <Link className="dropdown-item d-flex align-items-center" href="users-profile.html" onClick={handeleChange}>
-                        <i className="bi bi-question-circle"></i>
-                        <span>Đổi mật khẩu </span>
-                      </Link>
-                    </li>
-                    <li>
-                      <hr className="dropdown-divider" />
-                    </li>
-                  </>
-                ) : null}
+                {userLogin !== null ? null : null}
 
                 <li>
                   <Link className="dropdown-item d-flex align-items-center" href="pages-faq.html" onClick={showModal}>
