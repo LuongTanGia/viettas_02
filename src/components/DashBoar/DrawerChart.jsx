@@ -222,7 +222,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
             : titleDr === 'MUAHANG' || titleDr === 'XUATTRA' || titleDr === 'NHAPTRA'
               ? 'Theo hàng hóa'
               : titleDr === 'BANHANG'
-                ? 'Bán sỉ theo hàng hóa'
+                ? 'Bán sỉ (H.Hóa)'
                 : titleDr === 'THU'
                   ? 'Thu tiền'
                   : titleDr === 'CHI'
@@ -394,7 +394,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
             : titleDr === 'MUAHANG' || titleDr === 'XUATTRA' || titleDr === 'NHAPTRA' || titleParam === 'MUAHANG' || titleParam === 'XUATTRA' || titleParam === 'NHAPTRA'
               ? 'Theo hàng hóa'
               : titleDr === 'BANHANG' || titleParam === 'BANHANG'
-                ? 'Bán sỉ theo hàng hóa'
+                ? 'Bán sỉ (H.Hóa)'
                 : titleDr === 'THU' || titleParam === 'THU'
                   ? 'Thu tiền'
                   : titleDr === 'CHI' || titleParam === 'CHI'
@@ -697,7 +697,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
           width={1020}
           onClose={onClose}
           open={showOpen}
-          className={`bg-gray-500 ${titleDr}`}
+          className={`bg-gray-500 ${titleDr} tableDr1_home`}
         >
           <Spin tip="Loading..." spinning={loading}>
             <div className="stickyTable top-0 bg-white">
@@ -710,7 +710,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                     setSegmented(value === 'Khách hàng' ? 'KHACHHANG' : value === 'Hàng hóa' ? 'HANGHOA' : 'NHOMHANG'), setValueSegmented(value)
                   }}
                   value={valueSegmented}
-                  className="text-base font-medium"
+                  className=" font-medium"
                 />
               ) : titleDr === 'TONKHO' ? (
                 <Segmented
@@ -720,7 +720,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                     setSegmented(value === 'Tổng hợp' ? 'TONGHOP' : value === 'T.hợp (ĐVT)' ? 'TONGHOPDVT' : value === 'Theo kho' ? 'THEOKHO' : null), setValueSegmented(value)
                   }}
                   value={valueSegmented}
-                  className="text-base font-medium"
+                  className=" font-medium"
                 />
               ) : titleDr === 'PHAITHU' || titleDr === 'PHAITRA' ? (
                 <Segmented
@@ -739,7 +739,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                       setValueSegmented(value)
                   }}
                   value={valueSegmented}
-                  className="text-base font-medium"
+                  className=" font-medium"
                 />
               ) : titleDr === 'MUAHANG' ? (
                 <Segmented
@@ -749,7 +749,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                     setSegmented(value === 'Theo hàng hóa' ? 'THEOHANGHOA' : value === 'Theo nhà cung cấp' ? 'THEONHACUNGCAP' : null), setValueSegmented(value)
                   }}
                   value={valueSegmented}
-                  className="text-base font-medium"
+                  className=" font-medium"
                 />
               ) : titleDr === 'XUATTRA' ? (
                 <Segmented
@@ -759,7 +759,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                     setSegmented(value === 'Theo hàng hóa' ? 'THEOHANGHOA' : value === 'Theo nhà cung cấp' ? 'THEONHACUNGCAP' : null), setValueSegmented(value)
                   }}
                   value={valueSegmented}
-                  className="text-base font-medium"
+                  className=" font-medium"
                 />
               ) : titleDr === 'NHAPTRA' ? (
                 <Segmented
@@ -769,20 +769,18 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                     setSegmented(value === 'Theo hàng hóa' ? 'THEOHANGHOA' : value === 'Theo khách hàng' ? 'THEONHACUNGCAP' : null), setValueSegmented(value)
                   }}
                   value={valueSegmented}
-                  className="text-base font-medium"
+                  className=" font-medium"
                 />
               ) : titleDr === 'BANHANG' ? (
                 <Segmented
-                  options={['Bán sỉ theo hàng hóa', 'Bán sỉ theo khách hàng', 'Bán lẻ']}
+                  options={['Bán sỉ (H.Hóa)', 'Bán sỉ (K.Hàng)', 'Bán lẻ']}
                   block
                   onChange={(value) => {
-                    setSegmented(
-                      value === 'Bán sỉ theo hàng hóa' ? 'BANHANGHANGHOA' : value === 'Bán lẻ' ? 'BANHANGQUYLE' : value === 'Bán sỉ theo khách hàng' ? 'BANHANGKHACHHANG' : null,
-                    ),
+                    setSegmented(value === 'Bán sỉ (H.Hóa)' ? 'BANHANGHANGHOA' : value === 'Bán lẻ' ? 'BANHANGQUYLE' : value === 'Bán sỉ (K.Hàng)' ? 'BANHANGKHACHHANG' : null),
                       setValueSegmented(value)
                   }}
                   value={valueSegmented}
-                  className="text-base font-medium"
+                  className=" font-medium"
                 />
               ) : titleDr === 'THU' || titleDr === 'CHI' || titleDr === 'QUYTIENMAT' ? (
                 <Segmented
@@ -792,7 +790,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                     setSegmented(value === 'Thu tiền' ? 'THUTIEN' : value === 'Chi tiền' ? 'CHITIEN' : value === 'Sổ quỹ' ? 'QUYTIENMAT' : null), setValueSegmented(value)
                   }}
                   value={valueSegmented}
-                  className="text-base font-medium"
+                  className=" font-medium"
                 />
               ) : null}
             </div>
@@ -969,7 +967,7 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                     </div>
                   )
                 }
-                className="DrawerCT"
+                className={`DrawerCT ${titleDr}`}
                 //${nameMapping[titleDr]}
                 title={`${titleDr_child.DataName || 'Tổng Cộng'}(Chi tiết)`}
                 width={1020}

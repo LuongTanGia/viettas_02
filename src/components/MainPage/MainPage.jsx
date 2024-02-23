@@ -21,7 +21,7 @@ import { FiWifiOff } from 'react-icons/fi'
 function MainPage({ isSidebarVisible }) {
   const dispatch = useDispatch()
   const [currentDate, setCurrentDate] = useState(new Date())
-  const myStateRef = useRef(0)
+  const myStateRef = useRef(true)
   console.log(myStateRef)
   const checkDateSetting = localStorage.getItem('dateSetting')
   const token = localStorage.getItem('TKN')
@@ -72,7 +72,7 @@ function MainPage({ isSidebarVisible }) {
   }
   const errorCheck = () => {
     console.log('errorCheck')
-    myStateRef.current = 1
+    myStateRef.current = false
     return toast.error(
       <div className="flex gap-1 justify-start items-center  text-red-500 text-base ">
         Lỗi kết nối mạng
@@ -81,13 +81,14 @@ function MainPage({ isSidebarVisible }) {
     )
   }
   const successCheck = () => {
-    if (myStateRef.current !== 0) {
+    if (!myStateRef.current) {
       toast.success(
         <div className="flex gap-1 justify-start items-center  text-green-500 text-base ">
           Kết nối thành công
           <FiWifi size={20} fontSize={20} color="green" />
         </div>,
       )
+      myStateRef.current = true
     } else {
       return null
     }

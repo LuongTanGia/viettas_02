@@ -3,7 +3,7 @@
 }
 
 .DrawerTable {
-  height: calc(100% - 36.4px - 46px) !important;
+  height: calc(100% - 36.4px - 40px) !important;
   min-width: 95% !important;
 }
 /* .DrawerTable .ant-spin-container,
@@ -132,7 +132,9 @@
 .setHeight .ant-table {
   /* height: calc(100vh - 1000px) !important; */
 }
-
+.ant-segmented-item-label {
+  font-size: 14px;
+}
 .sticky {
   position: -webkit-sticky;
   position: sticky;
@@ -278,8 +280,8 @@ th.ant-table-cell {
 }
 .ant-table-body {
   overflow: auto scroll;
-  max-height: 95% !important;
-  min-height: 95% !important;
+  max-height: 100% !important;
+  min-height: 100% !important;
 }
 .QUYTIENMAT .ant-table-body {
   overflow: auto scroll;
@@ -303,6 +305,50 @@ th.ant-table-cell {
   min-height: 100% !important;
 }
 .TONKHO .DrawerTable {
-  height: 94% !important;
+  height: calc(95% - 36px - 28px) !important;
   min-width: 95% !important;
+}
+.THU .DrawerTable,
+.CHI .DrawerTable,
+.QUYTIENMAT .DrawerTable {
+  height: calc(95% - 36px - 28px) !important;
+  min-width: 95% !important;
+}
+.PHAITHU .ant-table-body,
+.PHAITRA .ant-table-body {
+  overflow: auto scroll;
+  max-height: calc(100% - 53.7px) !important;
+  min-height: calc(100% - 53.7px) !important;
+}
+.tableDr1_home.PHAITHU .ant-table-body,
+.tableDr1_home.PHAITRA .ant-table-body {
+  overflow: auto scroll;
+  max-height: calc(100% - 32px) !important;
+  min-height: calc(100% - 32px) !important;
+}
+.tableDr1_home.MUAHANG .ant-table-body,
+.tableDr1_home.BANHANG .ant-table-body {
+  overflow: auto scroll;
+  max-height: calc(100% - 32px) !important;
+  min-height: calc(100% - 32px) !important;
+}
+.tableDr1_home.XUATTRA .ant-table-body,
+.tableDr1_home.NHAPTRA .ant-table-body {
+  overflow: auto scroll;
+  max-height: calc(100% - 32px) !important;
+  min-height: calc(100% - 32px) !important;
+}
+.tableDr1_home.THU .ant-table-body,
+.tableDr1_home.CHI .ant-table-body,
+.tableDr1_home.QUYTIENMAT .ant-table-body {
+  overflow: auto scroll;
+  max-height: calc(100% - 12px) !important;
+  min-height: calc(100% - 12px) !important;
+}
+.tableDr1_home.THU .QUYTIENMAT .ant-table-body,
+.tableDr1_home.CHI .QUYTIENMAT .ant-table-body,
+.tableDr1_home.QUYTIENMAT .QUYTIENMAT .ant-table-body {
+  overflow: auto scroll;
+  max-height: calc(100% - 53.7px - 12px) !important;
+  min-height: calc(100% - 53.7px - 12px) !important;
 }

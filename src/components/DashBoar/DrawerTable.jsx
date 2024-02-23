@@ -574,7 +574,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
         } else if (record.DataType === 1) {
           return text
         } else {
-          return <div className=" text-left truncate">{text}</div>
+          return <div className=" text-left ">{text}</div>
         }
       },
 
@@ -736,7 +736,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
             })}
             pagination={false}
             size="small"
-            className={`color${colorTable?.slice(1)} DrawerTable setHeight ${height}`}
+            className={`color${colorTable?.slice(1)} DrawerTable setHeight ${height} ${segmented}`}
             summary={
               segmented === 'TONKHO' || segmented === 'BIEUDOTYTRONG' || segmented === 'QUYTIENMAT' || typeTable === 1
                 ? () => {
@@ -744,10 +744,10 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
                       return null
                     }
                     return (
-                      <Table.Summary fixed>
-                        <Table.Summary.Cell className="text-center font-bold bg-[#f1f1f1] ">Tổng</Table.Summary.Cell>
+                      <Table.Summary fixed className="h-[53.7px]]">
+                        <Table.Summary.Cell className="text-center font-bold bg-[#f1f1f1] h-[53.7px]">Tổng</Table.Summary.Cell>
                         {/* {segmented === 'BIEUDOTYTRONG' ? <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]"></Table.Summary.Cell> : null} */}
-                        <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1] ">
+                        <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1] h-[53.7px]">
                           {Number(
                             data?.reduce((total, item) => total + (segmented === 'QUYTIENMAT' ? item.DataValueIn : item.DataValuePS), 0) / (segmented === 'QUYTIENMAT' ? 2 : 1),
                           ).toLocaleString('en-US', {
@@ -755,7 +755,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
                             maximumFractionDigits: ThongSo.SOLESOTIEN,
                           })}
                         </Table.Summary.Cell>
-                        <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1] ">
+                        <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1] h-[53.7px]">
                           {Number(
                             data?.reduce((total, item) => total + (segmented === 'QUYTIENMAT' ? item.DataValueOut : item.DataValueTT), 0) / (segmented === 'QUYTIENMAT' ? 2 : 1),
                           ).toLocaleString('en-US', {
@@ -763,7 +763,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
                             maximumFractionDigits: ThongSo.SOLESOTIEN,
                           })}
                         </Table.Summary.Cell>
-                        <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1] ">
+                        <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1] h-[53.7px]">
                           {segmented !== 'QUYTIENMAT'
                             ? Number(data[data.length - 1]?.DataValue).toLocaleString('en-US', {
                                 minimumFractionDigits: ThongSo.SOLESOTIEN,
