@@ -221,8 +221,8 @@ const App = () => {
             </div>
 
             {isShow ? (
-              <div className="fixed inset-0 bg-black bg-opacity-25 flex justify-center items-center">
-                <div className="w-[80%] m-6 p-6 absolute shadow-lg bg-white rounded-md flex flex-col scroll-smooth box_dieuKhoan">
+              <div className="fixed inset-0 bg-black bg-opacity-25 flex justify-center items-center text-xs">
+                <div className="w-full m-6 p-6 absolute shadow-lg bg-white rounded-md flex flex-col scroll-smooth box_dieuKhoan">
                   <FAQ />
                   <div className="flex justify-end">
                     <button

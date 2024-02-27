@@ -640,9 +640,15 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
             titleDr === 'TONKHO' || segmented === 'QUYTIENMAT' ? null : ( // <div className="h-[50px] " style={{ backgroundColor: 'rgb(241,241,241)' }}></div>
               <div className="  items-center" style={{ backgroundColor: 'rgb(241,241,241)' }}>
                 <div className="flex cursor-pointer items-center justify-center mb-2" onClick={() => showChildrenDrawer({ DataCode: null, DataCodeRest: 1, title: 'all' })}>
-                  <p className="w-[100%]  hover:font-medium flex items-center gap-2 justify-between text-base font-medium pl-4">Tổng:</p>
+                  <p
+                    className={`w-full text-center hover:font-medium flex items-center gap-2 justify-between text-base font-medium ${
+                      titleDr === 'DOANHSO' || titleDr === 'PHAITHU' || titleDr === 'PHAITRA' ? 'pl-4' : 'pl-[8px]'
+                    }`}
+                  >
+                    Cộng
+                  </p>
                   <div
-                    className={`w-[100%] mr-4 ${
+                    className={`w-[100%] ${titleDr === 'DOANHSO' || titleDr === 'PHAITHU' || titleDr === 'PHAITRA' ? 'mr-4' : 'mr-2'}  ${
                       titleDr === 'MUAHANG' ||
                       titleDr === 'BANHANG' ||
                       titleDr === 'NHAPTRA' ||
@@ -948,8 +954,8 @@ function DashBoar({ showOpen, titleDr, setOpenShow, dataDate }) {
                   titleDr === 'PHAITRA' || titleDr === 'PHAITHU' ? null : ( // <div className=" " style={{ backgroundColor: 'rgb(241,241,241)' }}></div>
                     <div>
                       {
-                        <div className="  flex items-center justify-center mb-2 px-2">
-                          <p className="w-[50%] cursor-pointer hover:font-medium text-base flex items-center gap-2 justify-between font-medium ">Tổng :</p>
+                        <div className=" w-full flex items-center justify-center mb-2 px-2">
+                          <p className=" w-[50%] cursor-pointer hover:font-medium text-base  items-center gap-2 justify-between font-medium text-center ">Cộng </p>
                           <div className={`  w-[100%] text-right ${titleDr === 'DOANHSO' ? 'flex w-full justify-end gap-2 items-center' : ''}`}>
                             <CounterComponent targetValue={TotalNumber} duration={100000} color={colorTable} />
                             {titleDr === 'DOANHSO' ? (

@@ -9,11 +9,11 @@ import { useEffect, useState } from 'react'
 import RateBar from '../util/Chart/LoadingChart'
 const { Text } = Typography
 
-function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, titleDr, segmented, title, onClick, typeTable, height }) {
+function Tables({ loadingSearch, value, param, columName, setTotalNumber, colorTable, titleDr, segmented, title, onClick, typeTable, height }) {
   const [data, setData] = useState()
   // console.log(param, 'param')
   const columnName = {
-    DataName: titleDr === 'TONKHO' ? 'Hàng hóa' : 'Tên ',
+    DataName: titleDr === 'TONKHO' ? 'Hàng hóa' : segmented === 'DANHSACHKHACHHANG' ? 'Khách hàng ' : segmented === 'DANHSACHNHACUNGCAP' ? 'Nhà cung cấp' : 'Tên',
     DataDate: 'Thời gian',
     DataValue: titleDr === 'TONKHO' ? 'Số lượng' : 'Số tiền',
     DataValue_TyTrong: 'Tỷ trọng',
@@ -149,9 +149,10 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
       return {
         title: columnName[item] || item,
         dataIndex: item,
+        width: segmented === 'DANHSACHKHACHHANG' || segmented === 'DANHSACHNHACUNGCAP' ? 240 : null,
         align: 'center',
         render: (text) => {
-          return <div className={` ${segmented === 'DANHSACHKHACHHANG' ? ' underline cursor-pointer' : ''} text-left`}>{text}</div>
+          return <div className={` ${segmented === 'DANHSACHKHACHHANG' || segmented === 'DANHSACHNHACUNGCAP' ? ' underline cursor-pointer' : ''} text-left`}>{text}</div>
         },
         showSorterTooltip: false,
         sorter: (a, b) => {
@@ -171,7 +172,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
         dataIndex: item,
         align: 'center',
         render: (text) => {
-          return <div className=" text-left truncate">{text}</div>
+          return <div className=" text-left ">{text}</div>
         },
         showSorterTooltip: false,
         sorter: (a, b) => {
@@ -280,7 +281,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
               {Object.keys(countByDataGroup).map(
                 (dataGroup, index) =>
                   // Only render the count if the dataGroup matches the record.DataName
-                  record.DataName === dataGroup && <span key={index}>{countByDataGroup[dataGroup]}</span>,
+                  record.DataName === dataGroup && <span key={index}>{countByDataGroup[dataGroup] - 1}</span>,
               )}
               (Sản phẩm)
             </div>
@@ -745,7 +746,7 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
                     }
                     return (
                       <Table.Summary fixed className="h-[53.7px]]">
-                        <Table.Summary.Cell className="text-center font-bold bg-[#f1f1f1] h-[53.7px]">Tổng</Table.Summary.Cell>
+                        <Table.Summary.Cell className=" font-bold bg-[#f1f1f1] h-[53.7px] text-center ">Tổng</Table.Summary.Cell>
                         {/* {segmented === 'BIEUDOTYTRONG' ? <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]"></Table.Summary.Cell> : null} */}
                         <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1] h-[53.7px]">
                           {Number(
@@ -777,7 +778,27 @@ function Tables({ loadingSearch, param, columName, setTotalNumber, colorTable, t
                       </Table.Summary>
                     )
                   }
-                : null
+                : titleDr === 'DOANHSO'
+                  ? () => {
+                      return (
+                        <Table.Summary fixed className="h-[53.7px]]">
+                          <Table.Summary.Cell className=" font-bold bg-[#f1f1f1] h-[53.7px] text-center ">Cộng</Table.Summary.Cell>
+                          <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1] h-[53.7px]">
+                            {Number(value).toLocaleString('en-US', {
+                              minimumFractionDigits: ThongSo.SOLESOTIEN,
+                              maximumFractionDigits: ThongSo.SOLESOTIEN,
+                            })}
+                          </Table.Summary.Cell>
+                          <Table.Summary.Cell className=" font-bold bg-[#f1f1f1] h-[53.7px] text-center ">
+                            {' '}
+                            <RateBar percentage={100} color={colorTable} />
+                          </Table.Summary.Cell>
+
+                          {/* {segmented === 'BIEUDOTYTRONG' ? <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]"></Table.Summary.Cell> : null} */}
+                        </Table.Summary>
+                      )
+                    }
+                  : null
             }
           />
         </Form>

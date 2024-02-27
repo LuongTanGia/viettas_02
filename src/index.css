@@ -18,7 +18,7 @@ body {
   width: 100vw;
   height: 100vh;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
   font-size: 16px !important;
 }
 a {
@@ -300,7 +300,7 @@ input[type='radio'] {
 }
 .boxRate {
   overflow: scroll;
-  max-height: 31vh !important;
+  /* max-height: 31vh !important; */
 }
 .boxRate_scroll {
   overflow: scroll;
@@ -467,6 +467,7 @@ input[type='radio'] {
 #gridMain .QUYTIENMAT {
   grid-area: QUYTIENMAT;
 }
+
 .MainPage_bg svg {
   position: absolute;
   top: 0;

@@ -41,14 +41,14 @@ function DoughNut({ dataChart, value, name, onClick, Drawer, valueNum }) {
   return (
     <>
       {dataChart.length > 0 ? (
-        <div className="pt-1 gap-4 flex justify-between items-center PhoneCss flex-col px-3">
+        <div className="pt-1 gap-4 flex justify-between items-center PhoneCss flex-col px-3" style={{ height: 'calc(100vh - 270px)' }}>
           <div className={`${Drawer ? 'w-[60%]' : 'w-[50%]'}  pt-3 cssChart`}>
             <Pie data={data} options={options} />
           </div>
           <div className="w-[100%] flex flex-col flex-1  scroll-smooth boxRate">
             {dataChart?.map((item, index) => (
               <div key={index} className="flex items-center justify-center mb-2 cursor-pointer" onClick={() => onClick(item, backgroundColor_list[index])}>
-                <p className="w-[100%]  text-base hover:font-medium" style={{ fontWeight: '450' }}>
+                <p className="w-[100%] text-xs hover:font-medium" style={{ fontWeight: '450' }}>
                   {item[name]}
                 </p>
                 <div className="w-[100%]">

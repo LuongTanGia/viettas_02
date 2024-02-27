@@ -31,37 +31,39 @@ function FAQ() {
           <div className="col-lg-12">
             <div className="card basic">
               <div className="card-body">
-                <h5 className="card-title">Tài liệu này cung cấp cho bạn (người truy cập và sử dụng website) chính sách liên quan đến bảo mật và quyền riêng tư của bạn</h5>
+                <p className="text-sm font-medium text-black  ">
+                  Tài liệu này cung cấp cho bạn (người truy cập và sử dụng website) chính sách liên quan đến bảo mật và quyền riêng tư của bạn
+                </p>
                 <div>
                   <a href="#D1">
-                    <h6>Điều 1: Thu thập thông tin</h6>
+                    <p className=" text-sm font-medium">Điều 1: Thu thập thông tin</p>
                   </a>
                 </div>
 
                 <div className="pt-2">
                   <a href="#D2">
-                    <h6>Điều 2: Lưu trữ & Bảo vệ thông tin</h6>
+                    <p className=" text-sm font-medium">Điều 2: Lưu trữ & Bảo vệ thông tin</p>
                   </a>
                 </div>
 
                 <div className="pt-2">
                   <a href="#D3">
-                    <h6>Điều 3: Sử dụng thông tin</h6>
+                    <p className=" text-sm font-medium">Điều 3: Sử dụng thông tin</p>
                   </a>
                 </div>
                 <div className="pt-2">
                   <a href="#D4">
-                    <h6>Điều 4: Tiếp nhận thông tin từ các đối tác</h6>
+                    <p className=" text-sm font-medium">Điều 4: Tiếp nhận thông tin từ các đối tác</p>
                   </a>
                 </div>
                 <div className="pt-2" id="D2">
                   <a href="#D5">
-                    <h6>Điều 5: Chia sẻ thông tin với bên thứ ba</h6>
+                    <p className="  text-sm font-medium">Điều 5: Chia sẻ thông tin với bên thứ ba</p>
                   </a>
                 </div>
                 <div className="pt-2" id="D1">
                   <a href="#D6">
-                    <h6>Điều 6: Thay đổi chính sách bảo mật</h6>
+                    <p className="  text-sm font-medium">Điều 6: Thay đổi chính sách bảo mật</p>
                   </a>
                 </div>
               </div>
@@ -70,7 +72,7 @@ function FAQ() {
           <div className="col-lg-6">
             <div className="card">
               <div className="card-body">
-                <h5 className="card-title">Điều 1: Thu thập thông tin</h5>
+                <p className="text-sm font-medium text-black ">Điều 1: Thu thập thông tin</p>
 
                 <div className="accordion accordion-flush" id="faq-group-2">
                   <div className="accordion-item">
@@ -136,7 +138,7 @@ function FAQ() {
 
             <div className="card">
               <div className="card-body">
-                <h5 className="card-title">Điều 3: Sử dụng thông tin</h5>
+                <p className="text-sm font-medium text-black ">Điều 3: Sử dụng thông tin</p>
 
                 <div>
                   Thông tin thu thập được sẽ được chúng tôi sử dụng để: <br />
@@ -152,7 +154,7 @@ function FAQ() {
             </div>
             <div className="card" id="D5">
               <div className="card-body">
-                <h5 className="card-title">Điều 5: Chia sẻ thông tin với bên thứ ba</h5>
+                <p className="text-sm font-medium text-black ">Điều 5: Chia sẻ thông tin với bên thứ ba</p>
 
                 <div>
                   Chúng tôi sẽ không chia sẻ thông tin cá nhân, thông tin tài chính... của bạn cho các bên thứ 3 trừ khi được sự đồng ý của chính bạn hoặc khi chúng tôi buộc phải
@@ -165,7 +167,7 @@ function FAQ() {
           <div className="col-lg-6">
             <div className="card basic" id="D2">
               <div className="card-body">
-                <h5 className="card-title">Điều 2: Lưu trữ & Bảo vệ thông tin</h5>
+                <p className="text-sm font-medium text-black ">Điều 2: Lưu trữ & Bảo vệ thông tin</p>
                 <div>
                   Hầu hết các thông tin được thu thập sẽ được lưu trữ tại cơ sở dữ liệu của chúng tôi. Chúng tôi bảo vệ dữ liệu cá nhân của các bạn bằng các hình thức như: mật
                   khẩu, tường lửa, mã hóa cùng các hình thức thích hợp khác và chỉ cấp phép việc truy cập và xử lý dữ liệu cho các đối tượng phù hợp, ví dụ chính bạn hoặc các nhân
@@ -182,7 +184,7 @@ function FAQ() {
 
             <div className="card" id="D4">
               <div className="card-body">
-                <h5 className="card-title">Điều 4: Tiếp nhận thông tin từ các đối tác</h5>
+                <p className="text-sm font-medium text-black ">Điều 4: Tiếp nhận thông tin từ các đối tác</p>
 
                 <div>
                   Khi sử dụng các công cụ giao dịch và thanh toán thông qua internet, chúng tôi có thể tiếp nhận thêm các thông tin về bạn như địa chỉ username, Email, số tài khoản
@@ -194,7 +196,7 @@ function FAQ() {
             </div>
             <div className="card" id="D6">
               <div className="card-body">
-                <h5 className="card-title">Điều 6: Thay đổi chính sách bảo mật</h5>
+                <p className="text-sm font-medium text-black ">Điều 6: Thay đổi chính sách bảo mật</p>
 
                 <div>
                   Chính sách Bảo mật này có thể thay đổi theo thời gian. Chúng tôi sẽ không giảm quyền của bạn theo Chính sách Bảo mật này mà không có sự đồng ý rõ ràng của bạn.

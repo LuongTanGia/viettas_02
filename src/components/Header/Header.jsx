@@ -11,13 +11,13 @@ import { InputNumber, Modal, Switch } from 'antd'
 function Header() {
   const userLogin = window.localStorage.getItem('userName')
   const settingDate = window.localStorage.getItem('dateSetting')
-  const userTHONGSO = window.localStorage.getItem('UseThongSo')
+  // const userTHONGSO = window.localStorage.getItem('UseThongSo')
   const titleApp = window.localStorage.getItem('appName')
   const userInfor = JSON.parse(window.localStorage.getItem('userInfo'))
   const [isModalOpen, setIsModalOpen] = useState(false)
   // const [checkDateWeek, setCheckDateWeek] = useState(settingDate === 'DW' ? true : false)
   const [checkDateMonth, setCheckDateMonth] = useState(settingDate === 'DM' ? true : false)
-  const [UseThongSo, setUseThongSo] = useState(userTHONGSO === 'true' ? true : false)
+  // const [UseThongSo, setUseThongSo] = useState(userTHONGSO === 'true' ? true : false)
   // const [checkDateHT, setCheckDateHT] = useState(settingDate === 'DHT' ? true : false)
   const [inputDate, setInputDate] = useState(window.localStorage.getItem('dateNum') || 0)
 
@@ -54,9 +54,9 @@ function Header() {
     setCheckDateMonth(checked)
     setInputDate(0)
   }
-  const onChangeUseThongSo = (checked) => {
-    setUseThongSo(checked)
-  }
+  // const onChangeUseThongSo = (checked) => {
+  //   setUseThongSo(checked)
+  // }
   // const onChangeDW = (checked) => {
   //   setCheckDateMonth(false)
   //   setCheckDateWeek(checked)
@@ -87,7 +87,7 @@ function Header() {
       window.localStorage.setItem('dateSetting', 'DN')
       window.localStorage.setItem('dateNum', inputDate)
     }
-    window.localStorage.setItem('UseThongSo', UseThongSo)
+    // window.localStorage.setItem('UseThongSo', UseThongSo)
 
     setIsModalOpen(false)
     window.localStorage.removeItem('dateLogin')
@@ -117,10 +117,10 @@ function Header() {
             <p className=" text-base font-semibold ">Bắt đầu từ đầu tháng : </p>
             <Switch onChange={onChangeDM} className="bg-gray-400" checked={checkDateMonth} />
           </div>
-          <div className="flex justify-between items-center gap-3">
+          {/* <div className="flex justify-between items-center gap-3">
             <p className=" text-base font-semibold ">So với tháng 1 năm 2024: </p>
             <Switch onChange={onChangeUseThongSo} className="bg-gray-400" checked={UseThongSo} />
-          </div>
+          </div> */}
           {/* <div className="flex justify-between items-center gap-3">
             <p className=" text-base font-semibold ">Trong 1 tuần : </p>
             <Switch onChange={onChangeDW} className="bg-gray-400" checked={checkDateWeek} />

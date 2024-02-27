@@ -1,35 +1,39 @@
 import Card from '../util/CardTT/Card'
 import { useEffect, useRef, useState } from 'react'
 import './dashBoard.css'
-import DrawerCP from './DrawerChart'
+// import DrawerCP from './DrawerChart'
 import LoadingPage from '../util/Loading/LoadingPage'
 import { DATATONGHOP } from '../../action/Actions'
 import API from '../../API/API'
 import Date from './Date'
 import { useSelector } from 'react-redux'
 import { khoanNgaySelect } from '../../redux/selector'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
-import { Progress } from 'antd'
+import { Progress, message } from 'antd'
+import { useParams } from 'react-router-dom'
 // import CounterComponent from './LoadNumber'
 // import { Progress } from 'antd'
 
 function DashBoar() {
   const userTHONGSO = window.localStorage.getItem('UseThongSo')
   // console.log(userTHONGSO)
-  const navigate = useNavigate()
+  const userInfor = JSON.parse(window.localStorage.getItem('userInfo'))
+  const params = useParams()
+  // const navigate = useNavigate()
   const KhoanNgay = useSelector(khoanNgaySelect)
   const token = localStorage.getItem('TKN')
   const [dataDate, setDataDate] = useState(!JSON.parse(localStorage.getItem('dateLogin')) ? KhoanNgay : JSON.parse(localStorage.getItem('dateLogin')))
   const [dataLoaded, setDataLoaded] = useState(false)
+  const [showInfo, setShowInfo] = useState(false)
 
   const [dataTongHop, setDataTongHop] = useState([])
   const [dataTongHop_DF, setDataTongHop_DF] = useState([])
 
-  const [open, setOpen] = useState(false)
+  // const [open, setOpen] = useState(false)
   const [loadingCart, setLoadingCart] = useState(false)
   const [progressPercent, setProgressPercent] = useState(0)
-  const [titleDr, setTitleDr] = useState('home')
+  // const [titleDr, setTitleDr] = useState('home')
   const location = useLocation()
 
   // useEffect(() => {
@@ -41,12 +45,31 @@ function DashBoar() {
   //     console.log('URL does not contain title.', titleParam)
   //   }
   // }, [location.search])
+  const [messageApi, contextHolder] = message.useMessage()
 
-  const showDrawer = (value) => {
-    navigate(`?title=${value}`)
-    setTitleDr(value || 'Tổng cộng')
-    setOpen(true)
-  }
+  useEffect(() => {
+    console.log(params)
+    const info = () => {
+      messageApi.open({
+        type: 'success',
+        content: (
+          <rem>
+            {`Xin Chào,`} <rem className="font-semibold">{userInfor ? userInfor.family_name : ''}</rem>
+          </rem>
+        ),
+        className: 'custom-class',
+      })
+    }
+    if (showInfo) {
+      info()
+    }
+  }, [showInfo])
+
+  // const showDrawer = (value) => {
+  //   // navigate(`?title=${value}`)
+  //   setTitleDr(value || 'Tổng cộng')
+  //   setOpen(true)
+  // }
 
   const containerRef = useRef(null)
   let startX = 0
@@ -54,9 +77,10 @@ function DashBoar() {
   useEffect(() => {
     const params = new URLSearchParams(location.search)
     const titleParam = params.get('title') || 'home'
+    localStorage.removeItem('dateLogin2')
 
     // console.log(titleParam)
-    titleParam !== 'home' ? setOpen(true) : setOpen(false)
+    // titleParam !== 'home' ? setOpen(true) : setOpen(false)
     const loadData = async () => {
       setLoadingCart(true)
       setProgressPercent(0)
@@ -70,6 +94,7 @@ function DashBoar() {
 
         setTimeout(() => {
           setProgressPercent(100)
+          setShowInfo(true)
         }, 700)
         setTimeout(() => {
           setLoadingCart(false)
@@ -95,9 +120,9 @@ function DashBoar() {
     // }, 1300)
 
     if (titleParam === 'home') {
-      setTitleDr(titleParam)
-      loadData()
+      // setTitleDr(titleParam)
     }
+    loadData()
   }, [dataDate?.NgayKetThuc, dataDate?.NgayBatDau, token, location.search])
 
   if (!dataLoaded) {
@@ -113,9 +138,9 @@ function DashBoar() {
       const deltaX_draw1 = startX - currentX
 
       if (deltaX_draw1 > 100) {
-        setOpen(true)
+        // setOpen(true)
       } else if (deltaX_draw1 < -200) {
-        setOpen(false)
+        // setOpen(false)
       }
     }
   }
@@ -155,15 +180,16 @@ function DashBoar() {
 
   return (
     <div ref={containerRef} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
-      <div>
+      {contextHolder}
+      {/* <div>
         <DrawerCP showOpen={open} titleDr={titleDr} setOpenShow={setOpen} onDateChange={setDataDate} dataDate={dataDate} />
-      </div>
+      </div> */}
       <section className="section dashboard">
         <div className="row">
           <div className="col-lg-12 sticky ">
-            <div className="card  mb-3  ">
+            <div className="card  mb-2  ">
               <div className="py-2 w-full bg-white">
-                <Date onDateChange={setDataDate} dataDate={dataDate} dateType={'local'} />
+                <Date onDateChange={setDataDate} dataDate={dataDate} dateType={'local'} localTitle={'dateLogin'} />
               </div>
               <div className=" absolute w-full top-[-16px] ">
                 <Progress
@@ -179,12 +205,12 @@ function DashBoar() {
               </div>
             </div>
           </div>
-          <div className="col-lg-12">
+          <div className="col-lg-12 " style={{ height: `calc(100vh - 168px)`, overflowY: `scroll` }}>
             <div className="row" id="gridMain">
               {resultArrays?.map((resultArray, arrayIndex) => (
                 <div
                   key={arrayIndex}
-                  onClick={() => showDrawer(resultArray[0]?.DataCode.split('_')[0])}
+                  // onClick={() => showDrawer(resultArray[0]?.DataCode.split('_')[0])}
                   style={{ cursor: 'pointer' }}
                   className={`col-xxl-12 col-md-12  card_2-content ${resultArray[0]?.DataCode.split('_')[0]}`}
                 >
@@ -202,7 +228,6 @@ function DashBoar() {
           </div>
         </div>
       </section>
-      <div className="z-[1999]"></div>
     </div>
   )
 }

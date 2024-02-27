@@ -3,7 +3,7 @@ import { DateField } from '@mui/x-date-pickers'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 
-function Date({ dataDate, onDateChange, dateType, titleDr }) {
+function Date({ dataDate, onDateChange, dateType, titleDr, localTitle }) {
   const [startDate, setStartDate] = useState(dayjs(dataDate?.NgayBatDau))
   const [endDate, setEndDate] = useState(dayjs(dataDate?.NgayKetThuc))
   const [DateChange, setDateChange] = useState(false)
@@ -33,7 +33,7 @@ function Date({ dataDate, onDateChange, dateType, titleDr }) {
           NgayKetThuc: dayjs(startDate).format('YYYY-MM-DD'),
         })
         dateType === 'local'
-          ? localStorage.setItem('dateLogin', JSON.stringify({ NgayBatDau: dayjs(startDate).format('YYYY-MM-DD'), NgayKetThuc: dayjs(startDate).format('YYYY-MM-DD') }))
+          ? localStorage.setItem(localTitle, JSON.stringify({ NgayBatDau: dayjs(startDate).format('YYYY-MM-DD'), NgayKetThuc: dayjs(startDate).format('YYYY-MM-DD') }))
           : null
         return
       } else if (DateChange && startDate && endDate && startDate.isAfter(endDate)) {
@@ -43,7 +43,7 @@ function Date({ dataDate, onDateChange, dateType, titleDr }) {
         })
         dateType === 'local'
           ? localStorage.setItem(
-              'dateLogin',
+              localTitle,
               JSON.stringify({
                 NgayBatDau: dayjs(endDate).format('YYYY-MM-DD'),
                 NgayKetThuc: dayjs(endDate).format('YYYY-MM-DD'),
@@ -57,7 +57,7 @@ function Date({ dataDate, onDateChange, dateType, titleDr }) {
         })
         dateType === 'local'
           ? localStorage.setItem(
-              'dateLogin',
+              localTitle,
               JSON.stringify({
                 NgayBatDau: dayjs(startDate).format('YYYY-MM-DD'),
                 NgayKetThuc: dayjs(endDate).format('YYYY-MM-DD'),
@@ -77,7 +77,7 @@ function Date({ dataDate, onDateChange, dateType, titleDr }) {
     <div className="flex pt-2 pb-1 w-full justify-center items-end gap-2 sticky bg-white top-0  ">
       {titleDr === 'TONKHO' || titleDr === 'PHAITRA' || titleDr === 'PHAITHU' ? (
         <>
-          <p className=" text-base">Tới</p>
+          <p className=" text-base">Đến</p>
           <DateField
             onBlur={handleDateChange}
             onKeyDown={handleKeyDown}
@@ -100,7 +100,7 @@ function Date({ dataDate, onDateChange, dateType, titleDr }) {
             onChange={handleStartDateChange}
             className="w-[30%]  min-w-[300px]"
           />
-          <p className=" text-base">Tới</p>
+          <p className="text-base">Đến</p>
 
           <DateField
             onBlur={handleDateChange}
