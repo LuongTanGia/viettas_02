@@ -47,6 +47,7 @@ function PhaiThu() {
   const navigate = useNavigate()
   //   const [dataDate_s, setDataDate] = useState(dataDate)
   // const [dataDate_sS, setDataDateSS] = useState(dataDate_s)
+  const titleApp = window.localStorage.getItem('appName')
 
   useEffect(() => {
     const loadData = async () => {
@@ -162,11 +163,16 @@ function PhaiThu() {
   }
   return (
     <div className=" bg-white w-full  z-20 p-0 m-0">
-      <div className="col-lg-12 sticky ">
+      <div className="card  p-0 m-0">
+        <div className="flex gap-2 items-center">
+          <BiLeftArrowAlt onClick={() => navigate('/')} /> <h1 className=" text-xl">{titleApp}</h1>
+        </div>
+        <p className="text-base ml-6">Phải thu</p>
+      </div>
+      <div className="col-lg-12  ">
         <div className="card   p-0 m-0">
           <div className="flex gap-2 items-center">
-            <BiLeftArrowAlt onClick={() => navigate('/')} /> <h1 className=" text-xl mr-4">Phải thu</h1>
-            {segmented === 'BIEUDOTYTRONG' ? '' : <Search onChange={(e) => handelSearch(e.target.value)} placeholder="Tìm kiếm hàng hóa" className="w-[60%] mt-1" />}
+            {segmented === 'BIEUDOTYTRONG' ? '' : <Search onChange={(e) => handelSearch(e.target.value)} placeholder="Tìm kiếm hàng hóa" className="w-full" />}
           </div>
 
           <div className=" w-full bg-white">
@@ -214,7 +220,7 @@ function PhaiThu() {
         </div>
       </div>
 
-      <div className="card p-0 m-0">
+      <div className="card p-0 m-0" style={{ height: 'calc(100vh - 121px - 120px)' }}>
         {segmented === 'BIEUDOTYTRONG' ? (
           <>
             {CongNo_TopChart !== -108 || CongNo_TopChart !== -107 ? (
@@ -245,7 +251,7 @@ function PhaiThu() {
               Cộng
             </p>
             <div
-              className={`w-[100%] text-right pr-[16px]
+              className={`w-[100%] text-right ${segmented === 'BIEUDOTYTRONG' ? 'pr-[16px]' : 'pr-[8px]'}
                      `}
             >
               <CounterComponent targetValue={TotalChart} duration={100000} color={'#8BC6EC'} />

@@ -291,11 +291,15 @@ th.ant-table-cell {
   max-height: calc(100vh - 100px - 81px - 100px) !important;
   min-height: calc(100vh - 100px - 100px - 81px) !important;
 }
-.QUYTIENMAT .ant-table-body {
+
+.BANHANGHANGHOA .ant-table-body,
+.BANHANGKHACHHANG .ant-table-body,
+.BANHANGQUYLE .ant-table-body {
   overflow: auto scroll;
-  max-height: 95% !important;
-  min-height: calc(95% - 34.5px) !important;
+  max-height: calc(100vh - 100px - 81px - 100px - 20px) !important;
+  min-height: calc(100vh - 100px - 100px - 81px - 20px) !important;
 }
+
 .TONKHO .ant-table-body {
   overflow: auto scroll;
   max-height: 97% !important;

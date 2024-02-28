@@ -12,8 +12,12 @@ import { useNavigate } from 'react-router-dom'
 import { BiLeftArrowAlt } from 'react-icons/bi'
 import Search from 'antd/es/input/Search'
 import CounterComponent from '../DashBoar/LoadNumber'
+import { useSelector } from 'react-redux'
+import { khoanNgaySelect } from '../../redux/selector'
 function MuaHang() {
   const [segmented, setSegmented] = useState('')
+  const KhoanNgay = useSelector(khoanNgaySelect)
+
   //   const [loading, setLoading] = useState(false)
   const [valueSegmented, setValueSegmented] = useState('')
   const [searchText, setSearchText] = useState('')
@@ -26,9 +30,19 @@ function MuaHang() {
   const [MuaHang_HangHoa, setMuaHang_HangHoa] = useState([])
   const [MuaHang_NhaCungCap, setMuaHang_NhaCungCap] = useState([])
   const [progressPercent, setProgressPercent] = useState(0)
-  const [dataDate, setDataDate] = useState(
-    !JSON.parse(localStorage.getItem('dateLogin2')) ? JSON.parse(localStorage.getItem('dateLogin')) : JSON.parse(localStorage.getItem('dateLogin2')),
-  )
+  const dateLogin2 = JSON.parse(localStorage.getItem('dateLogin2'))
+  const dateLogin = JSON.parse(localStorage.getItem('dateLogin'))
+
+  let newDataDate
+
+  if (!dateLogin2) {
+    newDataDate = dateLogin ? dateLogin : KhoanNgay
+  } else {
+    newDataDate = dateLogin2
+  }
+  const titleApp = window.localStorage.getItem('appName')
+
+  const [dataDate, setDataDate] = useState(newDataDate)
   const [loadingCart, setLoadingCart] = useState(false)
   const navigate = useNavigate()
   //   const [dataDate_s, setDataDate] = useState(dataDate)
@@ -81,8 +95,8 @@ function MuaHang() {
   }, [dataDate?.NgayBatDau, dataDate?.NgayKetThuc, searchText])
   useEffect(() => {
     const dataMapping = {
-      BIEUDOTYTRONG: MuaHang_HangHoa,
-      DANHSACHNHACUNGCAP: MuaHang_NhaCungCap,
+      THEOHANGHOA: MuaHang_HangHoa,
+      THEONHACUNGCAP: MuaHang_NhaCungCap,
     }
 
     const valueList = Array.isArray(dataMapping[segmented]) ? dataMapping[segmented]?.map((item) => item.DataValueAmount) : []
@@ -97,15 +111,20 @@ function MuaHang() {
   const onSearch = (value) => setSearchText(value)
   return (
     <div className=" bg-white w-full  z-20 p-0 m-0">
-      <div className="col-lg-12 sticky ">
+      <div className="card  p-0 m-0">
+        <div className="flex gap-2 items-center">
+          <BiLeftArrowAlt onClick={() => navigate('/')} /> <h1 className=" text-xl">{titleApp}</h1>
+        </div>
+        <p className="text-base ml-6">Mua hàng</p>
+      </div>
+      <div className="col-lg-12  ">
         <div className="card   p-0 m-0">
           <div className="flex gap-2 items-center">
-            <BiLeftArrowAlt onClick={() => navigate('/')} /> <h1 className=" text-xl  mr-4">Mua hàng</h1>{' '}
             <Search
               onSearch={onSearch}
               placeholder="Tìm kiếm hàng hóa"
               //   loading={loading}
-              className="w-[60%] "
+              className="w-full "
             />
           </div>
 
@@ -183,10 +202,10 @@ function MuaHang() {
               Cộng
             </p>
             <div
-              className={`w-[100%] text-right pr-[16px]
+              className={`w-[100%] text-right pr-[8px]
                      `}
             >
-              <CounterComponent targetValue={TotalChart} duration={100000} color={'#8BC6EC'} />
+              <CounterComponent targetValue={segmented === 'THEONHACUNGCAP' ? TotalChart / 2 : TotalChart} duration={100000} color={'#8BC6EC'} />
             </div>
           </div>
         </div>

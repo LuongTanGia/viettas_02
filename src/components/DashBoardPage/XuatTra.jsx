@@ -11,8 +11,13 @@ import Table from '../DashBoar/DrawerTable'
 import { useNavigate } from 'react-router-dom'
 import { BiLeftArrowAlt } from 'react-icons/bi'
 import Search from 'antd/es/input/Search'
-function TonKho() {
+import CounterComponent from '../DashBoar/LoadNumber'
+import { useSelector } from 'react-redux'
+import { khoanNgaySelect } from '../../redux/selector'
+function XuatTra() {
   const [segmented, setSegmented] = useState('')
+  const KhoanNgay = useSelector(khoanNgaySelect)
+
   //   const [loading, setLoading] = useState(false)
   const [valueSegmented, setValueSegmented] = useState('')
   const [searchText, setSearchText] = useState('')
@@ -22,15 +27,26 @@ function TonKho() {
   const [refToken, setRefToken] = useState(false)
   const token = localStorage.getItem('TKN')
   const [TotalNumber, setTotalNumber] = useState(0)
-
+  const [MuaHang_HangHoa, setMuaHang_HangHoa] = useState([])
+  const [MuaHang_NhaCungCap, setMuaHang_NhaCungCap] = useState([])
   const [progressPercent, setProgressPercent] = useState(0)
-  const [dataDate, setDataDate] = useState(
-    !JSON.parse(localStorage.getItem('dateLogin2')) ? JSON.parse(localStorage.getItem('dateLogin')) : JSON.parse(localStorage.getItem('dateLogin2')),
-  )
+  const dateLogin2 = JSON.parse(localStorage.getItem('dateLogin2'))
+  const dateLogin = JSON.parse(localStorage.getItem('dateLogin'))
+
+  let newDataDate
+
+  if (!dateLogin2) {
+    newDataDate = dateLogin ? dateLogin : KhoanNgay
+  } else {
+    newDataDate = dateLogin2
+  }
+
+  const [dataDate, setDataDate] = useState(newDataDate)
   const [loadingCart, setLoadingCart] = useState(false)
   const navigate = useNavigate()
   //   const [dataDate_s, setDataDate] = useState(dataDate)
   // const [dataDate_sS, setDataDateSS] = useState(dataDate_s)
+  const [TotalChart, setTotalChart] = useState(0)
   const titleApp = window.localStorage.getItem('appName')
 
   useEffect(() => {
@@ -40,11 +56,9 @@ function TonKho() {
       setProgressPercent(0)
 
       //   setLoading(true)
-      //API Ton Kho
-
-      const data_TonKho_TongKho = await APIDATA_CHART(API.TonKho_TongKho, token, { ...dataDate, FilterText: searchText })
-      const TonKho_TongKhoDVTQuyDoi = await APIDATA_CHART(API.TonKho_TongKhoDVTQuyDoi, token, { ...dataDate, FilterText: searchText })
-      const TonKho_TheoKho = await APIDATA_CHART(API.TonKho_TheoKho, token, { ...dataDate, FilterText: searchText })
+      //API Mua Hang
+      const MuaHang_HangHoa = await APIDATA_CHART(API.XuatTra_HangHoa, token, { ...dataDate, FilterText: searchText })
+      const MuaHang_NhaCungCap = await APIDATA_CHART(API.XuatTra_NhaCungCap, token, { ...dataDate, FilterText: searchText })
 
       if (data_TonKho_TongKho === -107 || data_TonKho_TongKho === -108) {
         const newToken = await RETOKEN()
@@ -66,12 +80,11 @@ function TonKho() {
         }
       }
       setProgressPercent(70)
-      setdata_TonKho_TongKho(data_TonKho_TongKho ? data_TonKho_TongKho : [])
-      setTonKho_TongKhoDVTQuyDoi(TonKho_TongKhoDVTQuyDoi ? TonKho_TongKhoDVTQuyDoi : [])
-      setTonKho_TheoKho(TonKho_TheoKho ? TonKho_TheoKho : [])
+      setMuaHang_HangHoa(MuaHang_HangHoa ? MuaHang_HangHoa : [])
+      setMuaHang_NhaCungCap(MuaHang_NhaCungCap ? MuaHang_NhaCungCap : [])
     }
-    setSegmented('TONGHOP')
-    setValueSegmented('Tổng hợp')
+    setSegmented('THEOHANGHOA')
+    setValueSegmented('Theo hàng hóa')
     setTimeout(() => {
       setProgressPercent(100)
     }, 700)
@@ -80,6 +93,17 @@ function TonKho() {
     }, 1100)
     loadData()
   }, [dataDate?.NgayBatDau, dataDate?.NgayKetThuc, searchText])
+  useEffect(() => {
+    const dataMapping = {
+      THEOHANGHOA: MuaHang_HangHoa,
+      THEONHACUNGCAP: MuaHang_NhaCungCap,
+    }
+
+    const valueList = Array.isArray(dataMapping[segmented]) ? dataMapping[segmented]?.map((item) => item.DataValueAmount) : []
+    const totalPrice = valueList.reduce((sum, price) => sum + price, 0)
+
+    setTotalChart(totalPrice || 0)
+  }, [valueSegmented, MuaHang_HangHoa, segmented])
   // console.log(data_hanghoa)
   const setNumber = (value) => {
     setTotalNumber(value)
@@ -91,41 +115,37 @@ function TonKho() {
         <div className="flex gap-2 items-center">
           <BiLeftArrowAlt onClick={() => navigate('/')} /> <h1 className=" text-xl">{titleApp}</h1>
         </div>
-        <p className="text-base ml-6 mb-2">Tồn kho</p>
+        <p className="text-base ml-6">Xuất trả nhà cung cấp</p>
       </div>
-      <div className="col-lg-12 ">
+      <div className="col-lg-12  ">
         <div className="card   p-0 m-0">
           <div className="flex gap-2 items-center">
             <Search
               onSearch={onSearch}
-              placeholder="Tìm kiếm"
+              placeholder="Tìm kiếm hàng hóa"
               //   loading={loading}
-              className="w-full mt-2"
+              className="w-full "
             />
           </div>
 
           <div className=" w-full bg-white">
-            <Date onDateChange={setDataDate} dataDate={dataDate} dateType={'local'} localTitle={'dateLogin2'} titleDr={'TONKHO'} />
+            <Date onDateChange={setDataDate} dataDate={dataDate} dateType={'local'} localTitle={'dateLogin2'} />
           </div>
           <Segmented
             options={[
               {
-                label: <div className=" text-sm w-[79px] flex items-center h-full">Tổng hợp</div>,
-                value: 'Tổng hợp',
+                label: <div className=" text-sm items-center ">Theo hàng hóa</div>,
+                value: 'Theo hàng hóa',
               },
               {
-                label: <p className="w-full text-sm">Tổng hợp (ĐVT quy đổi)</p>,
-                value: 'Tổng hợp (ĐVT quy đổi)',
-              },
-              {
-                label: <div className=" text-sm">Theo kho</div>,
-                value: 'Theo kho',
+                label: <p className="w-full text-sm">Theo nhà cung cấp</p>,
+                value: 'Theo nhà cung cấp',
               },
             ]}
             // options={['Khách hàng', 'Hàng hóa', 'Nhóm Hàng']}
             block
             onChange={(value) => {
-              setSegmented(value === 'Tổng hợp' ? 'TONGHOP' : value === 'Tổng hợp (ĐVT quy đổi)' ? 'TONGHOPDVT' : 'THEOKHO'), setValueSegmented(value)
+              setSegmented(value === 'Theo hàng hóa' ? 'THEOHANGHOA' : 'THEONHACUNGCAP'), setValueSegmented(value)
             }}
             value={valueSegmented}
             className=" font-medium bg-white"
@@ -146,36 +166,24 @@ function TonKho() {
       </div>
 
       <div className="card p-0 m-0">
-        {segmented === 'TONGHOP' ? (
+        {segmented === 'THEOHANGHOA' ? (
           <>
             <Table
               segmented={segmented}
-              titleDr={'TONKHO'}
-              param={data_TonKho_TongKho ? data_TonKho_TongKho : []}
+              titleDr={'MUAHANG'}
+              param={MuaHang_HangHoa ? MuaHang_HangHoa : []}
               columName={[]}
               height={'setHeight'}
               hiden={[]}
               setTotalNumber={setNumber}
             />
           </>
-        ) : segmented === 'TONGHOPDVT' ? (
+        ) : segmented === 'THEONHACUNGCAP' ? (
           <>
             <Table
               segmented={segmented}
-              titleDr={'TONKHO'}
-              param={TonKho_TongKhoDVTQuyDoi ? TonKho_TongKhoDVTQuyDoi : []}
-              columName={[]}
-              height={'setHeight'}
-              hiden={[]}
-              setTotalNumber={setNumber}
-            />{' '}
-          </>
-        ) : segmented === 'THEOKHO' ? (
-          <>
-            <Table
-              segmented={segmented}
-              titleDr={'TONKHO'}
-              param={TonKho_TheoKho ? TonKho_TheoKho : []}
+              titleDr={'MUAHANG'}
+              param={MuaHang_NhaCungCap ? MuaHang_NhaCungCap : []}
               columName={[]}
               height={'setHeight'}
               hiden={[]}
@@ -184,8 +192,26 @@ function TonKho() {
           </>
         ) : null}
       </div>
+      <div className="card ">
+        <div className="  items-center" style={{ backgroundColor: 'rgb(241,241,241)' }}>
+          <div className="flex cursor-pointer items-center justify-center mb-2">
+            <p
+              className={`w-full text-center hover:font-medium flex items-center gap-2 justify-between text-base font-medium pl-4
+                    `}
+            >
+              Cộng
+            </p>
+            <div
+              className={`w-[100%] text-right pr-[8px]
+                     `}
+            >
+              <CounterComponent targetValue={segmented === 'THEONHACUNGCAP' ? TotalChart / 2 : TotalChart} duration={100000} color={'#8BC6EC'} />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
 
-export default TonKho
+export default XuatTra

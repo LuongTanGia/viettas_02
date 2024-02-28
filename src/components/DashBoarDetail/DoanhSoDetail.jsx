@@ -29,6 +29,7 @@ function DoanhSoDetail() {
   const dateLogin3 = JSON.parse(localStorage.getItem('dateLogin3'))
   const dateLogin2 = JSON.parse(localStorage.getItem('dateLogin2'))
   const dateLogin = JSON.parse(localStorage.getItem('dateLogin'))
+  const titleApp = window.localStorage.getItem('appName')
 
   let newDataDate
 
@@ -93,18 +94,23 @@ function DoanhSoDetail() {
   }
   return (
     <div className=" bg-white w-full  z-20 p-0 m-0">
-      <div className="col-lg-12 sticky ">
+      <div className="card  p-0 m-0 mb-2">
+        <div className="flex gap-2 items-center">
+          <BiLeftArrowAlt
+            onClick={() => {
+              navigate('/DOANHSO'), localStorage.removeItem('dateLogin3')
+            }}
+          />{' '}
+          <h1 className=" text-xl">Doanh số chi tiết</h1>
+        </div>
+        <p className="text-base ml-6 mb-2" style={{ color: dataDetail.color }}>
+          {dataDetail.name}
+        </p>
+      </div>
+      <div className="col-lg-12  ">
         <div className="card   p-0 m-0">
           <div className="flex gap-2 items-center">
-            <BiLeftArrowAlt
-              color={dataDetail.color}
-              onClick={() => {
-                navigate('/DOANHSO'), localStorage.removeItem('dateLogin3')
-              }}
-            />{' '}
-            <p className=" text-sm " style={{ color: dataDetail.color }}>
-              Doanh số {dataDetail.name} (chi tiết)
-            </p>
+            <p className=" text-sm " style={{ color: dataDetail.color }}></p>
           </div>
           <div className="py-2 w-full bg-white">
             <Date onDateChange={setDataDate} dataDate={dataDate} titleDr={dataDetail.titleDr} dateType={'local'} localTitle={'dateLogin3'} />

@@ -13,13 +13,22 @@ function Tables({ loadingSearch, value, param, columName, setTotalNumber, colorT
   const [data, setData] = useState()
   // console.log(param, 'param')
   const columnName = {
-    DataName: titleDr === 'TONKHO' ? 'Hàng hóa' : segmented === 'DANHSACHKHACHHANG' ? 'Khách hàng ' : segmented === 'DANHSACHNHACUNGCAP' ? 'Nhà cung cấp' : 'Tên',
+    DataName:
+      titleDr === 'TONKHO'
+        ? 'Hàng hóa'
+        : segmented === 'DANHSACHKHACHHANG'
+          ? 'Khách hàng '
+          : segmented === 'DANHSACHNHACUNGCAP'
+            ? 'Nhà cung cấp'
+            : titleDr === 'THU'
+              ? 'Hạng mục'
+              : 'Tên',
     DataDate: 'Thời gian',
-    DataValue: titleDr === 'TONKHO' ? 'Số lượng' : 'Số tiền',
+    DataValue: titleDr === 'TONKHO' ? 'Số lượng' : titleDr === 'THU' ? 'Giá trị' : 'Số tiền',
     DataValue_TyTrong: 'Tỷ trọng',
-    DataDescription: 'Hàng hóa',
+    DataDescription: titleDr === 'THU' ? 'Diễn giải' : 'Hàng hóa',
     DataValueQuantity: 'Số lượng',
-    DataValueAmount: 'Số tiền',
+    DataValueAmount: titleDr === 'THU' ? 'Giá trị' : 'Số tiền',
     // DataValueIn:"Tăng",
     // DataValueOut:"",
     // DataValueBalance:""
@@ -149,7 +158,7 @@ function Tables({ loadingSearch, value, param, columName, setTotalNumber, colorT
       return {
         title: columnName[item] || item,
         dataIndex: item,
-        width: segmented === 'DANHSACHKHACHHANG' || segmented === 'DANHSACHNHACUNGCAP' ? 240 : null,
+        width: segmented === 'DANHSACHKHACHHANG' || segmented === 'DANHSACHNHACUNGCAP' || titleDr === 'TONKHO' ? '70%' : '30%',
         align: 'center',
         render: (text) => {
           return <div className={` ${segmented === 'DANHSACHKHACHHANG' || segmented === 'DANHSACHNHACUNGCAP' ? ' underline cursor-pointer' : ''} text-left`}>{text}</div>
@@ -170,6 +179,7 @@ function Tables({ loadingSearch, value, param, columName, setTotalNumber, colorT
       return {
         title: columnName[item] || item,
         dataIndex: item,
+        width: titleDr === 'TONKHO' ? '100%' : null,
         align: 'center',
         render: (text) => {
           return <div className=" text-left ">{text}</div>
@@ -213,7 +223,7 @@ function Tables({ loadingSearch, value, param, columName, setTotalNumber, colorT
     if (item === 'DataValueQuantity') {
       return {
         title: columnName[item] || item,
-        // width: 200,
+        width: titleDr === 'MUAHANG' ? 90 : titleDr === 'TONKHO' ? 10 : 20,
         dataIndex: item,
         align: 'center',
         onCell: (record, index) => ({
@@ -244,7 +254,7 @@ function Tables({ loadingSearch, value, param, columName, setTotalNumber, colorT
     if (item === 'DataValue') {
       return {
         title: columnName[item] || item,
-        // width: 200,
+        width: '25%',
         dataIndex: item,
         align: 'center',
         onCell: (record, index) => ({
@@ -306,7 +316,8 @@ function Tables({ loadingSearch, value, param, columName, setTotalNumber, colorT
       return {
         title: columnName[item] || item,
         showSorterTooltip: false,
-        // width: 200,
+        width: titleDr === 'MUAHANG' ? 100 : 10,
+
         dataIndex: item,
         align: 'center',
         onCell: (record, index) => ({
@@ -603,6 +614,7 @@ function Tables({ loadingSearch, value, param, columName, setTotalNumber, colorT
         colSpan: record.DataType === 1 ? 0 : 1,
       }),
       showSorterTooltip: false,
+      width: '20%',
 
       dataIndex: 'DataValueIn',
       render: (text, record) => {
@@ -638,6 +650,7 @@ function Tables({ loadingSearch, value, param, columName, setTotalNumber, colorT
         colSpan: record.DataType === 1 ? 0 : 1,
       }),
       showSorterTooltip: false,
+      width: '20%',
 
       render: (text, record) =>
         titleDr === 'DOANHSO' ? (
@@ -663,7 +676,7 @@ function Tables({ loadingSearch, value, param, columName, setTotalNumber, colorT
       title: 'Còn Lại',
       align: 'center',
       showSorterTooltip: false,
-
+      width: '20%',
       dataIndex: 'DataValueBalance',
       render: (text, record) =>
         titleDr === 'DOANHSO' ? (

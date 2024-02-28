@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import MainPage from '../MainPage/MainPage'
-import Header from '../Header/Header'
+// import Header from '../Header/Header'
 import Footer from '../Footer/Footer'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
@@ -15,7 +15,7 @@ function Home({ isSidebarVisible }) {
   }, [history])
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       <MainPage isSidebarVisible={isSidebarVisible} />
       <Footer />
     </div>

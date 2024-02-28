@@ -25,6 +25,12 @@ import PhaiThuDetail from '../DashBoarDetail/PhaiThuDetail'
 import PhaiTra from '../DashBoardPage/PhaiTra'
 import PhaiTraDetail from '../DashBoarDetail/PhaiTraDetail'
 import MuaHang from '../DashBoardPage/MuaHang'
+import XuatTra from '../DashBoardPage/XuatTra'
+import BanHang from '../DashBoardPage/BanHang'
+import NhapTra from '../DashBoardPage/NhapTra'
+import Thu from '../DashBoardPage/Thu'
+import Chi from '../DashBoardPage/Chi'
+import SoQuy from '../DashBoardPage/SoQuy'
 // eslint-disable-next-line react/prop-types
 function MainPage({ isSidebarVisible }) {
   const dispatch = useDispatch()
@@ -134,12 +140,12 @@ function MainPage({ isSidebarVisible }) {
           <Route path="/PHAITRA/:id" element={<PhaiTraDetail />} />
 
           <Route path="/MUAHANG" element={<MuaHang />} />
-          <Route path="/XUATTRA" element={<ErrorPage />} />
-          <Route path="/BANHANG" element={<ErrorPage />} />
-          <Route path="/NHAPTRA" element={<ErrorPage />} />
-          <Route path="/THU" element={<ErrorPage />} />
-          <Route path="/CHI" element={<ErrorPage />} />
-          <Route path="/QUYTIENMAT" element={<ErrorPage />} />
+          <Route path="/XUATTRA" element={<XuatTra />} />
+          <Route path="/BANHANG" element={<BanHang />} />
+          <Route path="/NHAPTRA" element={<NhapTra />} />
+          <Route path="/THU" element={<Thu />} />
+          <Route path="/CHI" element={<Chi />} />
+          <Route path="/QUYTIENMAT" element={<SoQuy />} />
           <Route path="/" element={<DashBoar />} />
           <Route path="/Info" element={<InfoApp />} />
           <Route path="*" element={<ErrorPage />} />

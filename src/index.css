@@ -412,7 +412,9 @@ input[type='radio'] {
   table {
     font-size: 16px;
   }
-
+  .cssChart canvas {
+    max-height: 200px !important;
+  }
   #gridMain {
     display: grid !important;
 

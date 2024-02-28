@@ -41,6 +41,7 @@ function DoanhSo() {
   const navigate = useNavigate()
   //   const [dataDate_s, setDataDate] = useState(dataDate)
   // const [dataDate_sS, setDataDateSS] = useState(dataDate_s)
+  const titleApp = window.localStorage.getItem('appName')
 
   useEffect(() => {
     const loadData = async () => {
@@ -127,12 +128,15 @@ function DoanhSo() {
   }
   return (
     <div className=" bg-white w-full  z-20 p-0 m-0">
-      <div className="col-lg-12 sticky ">
-        <div className="card   p-0 m-0">
-          <div className="flex gap-2 items-center">
-            <BiLeftArrowAlt onClick={() => navigate('/')} /> <h1 className=" text-xl">Doanh số</h1>
-          </div>
+      <div className="card  p-0 m-0">
+        <div className="flex gap-2 items-center">
+          <BiLeftArrowAlt onClick={() => navigate('/')} /> <h1 className=" text-xl">{titleApp}</h1>
+        </div>
+        <p className="text-base ml-6">Doanh Số</p>
+      </div>
 
+      <div className="col-lg-12  ">
+        <div className="card p-0 m-0">
           <div className=" w-full bg-white">
             <Date onDateChange={setDataDate} dataDate={dataDate} dateType={'local'} localTitle={'dateLogin2'} />
           </div>
@@ -186,7 +190,7 @@ function DoanhSo() {
         </div>
       </div>
 
-      <div className="card p-0 m-0">
+      <div className="card p-0 m-0" style={{ height: 'calc(100vh - 121px - 120px)' }}>
         {segmented === 'KHACHHANG' ? (
           <>
             {data_khachhang !== -108 || data_khachhang !== -107 ? (

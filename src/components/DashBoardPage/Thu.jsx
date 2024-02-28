@@ -1,37 +1,41 @@
 /* eslint-disable no-unused-vars */
 import PieChart from '../util/Chart/PieChart'
-import Table from '../DashBoar/DrawerTable'
+
 import Date from '../DashBoar/Date'
 import { useEffect, useState } from 'react'
 import { APIDATA_CHART, RETOKEN } from '../../action/Actions'
 import { toast } from 'react-toastify'
 import API from '../../API/API'
 import { Progress, Segmented } from 'antd'
-import { useSelector } from 'react-redux'
-import { khoanNgaySelect } from '../../redux/selector'
-import CounterComponent from '../DashBoar/LoadNumber'
-import RateBar from '../util/Chart/LoadingChart'
+import Table from '../DashBoar/DrawerTable'
 import { useNavigate } from 'react-router-dom'
 import { BiLeftArrowAlt } from 'react-icons/bi'
 import Search from 'antd/es/input/Search'
+import CounterComponent from '../DashBoar/LoadNumber'
+import { useSelector } from 'react-redux'
+import { khoanNgaySelect } from '../../redux/selector'
 import dayjs from 'dayjs'
 
-function PhaiTra() {
+function Thu() {
   const [segmented, setSegmented] = useState('')
-  //   const [loading, setLoading] = useState(false)
+  const KhoanNgay = useSelector(khoanNgaySelect)
   const [dataSearch, setDataSearch] = useState([])
 
+  //   const [loading, setLoading] = useState(false)
   const [valueSegmented, setValueSegmented] = useState('')
-  const KhoanNgay = useSelector(khoanNgaySelect)
+  const [searchText, setSearchText] = useState('')
+
+  const [BanHang_HangHoa, setBanHang_HangHoa] = useState([])
+
   const [refToken, setRefToken] = useState(false)
   const token = localStorage.getItem('TKN')
-  const [CongNo_TopChart, setCongNo_TopChart] = useState([])
-  const [CongNo_DanhSach, setCongNo_DanhSach] = useState([])
+  const [TotalNumber, setTotalNumber] = useState(0)
+  const [ThuTien, setThuTien] = useState([])
+  const [ChiTien, setChiTien] = useState([])
+  const [SoQuy, setSoQuy] = useState([])
   const [progressPercent, setProgressPercent] = useState(0)
   const dateLogin2 = JSON.parse(localStorage.getItem('dateLogin2'))
   const dateLogin = JSON.parse(localStorage.getItem('dateLogin'))
-  const [TotalNumber, setTotalNumber] = useState(0)
-  const titleApp = window.localStorage.getItem('appName')
 
   let newDataDate
 
@@ -40,14 +44,14 @@ function PhaiTra() {
   } else {
     newDataDate = dateLogin2
   }
+  const titleApp = window.localStorage.getItem('appName')
 
   const [dataDate, setDataDate] = useState(newDataDate)
-
   const [loadingCart, setLoadingCart] = useState(false)
-  const [TotalChart, setTotalChart] = useState(0)
   const navigate = useNavigate()
   //   const [dataDate_s, setDataDate] = useState(dataDate)
   // const [dataDate_sS, setDataDateSS] = useState(dataDate_s)
+  const [TotalChart, setTotalChart] = useState(0)
 
   useEffect(() => {
     const loadData = async () => {
@@ -56,11 +60,13 @@ function PhaiTra() {
       setProgressPercent(0)
 
       //   setLoading(true)
-      //API Cong No Thu - Tra
-      const CongNo_TopChart = await APIDATA_CHART(API.CongNoTra_TopChart, token, dataDate)
-      const CongNo_DanhSach = await APIDATA_CHART(API.CongNoTra_DanhSach, token, dataDate)
+      const ThuTien = await APIDATA_CHART(API.ThuTien, token, dataDate)
 
-      if (CongNo_TopChart === -107 || CongNo_TopChart === -108) {
+      const ChiTien = await APIDATA_CHART(API.ChiTien, token, dataDate)
+
+      const SoQuy = await APIDATA_CHART(API.SoQuy, token, dataDate)
+
+      if (BanHang_HangHoa === -107 || BanHang_HangHoa === -108) {
         const newToken = await RETOKEN()
 
         if (newToken !== '') {
@@ -80,12 +86,13 @@ function PhaiTra() {
         }
       }
       setProgressPercent(70)
-      setCongNo_TopChart(CongNo_TopChart ? CongNo_TopChart : [])
-      setCongNo_DanhSach(CongNo_DanhSach ? CongNo_DanhSach : [])
-      setDataSearch(CongNo_DanhSach)
+      setThuTien(ThuTien)
+      setChiTien(ChiTien)
+      setSoQuy(SoQuy)
+      setDataSearch(ThuTien)
     }
-    setSegmented('BIEUDOTYTRONG')
-    setValueSegmented('Biểu đồ tỷ trọng')
+    setSegmented('THUTIEN')
+    setValueSegmented('Thu tiền')
     setTimeout(() => {
       setProgressPercent(100)
     }, 700)
@@ -96,50 +103,36 @@ function PhaiTra() {
   }, [dataDate?.NgayBatDau, dataDate?.NgayKetThuc])
   useEffect(() => {
     const dataMapping = {
-      BIEUDOTYTRONG: CongNo_TopChart,
-      DANHSACHNHACUNGCAP: CongNo_DanhSach,
+      THUTIEN: ThuTien,
+      CHITIEN: ChiTien,
+      QUYTIENMAT: SoQuy,
     }
 
     const valueList = Array.isArray(dataMapping[segmented]) ? dataMapping[segmented]?.map((item) => item.DataValue) : []
     const totalPrice = valueList.reduce((sum, price) => sum + price, 0)
 
     setTotalChart(totalPrice || 0)
-  }, [valueSegmented, CongNo_TopChart, segmented])
-  const showChildrenDrawer = async (value, color) => {
-    // const url = window.location.href
-    // console.log(url.split('?')[1])
-    // navigate(`?${url.split('?')[1]}` + '_detail')
-    navigate(
-      `/PHAITRA/${btoa(
-        encodeURIComponent(
-          JSON.stringify({
-            titleDr: 'PHAITRA',
-            name: value.DataName || 'Tất cả',
-            DataValue: value.DataValue || TotalChart,
-            title: value.title,
-            segmented: segmented,
-            color: color || '#8BC6EC',
-            data: {
-              FilterCode: value.DataCode,
-              IsCodeRest: value.DataCodeRest,
-              IsType: 1,
-            },
-          }),
-        ),
-      )}`,
-    )
-  }
+  }, [valueSegmented, ThuTien, segmented])
+  // console.log(data_hanghoa)
   const setNumber = (value) => {
     setTotalNumber(value)
   }
+  useEffect(() => {
+    if (valueSegmented === 'Thu tiền') {
+      setDataSearch(ThuTien)
+    } else if (valueSegmented === 'Chi tiền') {
+      setDataSearch(ChiTien)
+    }
+  }, [valueSegmented])
   const isMatch = (value, searchText) => {
     const stringValue = String(value).toLowerCase()
     const searchTextLower = searchText.toLowerCase()
 
+    // Check if the string includes the searchText
     if (stringValue.includes(searchTextLower)) {
       return true
     }
-
+    // Check if it's a valid date and matches (formatted or not)
     const isDateTime = dayjs(stringValue).isValid()
     if (isDateTime) {
       const formattedValue = dayjs(stringValue).format('DD/MM/YYYY').toString()
@@ -151,56 +144,68 @@ function PhaiTra() {
     return false
   }
   const handelSearch = (value) => {
-    if (CongNo_DanhSach === -1) {
+    if (ThuTien === -1 || ChiTien === -1) {
       setDataSearch([])
     } else {
-      const newData = CongNo_DanhSach?.filter((record) => {
-        return Object.keys(record).some((key) => isMatch(record[key], value))
-      })
+      const newData =
+        segmented === 'THUTIEN'
+          ? ThuTien?.filter((record) => {
+              return Object.keys(record).some((key) => isMatch(record[key], value))
+            })
+          : segmented === 'CHITIEN'
+            ? ChiTien?.filter((record) => {
+                return Object.keys(record).some((key) => isMatch(record[key], value))
+              })
+            : null
       console.log(newData)
       setDataSearch(newData)
     }
   }
+  const onSearch = (value) => setSearchText(value)
   return (
     <div className=" bg-white w-full  z-20 p-0 m-0">
       <div className="card  p-0 m-0">
         <div className="flex gap-2 items-center">
           <BiLeftArrowAlt onClick={() => navigate('/')} /> <h1 className=" text-xl">{titleApp}</h1>
         </div>
-        <p className="text-base ml-6">Phải trả</p>
+        <p className="text-base ml-6">Thu - Chi</p>
       </div>
       <div className="col-lg-12  ">
         <div className="card   p-0 m-0">
           <div className="flex gap-2 items-center">
-            {segmented === 'BIEUDOTYTRONG' ? '' : <Search onChange={(e) => handelSearch(e.target.value)} placeholder="Tìm kiếm" className="w-full mt-1" />}
+            {segmented === 'QUYTIENMAT' ? null : (
+              <Search
+                onSearch={onSearch}
+                onChange={(e) => handelSearch(e.target.value)}
+                placeholder="Tìm kiếm hàng hóa"
+                //   loading={loading}
+                className="w-full "
+              />
+            )}
           </div>
 
           <div className=" w-full bg-white">
-            <Date onDateChange={setDataDate} dataDate={dataDate} dateType={'local'} localTitle={'dateLogin2'} titleDr={'TONKHO'} />
+            <Date onDateChange={setDataDate} dataDate={dataDate} dateType={'local'} localTitle={'dateLogin2'} />
           </div>
           <Segmented
             options={[
               {
-                label: (
-                  <div>
-                    <div className=" text-sm">Biểu đồ tỷ trọng</div>
-                  </div>
-                ),
-                value: 'Biểu đồ tỷ trọng',
+                label: <div className="text-sm ">Thu tiền</div>,
+                value: 'Thu tiền',
               },
               {
-                label: (
-                  <div>
-                    <div className=" text-sm">Danh sách nhà cung cấp</div>
-                  </div>
-                ),
-                value: 'Danh sách khách hàng',
+                label: <p className=" text-sm">Chi tiền</p>,
+                value: 'Chi tiền',
+              },
+              {
+                label: <p className="text-sm ">Sổ quỹ</p>,
+                value: 'Sổ quỹ',
               },
             ]}
             // options={['Khách hàng', 'Hàng hóa', 'Nhóm Hàng']}
             block
             onChange={(value) => {
-              setSegmented(value === 'Biểu đồ tỷ trọng' ? 'BIEUDOTYTRONG' : 'DANHSACHNHACUNGCAP'), setValueSegmented(value)
+              setSegmented(value === 'Thu tiền' ? 'THUTIEN' : value === 'Chi tiền' ? 'CHITIEN' : 'QUYTIENMAT'), setValueSegmented(value)
             }}
             value={valueSegmented}
             className=" font-medium bg-white"
@@ -220,49 +225,43 @@ function PhaiTra() {
         </div>
       </div>
 
-      <div className="card p-0 m-0" style={{ height: 'calc(100vh - 121px - 120px)' }}>
-        {segmented === 'BIEUDOTYTRONG' ? (
+      <div className="card p-0 m-0">
+        {segmented === 'THUTIEN' ? (
           <>
-            {CongNo_TopChart !== -108 || CongNo_TopChart !== -107 ? (
-              <PieChart Drawer={true} dataChart={CongNo_TopChart ? CongNo_TopChart : []} valueNum={'DataValue'} value={'DataPerc'} name={'DataName'} onClick={showChildrenDrawer} />
-            ) : null}
+            <Table segmented={segmented} titleDr={'THU'} param={ThuTien ? dataSearch : []} columName={[]} height={'setHeight'} hiden={[]} setTotalNumber={setNumber} />
           </>
-        ) : segmented === 'DANHSACHNHACUNGCAP' ? (
-          <Table
-            segmented={segmented}
-            param={CongNo_DanhSach ? dataSearch : []}
-            columName={[]}
-            height={'setTableDr1'}
-            hiden={[]}
-            setTotalNumber={setNumber}
-            onClick={showChildrenDrawer}
-            titleDr={'PHAITHU'}
-          />
+        ) : segmented === 'CHITIEN' ? (
+          <>
+            <Table segmented={segmented} titleDr={'THU'} param={ChiTien ? dataSearch : []} columName={[]} height={'setHeight'} hiden={[]} setTotalNumber={setNumber} />{' '}
+          </>
+        ) : segmented === 'QUYTIENMAT' ? (
+          <>
+            <Table segmented={segmented} titleDr={'THU'} param={SoQuy ? SoQuy : []} columName={[]} height={'setHeight'} hiden={[]} setTotalNumber={setNumber} />{' '}
+          </>
         ) : null}
       </div>
-
-      <div className="card ">
-        <div className="  items-center" style={{ backgroundColor: 'rgb(241,241,241)' }} onClick={() => showChildrenDrawer({ DataCode: null, DataCodeRest: 1, title: 'all' })}>
-          <div className="flex cursor-pointer items-center justify-center mb-2">
-            <p
-              className={`w-full text-center hover:font-medium flex items-center gap-2 justify-between text-base font-medium pl-4
-                    `}
-            >
-              Cộng
-            </p>
-            <div
-              className={`w-[100%] text-right ${segmented === 'BIEUDOTYTRONG' ? 'pr-[16px]' : 'pr-[8px]'}
-                     `}
-            >
-              <CounterComponent targetValue={TotalChart} duration={100000} color={'#8BC6EC'} />
-
-              {segmented === 'BIEUDOTYTRONG' ? <RateBar percentage={100} color={'#8BC6EC'} title={'Tổng hợp'} /> : null}
+      {segmented === 'QUYTIENMAT' ? null : (
+        <div className="card ">
+          <div className="  items-center" style={{ backgroundColor: 'rgb(241,241,241)' }}>
+            <div className="flex cursor-pointer items-center justify-center mb-2">
+              <p
+                className={`w-full text-center hover:font-medium flex items-center gap-2 justify-between text-base font-medium pl-4
+                            `}
+              >
+                Cộng
+              </p>
+              <div
+                className={`w-[100%] text-right pr-[8px]
+                             `}
+              >
+                <CounterComponent targetValue={TotalChart} duration={100000} color={'#8BC6EC'} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
 
-export default PhaiTra
+export default Thu

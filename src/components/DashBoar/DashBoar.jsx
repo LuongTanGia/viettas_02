@@ -12,6 +12,7 @@ import { khoanNgaySelect } from '../../redux/selector'
 import { useLocation } from 'react-router-dom'
 import { Progress, message } from 'antd'
 import { useParams } from 'react-router-dom'
+import Header from '../Header/Header'
 // import CounterComponent from './LoadNumber'
 // import { Progress } from 'antd'
 
@@ -184,6 +185,8 @@ function DashBoar() {
       {/* <div>
         <DrawerCP showOpen={open} titleDr={titleDr} setOpenShow={setOpen} onDateChange={setDataDate} dataDate={dataDate} />
       </div> */}
+      <Header />
+
       <section className="section dashboard">
         <div className="row">
           <div className="col-lg-12 sticky ">
