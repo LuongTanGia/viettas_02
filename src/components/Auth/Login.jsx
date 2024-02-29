@@ -46,10 +46,11 @@ const App = () => {
         const response_1 = authLogin ? await DANHSACHDULIEU(API.DANHSACHDULIEU, { TokenId: localStorage.getItem('authLogin') }, dispatch) : null
         console.log(response_1, 'response_1')
         const response_2 = authLogin ? await LOGIN(API.DANGNHAP, API.DANHSACHDULIEU, response_1.TKN, Cookies.get('remoteDb'), {}, dispatch) : null
-        window.localStorage.setItem('firstLogin', true)
+
         if (response_2 === 1) {
           setTimeout(() => {
             setDataLoaded(true)
+            window.localStorage.setItem('firstLogin', true)
             window.location.href = '/'
           }, 300)
         } else {

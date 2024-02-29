@@ -18,7 +18,7 @@ function DoanhSoDetail() {
   const KhoanNgay = useSelector(khoanNgaySelect)
 
   const params = useParams()
-  const dataDetail = JSON.parse(decodeURIComponent(atob(params.id)))
+  const dataDetail = JSON.parse(decodeURIComponent(atob(localStorage.getItem('ThongTinDetail'))))
   console.log(dataDetail)
   const token = localStorage.getItem('TKN')
   const [refToken, setRefToken] = useState(false)

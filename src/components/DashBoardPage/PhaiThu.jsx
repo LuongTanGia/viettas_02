@@ -109,8 +109,10 @@ function PhaiThu() {
     // const url = window.location.href
     // console.log(url.split('?')[1])
     // navigate(`?${url.split('?')[1]}` + '_detail')
-    navigate(
-      `/PHAITHU/${btoa(
+    navigate(`/PHAITHU/${value.DataCode}`)
+    localStorage.setItem(
+      'ThongTinDetail',
+      btoa(
         encodeURIComponent(
           JSON.stringify({
             titleDr: 'PHAITHU',
@@ -126,7 +128,7 @@ function PhaiThu() {
             },
           }),
         ),
-      )}`,
+      ),
     )
   }
   const setNumber = (value) => {
@@ -163,7 +165,7 @@ function PhaiThu() {
   }
   return (
     <div className=" bg-white w-full  z-20 p-0 m-0">
-      <div className="card  p-0 m-0">
+      <div className="card  p-0 m-0 mb-2">
         <div className="flex gap-2 items-center">
           <BiLeftArrowAlt onClick={() => navigate('/')} /> <h1 className=" text-xl">{titleApp}</h1>
         </div>
@@ -220,7 +222,7 @@ function PhaiThu() {
         </div>
       </div>
 
-      <div className="card p-0 m-0" style={{ height: 'calc(100vh - 121px - 120px)' }}>
+      <div className="card p-0 m-0">
         {segmented === 'BIEUDOTYTRONG' ? (
           <>
             {CongNo_TopChart !== -108 || CongNo_TopChart !== -107 ? (

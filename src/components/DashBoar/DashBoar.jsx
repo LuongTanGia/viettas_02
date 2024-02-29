@@ -10,8 +10,8 @@ import { useSelector } from 'react-redux'
 import { khoanNgaySelect } from '../../redux/selector'
 // import { useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
-import { Progress, message } from 'antd'
-import { useParams } from 'react-router-dom'
+import { Progress } from 'antd'
+// import { useParams } from 'react-router-dom'
 import Header from '../Header/Header'
 // import CounterComponent from './LoadNumber'
 // import { Progress } from 'antd'
@@ -19,14 +19,16 @@ import Header from '../Header/Header'
 function DashBoar() {
   const userTHONGSO = window.localStorage.getItem('UseThongSo')
   // console.log(userTHONGSO)
-  const userInfor = JSON.parse(window.localStorage.getItem('userInfo'))
-  const params = useParams()
+  // const userInfor = JSON.parse(window.localStorage.getItem('userInfo'))
+  // const helloCheck = localStorage.getItem('firstLogin')
+
+  // const params = useParams()
   // const navigate = useNavigate()
   const KhoanNgay = useSelector(khoanNgaySelect)
   const token = localStorage.getItem('TKN')
   const [dataDate, setDataDate] = useState(!JSON.parse(localStorage.getItem('dateLogin')) ? KhoanNgay : JSON.parse(localStorage.getItem('dateLogin')))
   const [dataLoaded, setDataLoaded] = useState(false)
-  const [showInfo, setShowInfo] = useState(false)
+  // const [showInfo, setShowInfo] = useState(false)
 
   const [dataTongHop, setDataTongHop] = useState([])
   const [dataTongHop_DF, setDataTongHop_DF] = useState([])
@@ -46,25 +48,25 @@ function DashBoar() {
   //     console.log('URL does not contain title.', titleParam)
   //   }
   // }, [location.search])
-  const [messageApi, contextHolder] = message.useMessage()
+  // const [messageApi, contextHolder] = message.useMessage()
 
-  useEffect(() => {
-    console.log(params)
-    const info = () => {
-      messageApi.open({
-        type: 'success',
-        content: (
-          <rem>
-            {`Xin Chào,`} <rem className="font-semibold">{userInfor ? userInfor.family_name : ''}</rem>
-          </rem>
-        ),
-        className: 'custom-class',
-      })
-    }
-    if (showInfo) {
-      info()
-    }
-  }, [showInfo])
+  // useEffect(() => {
+  //   console.log(params)
+  //   const info = () => {
+  //     messageApi.open({
+  //       type: 'success',
+  //       content: (
+  //         <rem>
+  //           {`Xin Chào,`} <rem className="font-semibold">{userInfor ? userInfor.family_name : ''}</rem>
+  //         </rem>
+  //       ),
+  //       className: 'custom-class',
+  //     })
+  //   }
+  //   if (showInfo && helloCheck === 'true') {
+  //     info()
+  //   }
+  // }, [showInfo])
 
   // const showDrawer = (value) => {
   //   // navigate(`?title=${value}`)
@@ -95,7 +97,7 @@ function DashBoar() {
 
         setTimeout(() => {
           setProgressPercent(100)
-          setShowInfo(true)
+          // setShowInfo(true)
         }, 700)
         setTimeout(() => {
           setLoadingCart(false)
@@ -181,34 +183,33 @@ function DashBoar() {
 
   return (
     <div ref={containerRef} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
-      {contextHolder}
+      {/* {contextHolder} */}
       {/* <div>
         <DrawerCP showOpen={open} titleDr={titleDr} setOpenShow={setOpen} onDateChange={setDataDate} dataDate={dataDate} />
       </div> */}
       <Header />
-
+      <div className="col-lg-12 sticky ">
+        <div className="card  mb-2  ">
+          <div className="py-2 w-full bg-white">
+            <Date onDateChange={setDataDate} dataDate={dataDate} dateType={'local'} localTitle={'dateLogin'} />
+          </div>
+          <div className=" absolute w-full top-[-16px] ">
+            <Progress
+              percent={progressPercent}
+              strokeColor={{
+                '0%': '#80D0C7',
+                '100%': '#0093E9',
+              }}
+              showInfo={false}
+              status="active"
+              className={`${!loadingCart ? 'hidden' : ''}`}
+            />
+          </div>
+        </div>
+      </div>
       <section className="section dashboard">
         <div className="row">
-          <div className="col-lg-12 sticky ">
-            <div className="card  mb-2  ">
-              <div className="py-2 w-full bg-white">
-                <Date onDateChange={setDataDate} dataDate={dataDate} dateType={'local'} localTitle={'dateLogin'} />
-              </div>
-              <div className=" absolute w-full top-[-16px] ">
-                <Progress
-                  percent={progressPercent}
-                  strokeColor={{
-                    '0%': '#80D0C7',
-                    '100%': '#0093E9',
-                  }}
-                  showInfo={false}
-                  status="active"
-                  className={`${!loadingCart ? 'hidden' : ''}`}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-12 " style={{ height: `calc(100vh - 168px)`, overflowY: `scroll` }}>
+          <div className="col-lg-12 " style={{ height: `calc(100vh - 155px)`, overflowY: `scroll` }}>
             <div className="row" id="gridMain">
               {resultArrays?.map((resultArray, arrayIndex) => (
                 <div

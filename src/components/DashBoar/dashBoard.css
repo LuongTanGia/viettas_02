@@ -2,10 +2,10 @@
   transform: scale(1.01);
 }
 
-.DrawerTable {
+/* .DrawerTable {
   height: calc(100% - 36.4px - 40px) !important;
   min-width: 95% !important;
-}
+} */
 /* .DrawerTable .ant-spin-container,
 .ant-spin-nested-loading,
 .ant-table {
@@ -143,14 +143,7 @@
   z-index: 10;
   padding-top: 50px;
 }
-.stickyBottom {
-  position: -webkit-sticky;
-  position: sticky;
-  bottom: 50px;
-  font-size: 20px;
-  z-index: 10;
-  /* padding-bottom: 50px; */
-}
+
 /* .sticky::before {
   content: 'Thống kê iSale';
   position: absolute;
@@ -288,81 +281,42 @@ th.ant-table-cell {
 }
 .ant-table-body {
   overflow: auto scroll;
-  max-height: calc(100vh - 100px - 81px - 100px) !important;
-  min-height: calc(100vh - 100px - 100px - 81px) !important;
+  max-height: calc(100vh - 100px - 81px - 100px + 15px) !important;
+  min-height: calc(100vh - 100px - 100px - 81px + 15px) !important;
 }
 
+.TONGHOP .ant-table-body,
+.TONGHOPDVT .ant-table-body,
+.THEOKHO .ant-table-body {
+  overflow: auto scroll;
+  max-height: calc(100vh - 100px - 81px - 100px + 10px) !important;
+  min-height: calc(100vh - 100px - 100px - 81px + 10px) !important;
+}
+
+.THUTIEN .ant-table-body,
+.CHITIEN .ant-table-body {
+  overflow: auto scroll;
+  max-height: calc(100vh - 100px - 81px - 100px - 20px + 10px) !important;
+  min-height: calc(100vh - 100px - 100px - 81px - 20px + 10px) !important;
+}
+.DANHSACHKHACHHANG .ant-table-body,
+.DANHSACHNHACUNGCAP .ant-table-body {
+  overflow: auto scroll;
+  max-height: calc(100vh - 100px - 81px - 100px - 20px + 10px) !important;
+  min-height: calc(100vh - 100px - 100px - 81px - 20px + 10px) !important;
+}
+.THEOHANGHOA .ant-table-body,
+.THEONHACUNGCAP .ant-table-body {
+  overflow: auto scroll;
+  max-height: calc(100vh - 100px - 81px - 100px - 40px + 10px) !important;
+  min-height: calc(100vh - 100px - 100px - 81px - 40px + 10px) !important;
+}
 .BANHANGHANGHOA .ant-table-body,
 .BANHANGKHACHHANG .ant-table-body,
 .BANHANGQUYLE .ant-table-body {
   overflow: auto scroll;
-  max-height: calc(100vh - 100px - 81px - 100px - 20px) !important;
-  min-height: calc(100vh - 100px - 100px - 81px - 20px) !important;
-}
-
-.TONKHO .ant-table-body {
-  overflow: auto scroll;
-  max-height: 97% !important;
-}
-.TONKHO .ant-spin-nested-loading,
-.TONKHO .ant-spin-container,
-.TONKHO .ant-spin-nested-loading,
-.TONKHO .ant-table,
-.TONKHO .ant-table-container {
-  height: 97%;
-}
-.TONKHO .ant-table-body {
-  overflow: auto scroll;
-  max-height: 100% !important;
-  min-height: 100% !important;
-}
-.TONKHO .DrawerTable {
-  height: calc(95% - 36px - 28px) !important;
-  min-width: 95% !important;
-}
-.THU .DrawerTable,
-.CHI .DrawerTable,
-.QUYTIENMAT .DrawerTable {
-  height: calc(95% - 36px - 28px) !important;
-  min-width: 95% !important;
-}
-.PHAITHU .ant-table-body,
-.PHAITRA .ant-table-body {
-  overflow: auto scroll;
-  max-height: calc(100% - 53.7px) !important;
-  min-height: calc(100% - 53.7px) !important;
-}
-.tableDr1_home.PHAITHU .ant-table-body,
-.tableDr1_home.PHAITRA .ant-table-body {
-  overflow: auto scroll;
-  max-height: calc(100% - 32px) !important;
-  min-height: calc(100% - 32px) !important;
-}
-.tableDr1_home.MUAHANG .ant-table-body,
-.tableDr1_home.BANHANG .ant-table-body {
-  overflow: auto scroll;
-  max-height: calc(100% - 32px) !important;
-  min-height: calc(100% - 32px) !important;
-}
-.tableDr1_home.XUATTRA .ant-table-body,
-.tableDr1_home.NHAPTRA .ant-table-body {
-  overflow: auto scroll;
-  max-height: calc(100% - 32px) !important;
-  min-height: calc(100% - 32px) !important;
-}
-.tableDr1_home.THU .ant-table-body,
-.tableDr1_home.CHI .ant-table-body,
-.tableDr1_home.QUYTIENMAT .ant-table-body {
-  overflow: auto scroll;
-  max-height: calc(100% - 12px) !important;
-  min-height: calc(100% - 12px) !important;
-}
-.tableDr1_home.THU .QUYTIENMAT .ant-table-body,
-.tableDr1_home.CHI .QUYTIENMAT .ant-table-body,
-.tableDr1_home.QUYTIENMAT .QUYTIENMAT .ant-table-body {
-  overflow: auto scroll;
-  max-height: calc(100% - 53.7px - 12px) !important;
-  min-height: calc(100% - 53.7px - 12px) !important;
+  max-height: calc(100vh - 100px - 81px - 100px - 40px + 10px) !important;
+  min-height: calc(100vh - 100px - 100px - 81px - 40px + 10px) !important;
 }
 .ant-segmented-group {
   background: #ccc;

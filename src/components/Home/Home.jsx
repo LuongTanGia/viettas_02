@@ -16,7 +16,9 @@ function Home({ isSidebarVisible }) {
   return (
     <div>
       {/* <Header /> */}
+
       <MainPage isSidebarVisible={isSidebarVisible} />
+
       <Footer />
     </div>
   )

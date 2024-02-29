@@ -164,7 +164,7 @@ function Thu() {
   const onSearch = (value) => setSearchText(value)
   return (
     <div className=" bg-white w-full  z-20 p-0 m-0">
-      <div className="card  p-0 m-0">
+      <div className="card  p-0 m-0 mb-2">
         <div className="flex gap-2 items-center">
           <BiLeftArrowAlt onClick={() => navigate('/')} /> <h1 className=" text-xl">{titleApp}</h1>
         </div>
@@ -241,20 +241,22 @@ function Thu() {
         ) : null}
       </div>
       {segmented === 'QUYTIENMAT' ? null : (
-        <div className="card ">
-          <div className="  items-center" style={{ backgroundColor: 'rgb(241,241,241)' }}>
-            <div className="flex cursor-pointer items-center justify-center mb-2">
-              <p
-                className={`w-full text-center hover:font-medium flex items-center gap-2 justify-between text-base font-medium pl-4
+        <div className="stickyBottom ">
+          <div className="card ">
+            <div className="  items-center" style={{ backgroundColor: 'rgb(241,241,241)' }}>
+              <div className="flex cursor-pointer items-center justify-center mb-2">
+                <p
+                  className={`w-full text-center hover:font-medium flex items-center gap-2 justify-between text-base font-medium pl-4
                             `}
-              >
-                Cộng
-              </p>
-              <div
-                className={`w-[100%] text-right pr-[8px]
+                >
+                  Cộng
+                </p>
+                <div
+                  className={`w-[100%] text-right pr-[8px]
                              `}
-              >
-                <CounterComponent targetValue={TotalChart} duration={100000} color={'#8BC6EC'} />
+                >
+                  <CounterComponent targetValue={TotalChart} duration={100000} color={'#8BC6EC'} />
+                </div>
               </div>
             </div>
           </div>

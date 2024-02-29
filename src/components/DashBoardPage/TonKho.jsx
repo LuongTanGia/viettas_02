@@ -87,7 +87,7 @@ function TonKho() {
   const onSearch = (value) => setSearchText(value)
   return (
     <div className=" bg-white w-full  z-20 p-0 m-0">
-      <div className="card  p-0 m-0">
+      <div className="card  p-0 m-0 mb-2">
         <div className="flex gap-2 items-center">
           <BiLeftArrowAlt onClick={() => navigate('/')} /> <h1 className=" text-xl">{titleApp}</h1>
         </div>
@@ -100,7 +100,7 @@ function TonKho() {
               onSearch={onSearch}
               placeholder="Tìm kiếm"
               //   loading={loading}
-              className="w-full mt-2"
+              className="w-full "
             />
           </div>
 

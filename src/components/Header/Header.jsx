@@ -24,14 +24,14 @@ function Header() {
   const [isShow, setIsShow] = useState(false)
   const user = localStorage.getItem('User')
   const logout = () => {
-    window.localStorage.removeItem('firstLogin')
-    window.localStorage.removeItem('authLogin')
-    window.localStorage.removeItem('TKN')
-    window.localStorage.removeItem('tokenDuLieu')
-    window.localStorage.removeItem('RTKN')
-    window.localStorage.removeItem('userName')
-    window.localStorage.removeItem('dateLogin')
-
+    // window.localStorage.removeItem('firstLogin')
+    // window.localStorage.removeItem('authLogin')
+    // window.localStorage.removeItem('TKN')
+    // window.localStorage.removeItem('tokenDuLieu')
+    // window.localStorage.removeItem('RTKN')
+    // window.localStorage.removeItem('userName')
+    // window.localStorage.removeItem('dateLogin')
+    window.localStorage.clear()
     window.location.href = '/login'
   }
   // const handeleChange = () => {

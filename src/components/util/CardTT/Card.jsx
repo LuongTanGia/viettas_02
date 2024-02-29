@@ -49,7 +49,7 @@ function Card({ resultArray, icon, loading, resultArray_DF, useThongke }) {
         className={`col-xxl-4 col-md-12  ${
           // eslint-disable-next-line react/prop-types
           resultArray[0]?.DataCode.split('_')[0]
-        } ${resultArray[0]?.DataCode.split('_')[0] === 'QUYTIENMAT' ? 'pb-[50px]' : ''}`}
+        } ${resultArray[0]?.DataCode.split('_')[0] === 'QUYTIENMAT' ? '' : ''}`}
       >
         <div className="card info-card sales-card">
           <div className={`card-body min-h-[110px] ${resultArray[0]?.DataCode.split('_')[0] === 'QUYTIENMAT' ? ' min-h-[149.6px] ' : ''}`}>
