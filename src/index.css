@@ -15,13 +15,11 @@
 @tailwind utilities;
 html,
 body {
-  height: calc(100vh);
-
+  height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
-
   font-size: 16px;
-  position: relative;
+  /* position: relative; */
 }
 a {
   text-decoration: none;
@@ -331,6 +329,42 @@ input[type='radio'] {
 
   height: calc(100vh - 28px);
 }
+
+@media only screen and (min-width: 200px) and (max-width: 300px) {
+  table {
+    font-size: 12px;
+  }
+
+  #gridMain {
+    display: grid !important;
+    grid-template-areas:
+      'DOANHSO'
+      'TONKHO'
+      'PHAITHU'
+      'PHAITRA'
+      'MUAHANG'
+      'XUATTRA'
+      'BANHANG'
+      'NHAPTRA'
+      'THU'
+      'CHI'
+      'QUYTIENMAT';
+  }
+  .footer_main .footer_logo {
+    max-height: 40px;
+    max-width: 100px;
+  }
+  .footer_main .footer_box {
+    gap: 5px;
+  }
+  .footer_main .footer_content p {
+    font-size: 12px !important;
+  }
+  .DOANHSO_ct {
+    width: 46%;
+    margin-left: 8px;
+  }
+}
 /* Đối với điện thoại */
 @media only screen and (max-width: 600px) {
   body {
@@ -379,7 +413,9 @@ input[type='radio'] {
   table {
     font-size: 12px;
   }
-
+  .footer_main .footer_content p {
+    font-size: 14px !important;
+  }
   .DOANHSO_ct {
     width: 50%;
     margin-left: 8px;
@@ -394,6 +430,7 @@ input[type='radio'] {
       'THU CHI '
       'QUYTIENMAT QUYTIENMAT';
   }
+
   .PhoneCss {
     flex-direction: column;
     gap: 3px;
@@ -411,12 +448,25 @@ input[type='radio'] {
 @media only screen and (min-width: 1025px) {
   body {
     font-size: 18px;
+    height: 100vh;
   }
   table {
     font-size: 16px;
   }
   .cssChart canvas {
     max-height: 200px !important;
+  }
+
+  .MainPage_bg svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    box-sizing: border-box;
+    display: block;
+    background-color: #0e4166;
+    background-image: linear-gradient(to bottom, rgba(14, 65, 102, 0.86), #0e4166);
   }
   #gridMain {
     display: grid !important;
@@ -478,7 +528,7 @@ input[type='radio'] {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
+  /* height: 100%; */
   box-sizing: border-box;
   display: block;
   background-color: #0e4166;

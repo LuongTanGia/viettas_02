@@ -138,12 +138,19 @@
 .sticky {
   position: -webkit-sticky;
   position: sticky;
-  top: 0;
+  /* top: 50px; */
   font-size: 20px;
   z-index: 10;
-  padding-top: 50px;
+  /* padding-top: 150px; */
 }
-
+.stickyBottom {
+  position: -webkit-sticky;
+  position: sticky;
+  /* top: 50px; */
+  font-size: 20px;
+  z-index: 10;
+  /* padding-top: 150px; */
+}
 /* .sticky::before {
   content: 'Thống kê iSale';
   position: absolute;
@@ -281,18 +288,25 @@ th.ant-table-cell {
 }
 .ant-table-body {
   overflow: auto scroll;
-  max-height: calc(100vh - 100px - 81px - 100px + 15px) !important;
-  min-height: calc(100vh - 100px - 100px - 81px + 15px) !important;
+  max-height: calc(100vh - 150px - 61px - 52px) !important;
+  min-height: calc(100vh - 150px - 61px - 52px) !important;
 }
 
 .TONGHOP .ant-table-body,
 .TONGHOPDVT .ant-table-body,
 .THEOKHO .ant-table-body {
   overflow: auto scroll;
-  max-height: calc(100vh - 100px - 81px - 100px + 10px) !important;
-  min-height: calc(100vh - 100px - 100px - 81px + 10px) !important;
+  max-height: calc(100vh - 150px - 61px - 52px) !important;
+  min-height: calc(100vh - 150px - 61px - 52px) !important;
 }
-
+/* .TONGHOPSearch .ant-table-body,
+  .TONGHOPDVTSearch .ant-table-body,
+  .THEOKHOSearch .ant-table-body {
+    overflow: auto scroll;
+    max-height: calc(100vh - 150px - 61px - 70px) !important;
+    min-height: calc(100vh - 150px - 61px - 70px) !important;
+  } */
+/*
 .THUTIEN .ant-table-body,
 .CHITIEN .ant-table-body {
   overflow: auto scroll;
@@ -317,7 +331,7 @@ th.ant-table-cell {
   overflow: auto scroll;
   max-height: calc(100vh - 100px - 81px - 100px - 40px + 10px) !important;
   min-height: calc(100vh - 100px - 100px - 81px - 40px + 10px) !important;
-}
+} */
 .ant-segmented-group {
   background: #ccc;
 }
@@ -331,5 +345,5 @@ th.ant-table-cell {
   margin: 0;
 }
 .ant-segmented-item-label {
-  white-space: unset !important;
+  white-space: break-spaces !important;
 }

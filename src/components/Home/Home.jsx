@@ -16,8 +16,9 @@ function Home({ isSidebarVisible }) {
   return (
     <div>
       {/* <Header /> */}
-
-      <MainPage isSidebarVisible={isSidebarVisible} />
+      <div className=" pb-[50px]">
+        <MainPage isSidebarVisible={isSidebarVisible} />
+      </div>
 
       <Footer />
     </div>

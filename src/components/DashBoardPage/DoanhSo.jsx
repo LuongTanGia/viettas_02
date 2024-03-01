@@ -129,15 +129,15 @@ function DoanhSo() {
     )
   }
   return (
-    <div className=" bg-white w-full  z-20 p-0 m-0">
-      <div className="card  p-0 m-0 mb-2 ">
+    <div className=" relative w-full">
+      <div className=" col-lg-12 card p-0 m-0 sticky top-[0px]">
         <div className="flex gap-2 items-center">
-          <BiLeftArrowAlt onClick={() => navigate('/')} /> <h1 className=" text-xl">{titleApp}</h1>
+          <BiLeftArrowAlt onClick={() => navigate('/')} size={25} /> <h1 className=" text-xl">{titleApp}</h1>
         </div>
-        <p className="text-base ml-6">Doanh Số</p>
+        <p className="text-base ml-8">Doanh Số</p>
       </div>
 
-      <div className="col-lg-12  ">
+      <div className="col-lg-12 sticky top-[50px] mt-2">
         <div className="card p-0 m-0">
           <div className=" w-full bg-white">
             <Date onDateChange={setDataDate} dataDate={dataDate} dateType={'local'} localTitle={'dateLogin2'} />
@@ -146,7 +146,7 @@ function DoanhSo() {
             options={[
               {
                 label: (
-                  <div>
+                  <div style={{ padding: 3 }}>
                     <div className=" text-sm">Khách hàng</div>
                   </div>
                 ),
@@ -154,7 +154,7 @@ function DoanhSo() {
               },
               {
                 label: (
-                  <div>
+                  <div style={{ padding: 3 }}>
                     <div className=" text-sm">Hàng hóa</div>
                   </div>
                 ),
@@ -162,7 +162,7 @@ function DoanhSo() {
               },
               {
                 label: (
-                  <div>
+                  <div style={{ padding: 3 }}>
                     <div className=" text-sm">Nhóm Hàng</div>
                   </div>
                 ),
@@ -223,7 +223,7 @@ function DoanhSo() {
         ) : null}
       </div>
 
-      <div className="card ">
+      <div className="card p-0 m-0 sticky bottom-[50px]">
         <div className="  items-center" style={{ backgroundColor: 'rgb(241,241,241)' }} onClick={() => showChildrenDrawer({ DataCode: null, DataCodeRest: 1, title: 'all' })}>
           <div className="flex cursor-pointer items-center justify-center mb-2">
             <p

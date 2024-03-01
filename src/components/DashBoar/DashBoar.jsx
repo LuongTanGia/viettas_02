@@ -182,14 +182,15 @@ function DashBoar() {
   // console.log(resultArrays_DF, 'resultArrays_DF')
 
   return (
-    <div ref={containerRef} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
+    <div ref={containerRef} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} className=" relative">
       {/* {contextHolder} */}
       {/* <div>
         <DrawerCP showOpen={open} titleDr={titleDr} setOpenShow={setOpen} onDateChange={setDataDate} dataDate={dataDate} />
       </div> */}
+
       <Header />
-      <div className="col-lg-12 sticky ">
-        <div className="card  mb-2  ">
+      <div className="col-lg-12  p-0 m-0 sticky top-[50px]">
+        <div className="card  mb-2 ">
           <div className="py-2 w-full bg-white">
             <Date onDateChange={setDataDate} dataDate={dataDate} dateType={'local'} localTitle={'dateLogin'} />
           </div>
@@ -207,9 +208,9 @@ function DashBoar() {
           </div>
         </div>
       </div>
-      <section className="section dashboard">
+      <section className="section dashboard pt-[50px]">
         <div className="row">
-          <div className="col-lg-12 " style={{ height: `calc(100vh - 155px)`, overflowY: `scroll` }}>
+          <div className="col-lg-12 ">
             <div className="row" id="gridMain">
               {resultArrays?.map((resultArray, arrayIndex) => (
                 <div

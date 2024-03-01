@@ -6,11 +6,12 @@ import { useEffect, useState } from 'react'
 import { APIDATA_CHART, RETOKEN } from '../../action/Actions'
 import { toast } from 'react-toastify'
 import API from '../../API/API'
-import { Progress, Segmented } from 'antd'
+import { Flex, Progress, Segmented } from 'antd'
 import Table from '../DashBoar/DrawerTable'
 import { useNavigate } from 'react-router-dom'
 import { BiLeftArrowAlt } from 'react-icons/bi'
 import Search from 'antd/es/input/Search'
+import { SearchOutlined } from '@ant-design/icons'
 function TonKho() {
   const [segmented, setSegmented] = useState('')
   //   const [loading, setLoading] = useState(false)
@@ -20,6 +21,8 @@ function TonKho() {
   const [TonKho_TongKhoDVTQuyDoi, setTonKho_TongKhoDVTQuyDoi] = useState([])
   const [TonKho_TheoKho, setTonKho_TheoKho] = useState([])
   const [refToken, setRefToken] = useState(false)
+  const [showSearch, setShowSearch] = useState(false)
+
   const token = localStorage.getItem('TKN')
   const [TotalNumber, setTotalNumber] = useState(0)
 
@@ -86,39 +89,59 @@ function TonKho() {
   }
   const onSearch = (value) => setSearchText(value)
   return (
-    <div className=" bg-white w-full  z-20 p-0 m-0">
-      <div className="card  p-0 m-0 mb-2">
+    <div className="  w-full  relative p-0 m-0 ">
+      <div className="card  p-0 m-0 mb-2 sticky top-[0px]">
         <div className="flex gap-2 items-center">
-          <BiLeftArrowAlt onClick={() => navigate('/')} /> <h1 className=" text-xl">{titleApp}</h1>
+          <BiLeftArrowAlt onClick={() => navigate('/')} size={25} /> <h1 className=" text-xl">{titleApp}</h1>
         </div>
-        <p className="text-base ml-6 mb-2">Tồn kho</p>
+        <div className="flex items-center justify-between">
+          <p className="text-base ml-8 mb-2">Tồn kho</p>
+          <SearchOutlined className="mr-4  text-xl absolute right-0 bottom-3" onClick={() => setShowSearch(!showSearch)} />
+        </div>
       </div>
       <div className="col-lg-12 ">
         <div className="card   p-0 m-0">
-          <div className="flex gap-2 items-center">
-            <Search
-              onSearch={onSearch}
-              placeholder="Tìm kiếm"
-              //   loading={loading}
-              className="w-full "
-            />
-          </div>
+          {showSearch ? (
+            <div className="flex gap-2 items-center">
+              <Search
+                onSearch={onSearch}
+                placeholder="Tìm kiếm"
+                //   loading={loading}
+                className="w-full  "
+              />
+            </div>
+          ) : null}
 
-          <div className=" w-full bg-white">
+          <div className=" w-full ">
             <Date onDateChange={setDataDate} dataDate={dataDate} dateType={'local'} localTitle={'dateLogin2'} titleDr={'TONKHO'} />
           </div>
+
           <Segmented
             options={[
               {
-                label: <div className=" text-sm w-[79px] flex items-center h-full">Tổng hợp</div>,
+                label: (
+                  <div className="h-[40px] flex items-center justify-center" style={{ padding: 2 }}>
+                    Tổng hợp
+                  </div>
+                ),
                 value: 'Tổng hợp',
               },
               {
-                label: <p className="w-full text-sm">Tổng hợp (ĐVT quy đổi)</p>,
+                label: (
+                  <div className="h-[40px] flex items-center justify-center  flex-col " style={{ padding: 2, lineHeight: '0' }}>
+                    <div className="" style={{ lineHeight: '1' }}>
+                      Tổng hợp (ĐVT quy đổi)
+                    </div>
+                  </div>
+                ),
                 value: 'Tổng hợp (ĐVT quy đổi)',
               },
               {
-                label: <div className=" text-sm">Theo kho</div>,
+                label: (
+                  <div className="h-[40px] flex items-center justify-center" style={{ padding: 2 }}>
+                    Theo kho
+                  </div>
+                ),
                 value: 'Theo kho',
               },
             ]}
@@ -130,6 +153,7 @@ function TonKho() {
             value={valueSegmented}
             className=" font-medium bg-white"
           />
+
           <div className=" absolute w-full top-[-16px] ">
             <Progress
               percent={progressPercent}
@@ -142,48 +166,48 @@ function TonKho() {
               className={`${!loadingCart ? 'hidden' : ''}`}
             />
           </div>
+
+          {segmented === 'TONGHOP' ? (
+            <>
+              <Table
+                segmented={segmented}
+                titleDr={'TONKHO'}
+                param={data_TonKho_TongKho ? data_TonKho_TongKho : []}
+                columName={[]}
+                height={'setHeight'}
+                hiden={[]}
+                setTotalNumber={setNumber}
+              />
+            </>
+          ) : segmented === 'TONGHOPDVT' ? (
+            <>
+              <Table
+                segmented={segmented}
+                titleDr={'TONKHO'}
+                param={TonKho_TongKhoDVTQuyDoi ? TonKho_TongKhoDVTQuyDoi : []}
+                columName={[]}
+                height={'setHeight'}
+                hiden={[]}
+                setTotalNumber={setNumber}
+              />{' '}
+            </>
+          ) : segmented === 'THEOKHO' ? (
+            <>
+              <Table
+                segmented={segmented}
+                titleDr={'TONKHO'}
+                param={TonKho_TheoKho ? TonKho_TheoKho : []}
+                columName={[]}
+                height={'setHeight'}
+                hiden={[]}
+                setTotalNumber={setNumber}
+              />{' '}
+            </>
+          ) : null}
         </div>
       </div>
 
-      <div className="card p-0 m-0">
-        {segmented === 'TONGHOP' ? (
-          <>
-            <Table
-              segmented={segmented}
-              titleDr={'TONKHO'}
-              param={data_TonKho_TongKho ? data_TonKho_TongKho : []}
-              columName={[]}
-              height={'setHeight'}
-              hiden={[]}
-              setTotalNumber={setNumber}
-            />
-          </>
-        ) : segmented === 'TONGHOPDVT' ? (
-          <>
-            <Table
-              segmented={segmented}
-              titleDr={'TONKHO'}
-              param={TonKho_TongKhoDVTQuyDoi ? TonKho_TongKhoDVTQuyDoi : []}
-              columName={[]}
-              height={'setHeight'}
-              hiden={[]}
-              setTotalNumber={setNumber}
-            />{' '}
-          </>
-        ) : segmented === 'THEOKHO' ? (
-          <>
-            <Table
-              segmented={segmented}
-              titleDr={'TONKHO'}
-              param={TonKho_TheoKho ? TonKho_TheoKho : []}
-              columName={[]}
-              height={'setHeight'}
-              hiden={[]}
-              setTotalNumber={setNumber}
-            />{' '}
-          </>
-        ) : null}
-      </div>
+      {/* <div className="card p-0 m-0"></div> */}
     </div>
   )
 }
