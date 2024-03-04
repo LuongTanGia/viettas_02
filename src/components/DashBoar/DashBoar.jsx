@@ -13,6 +13,7 @@ import { useLocation } from 'react-router-dom'
 import { Progress } from 'antd'
 // import { useParams } from 'react-router-dom'
 import Header from '../Header/Header'
+// import Footer from '../Footer/Footer'
 // import CounterComponent from './LoadNumber'
 // import { Progress } from 'antd'
 
@@ -208,7 +209,7 @@ function DashBoar() {
           </div>
         </div>
       </div>
-      <section className="section dashboard pt-[50px]">
+      <section className="section dashboard " style={{ height: 'calc(100vh - 50px - 52px - 48px)', overflowY: 'scroll', overflowX: 'hidden' }}>
         <div className="row">
           <div className="col-lg-12 ">
             <div className="row" id="gridMain">
@@ -233,6 +234,7 @@ function DashBoar() {
           </div>
         </div>
       </section>
+      {/* <Footer /> */}
     </div>
   )
 }

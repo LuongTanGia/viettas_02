@@ -13,6 +13,7 @@ import Date from '../DashBoar/Date'
 // import RateBar from '../util/Chart/LoadingChart'
 import { Progress } from 'antd'
 import { BiLeftArrowAlt } from 'react-icons/bi'
+// import Footer from '../Footer/Footer'
 function DoanhSoDetail() {
   const navigate = useNavigate()
   const KhoanNgay = useSelector(khoanNgaySelect)
@@ -93,17 +94,18 @@ function DoanhSoDetail() {
     setTotalNumber(value)
   }
   return (
-    <div className="  w-full  z-20 p-0 m-0">
+    <div className="  w-full  z-20 p-0 ">
       <div className="card  p-0 m-0 mb-2">
         <div className="flex gap-2 items-center">
           <BiLeftArrowAlt
+            size={25}
             onClick={() => {
               navigate('/DOANHSO'), localStorage.removeItem('dateLogin3')
             }}
           />{' '}
-          <h1 className=" text-xl">Doanh số chi tiết</h1>
+          <h1 className=" text-xl ">Doanh số chi tiết</h1>
         </div>
-        <p className="text-base ml-6 mb-2" style={{ color: dataDetail.color }}>
+        <p className="text-base  ml-8 mb-2" style={{ color: dataDetail.color }}>
           {dataDetail.name}
         </p>
       </div>
@@ -133,6 +135,7 @@ function DoanhSoDetail() {
 
       <div className="card p-0 m-0 ">
         <Table
+          // style={{ height: '100vh' }}
           segmented={dataDetail.segmented}
           titleDr={dataDetail.titleDr}
           colorTable={dataDetail.color === '#8BC6EC' ? undefined : dataDetail.color}
@@ -166,6 +169,7 @@ function DoanhSoDetail() {
           </div>
         </div>
       </div> */}
+      {/* <Footer /> */}
     </div>
   )
 }

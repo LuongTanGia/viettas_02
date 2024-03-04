@@ -748,6 +748,7 @@ function Tables({ loadingSearch, value, param, columName, setTotalNumber, colorT
             onRow={(record) => ({
               onClick: () => onClick(record),
             })}
+            // style={{ height: '100vh' }}
             pagination={false}
             size="small"
             className={`color${colorTable?.slice(1)} DrawerTable setHeight ${height} ${segmented}`}
@@ -758,7 +759,7 @@ function Tables({ loadingSearch, value, param, columName, setTotalNumber, colorT
                       return null
                     }
                     return (
-                      <Table.Summary fixed className="h-[53.7px]]">
+                      <Table.Summary fixed className="h-[53.7px]">
                         <Table.Summary.Cell className=" font-bold bg-[#f1f1f1] h-[53.7px] text-center ">Tổng</Table.Summary.Cell>
                         {/* {segmented === 'BIEUDOTYTRONG' ? <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]"></Table.Summary.Cell> : null} */}
                         <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1] h-[53.7px]">
@@ -794,7 +795,7 @@ function Tables({ loadingSearch, value, param, columName, setTotalNumber, colorT
                 : titleDr === 'DOANHSO'
                   ? () => {
                       return (
-                        <Table.Summary fixed className="h-[53.7px]]">
+                        <Table.Summary fixed className="h-[53.7px] ">
                           <Table.Summary.Cell className=" font-bold bg-[#f1f1f1] h-[53.7px] text-center ">Cộng</Table.Summary.Cell>
                           <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1] h-[53.7px]">
                             {Number(value).toLocaleString('en-US', {

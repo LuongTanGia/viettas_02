@@ -19,10 +19,10 @@
   height: 100% !important;
   max-height: 520px !important;
 } */
-.DrawerCT .ant-drawer-body {
+/* .DrawerCT .ant-drawer-body {
   padding-left: 0;
   padding-right: 0;
-}
+} */
 /*  '#', '#', '#', '#', '#', '#' */
 .colorDC634E th.ant-table-cell,
 .colorDC634E.highlight-rowChart {
@@ -288,17 +288,24 @@ th.ant-table-cell {
 }
 .ant-table-body {
   overflow: auto scroll;
-  max-height: calc(100vh - 150px - 61px - 52px) !important;
-  min-height: calc(100vh - 150px - 61px - 52px) !important;
+  max-height: calc(100vh - 61.6px - 53.6px - 203px) !important;
+  min-height: calc(100vh - 61.6px - 53.6px - 203px) !important;
 }
-
+@media only screen and (min-width: 1025px) {
+  .ant-table-body {
+    overflow: auto scroll;
+    max-height: calc(100vh - 61.6px - 53.6px - 156px) !important;
+    min-height: calc(100vh - 61.6px - 53.6px - 156px) !important;
+  }
+}
+/*
 .TONGHOP .ant-table-body,
 .TONGHOPDVT .ant-table-body,
 .THEOKHO .ant-table-body {
   overflow: auto scroll;
   max-height: calc(100vh - 150px - 61px - 52px) !important;
   min-height: calc(100vh - 150px - 61px - 52px) !important;
-}
+} */
 /* .TONGHOPSearch .ant-table-body,
   .TONGHOPDVTSearch .ant-table-body,
   .THEOKHOSearch .ant-table-body {
@@ -343,6 +350,7 @@ th.ant-table-cell {
   padding-top: 0;
 
   margin: 0;
+  padding: 0;
 }
 .ant-segmented-item-label {
   white-space: break-spaces !important;
