@@ -95,7 +95,7 @@ function DoanhSoDetail() {
   }
   return (
     <div className="  w-full  z-20 p-0 ">
-      <div className="card  p-0 m-0 mb-2">
+      <div className="card  p-0 m-0 ">
         <div className="flex gap-2 items-center">
           <BiLeftArrowAlt
             size={25}
@@ -133,7 +133,7 @@ function DoanhSoDetail() {
         </div>
       </div>
 
-      <div className="card p-0 m-0 ">
+      <div className="card p-0 m-0 mb-[50px]">
         <Table
           // style={{ height: '100vh' }}
           segmented={dataDetail.segmented}

@@ -90,7 +90,7 @@ function TonKho() {
   const onSearch = (value) => setSearchText(value)
   return (
     <div className="  w-full  relative p-0 m-0 ">
-      <div className="card  p-0 m-0 mb-2 sticky top-[0px]">
+      <div className="card  p-0 m-0  sticky top-[0px]">
         <div className="flex gap-2 items-center">
           <BiLeftArrowAlt onClick={() => navigate('/')} size={25} /> <h1 className=" text-xl">{titleApp}</h1>
         </div>
@@ -166,48 +166,49 @@ function TonKho() {
               className={`${!loadingCart ? 'hidden' : ''}`}
             />
           </div>
-
-          {segmented === 'TONGHOP' ? (
-            <>
-              <Table
-                segmented={segmented}
-                titleDr={'TONKHO'}
-                param={data_TonKho_TongKho ? data_TonKho_TongKho : []}
-                columName={[]}
-                height={'setHeight'}
-                hiden={[]}
-                setTotalNumber={setNumber}
-              />
-            </>
-          ) : segmented === 'TONGHOPDVT' ? (
-            <>
-              <Table
-                segmented={segmented}
-                titleDr={'TONKHO'}
-                param={TonKho_TongKhoDVTQuyDoi ? TonKho_TongKhoDVTQuyDoi : []}
-                columName={[]}
-                height={'setHeight'}
-                hiden={[]}
-                setTotalNumber={setNumber}
-              />{' '}
-            </>
-          ) : segmented === 'THEOKHO' ? (
-            <>
-              <Table
-                segmented={segmented}
-                titleDr={'TONKHO'}
-                param={TonKho_TheoKho ? TonKho_TheoKho : []}
-                columName={[]}
-                height={'setHeight'}
-                hiden={[]}
-                setTotalNumber={setNumber}
-              />{' '}
-            </>
-          ) : null}
         </div>
       </div>
 
-      {/* <div className="card p-0 m-0"></div> */}
+      <div className="card p-0 m-0">
+        {' '}
+        {segmented === 'TONGHOP' ? (
+          <>
+            <Table
+              segmented={segmented}
+              titleDr={'TONKHO'}
+              param={data_TonKho_TongKho ? data_TonKho_TongKho : []}
+              columName={[]}
+              height={'setHeight'}
+              hiden={[]}
+              setTotalNumber={setNumber}
+            />
+          </>
+        ) : segmented === 'TONGHOPDVT' ? (
+          <>
+            <Table
+              segmented={segmented}
+              titleDr={'TONKHO'}
+              param={TonKho_TongKhoDVTQuyDoi ? TonKho_TongKhoDVTQuyDoi : []}
+              columName={[]}
+              height={'setHeight'}
+              hiden={[]}
+              setTotalNumber={setNumber}
+            />{' '}
+          </>
+        ) : segmented === 'THEOKHO' ? (
+          <>
+            <Table
+              segmented={segmented}
+              titleDr={'TONKHO'}
+              param={TonKho_TheoKho ? TonKho_TheoKho : []}
+              columName={[]}
+              height={'setHeight'}
+              hiden={[]}
+              setTotalNumber={setNumber}
+            />{' '}
+          </>
+        ) : null}
+      </div>
     </div>
   )
 }

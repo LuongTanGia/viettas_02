@@ -190,7 +190,7 @@ function DashBoar() {
       </div> */}
 
       <Header />
-      <div className="col-lg-12  p-0 m-0 sticky top-[50px]">
+      <div className="col-lg-12  p-0 m-0 sticky top-[50px] ">
         <div className="card  mb-2 ">
           <div className="py-2 w-full bg-white">
             <Date onDateChange={setDataDate} dataDate={dataDate} dateType={'local'} localTitle={'dateLogin'} />
@@ -209,7 +209,7 @@ function DashBoar() {
           </div>
         </div>
       </div>
-      <section className="section dashboard " style={{ height: 'calc(100vh - 50px - 52px - 48px)', overflowY: 'scroll', overflowX: 'hidden' }}>
+      <section className="section dashboard mt-[50px] mb-[-50px]">
         <div className="row">
           <div className="col-lg-12 ">
             <div className="row" id="gridMain">

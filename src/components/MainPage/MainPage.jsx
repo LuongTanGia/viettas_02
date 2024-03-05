@@ -127,7 +127,7 @@ function MainPage({ isSidebarVisible }) {
       <div className="MainPage_bg">
         <AnimatedWaves />
       </div>
-      <main id="main" className={isSidebarVisible ? 'main relative' : 'main show_main relative'}>
+      <main id="main" className={isSidebarVisible ? 'main relative ' : 'main show_main relative '}>
         <Routes>
           <Route path="/DOANHSO" element={<DoanhSo />} />
           <Route path="/DOANHSO/:id" element={<DoanhSoDetail />} />

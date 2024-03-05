@@ -130,14 +130,14 @@ function DoanhSo() {
   }
   return (
     <div className=" relative w-full ">
-      <div className=" col-lg-12 card p-0 m-0">
+      <div className=" col-lg-12 card p-0 m-0 sticky top-0">
         <div className="flex gap-2 items-center">
           <BiLeftArrowAlt onClick={() => navigate('/')} size={25} /> <h1 className=" text-xl">{titleApp}</h1>
         </div>
         <p className="text-base ml-8">Doanh Số</p>
       </div>
 
-      <div className="col-lg-12 card  p-0 m-0">
+      <div className="col-lg-12 card  p-0  m-0 sticky top-[50px]">
         <div className="card p-0 m-0">
           <div className=" w-full bg-white">
             <Date onDateChange={setDataDate} dataDate={dataDate} dateType={'local'} localTitle={'dateLogin2'} />
@@ -192,7 +192,7 @@ function DoanhSo() {
         </div>
       </div>
 
-      <div className="card p-0 m-0 ">
+      <div className="card p-0 m-0 " style={{ overflow: 'scroll', minHeight: 'calc(100vh - 340px)' }}>
         {segmented === 'KHACHHANG' ? (
           <>
             {data_khachhang !== -108 || data_khachhang !== -107 ? (
@@ -223,7 +223,7 @@ function DoanhSo() {
         ) : null}
       </div>
 
-      <div className="card p-0 m-0">
+      <div className="card p-0 m-0 fixed-bottom bottom-[50px] ">
         <div className="  items-center" style={{ backgroundColor: 'rgb(241,241,241)' }} onClick={() => showChildrenDrawer({ DataCode: null, DataCodeRest: 1, title: 'all' })}>
           <div className="flex cursor-pointer items-center justify-center mb-2">
             <p

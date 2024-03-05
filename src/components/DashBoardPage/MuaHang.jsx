@@ -110,12 +110,12 @@ function MuaHang() {
   }
   const onSearch = (value) => setSearchText(value)
   return (
-    <div className=" bg-white w-full  z-20 p-0 m-0">
-      <div className="card  p-0 m-0 mb-2">
+    <div className="  w-full  z-20 p-0 m-0">
+      <div className="card  p-0 m-0 sticky top-[0px]">
         <div className="flex gap-2 items-center">
-          <BiLeftArrowAlt onClick={() => navigate('/')} /> <h1 className=" text-xl">{titleApp}</h1>
+          <BiLeftArrowAlt size={25} onClick={() => navigate('/')} /> <h1 className=" text-xl">{titleApp}</h1>
         </div>
-        <p className="text-base ml-6">Mua hàng</p>
+        <p className="text-base ml-8">Mua hàng</p>
       </div>
       <div className="col-lg-12  ">
         <div className="card   p-0 m-0">
@@ -134,11 +134,23 @@ function MuaHang() {
           <Segmented
             options={[
               {
-                label: <div className=" text-sm items-center ">Theo hàng hóa</div>,
+                label: (
+                  <div className="h-[40px] flex items-center justify-center  flex-col " style={{ padding: 2, lineHeight: '0' }}>
+                    <div className="" style={{ lineHeight: '1' }}>
+                      Theo hàng hóa
+                    </div>
+                  </div>
+                ),
                 value: 'Theo hàng hóa',
               },
               {
-                label: <p className="w-full text-sm">Theo nhà cung cấp</p>,
+                label: (
+                  <div className="h-[40px] flex items-center justify-center  flex-col " style={{ padding: 2, lineHeight: '0' }}>
+                    <div className="" style={{ lineHeight: '1' }}>
+                      Theo nhà cung cấp
+                    </div>
+                  </div>
+                ),
                 value: 'Theo nhà cung cấp',
               },
             ]}
@@ -192,7 +204,7 @@ function MuaHang() {
           </>
         ) : null}
       </div>
-      <div className="card ">
+      <div className="card fixed-bottom bottom-[20px]">
         <div className="  items-center" style={{ backgroundColor: 'rgb(241,241,241)' }}>
           <div className="flex cursor-pointer items-center justify-center mb-2">
             <p

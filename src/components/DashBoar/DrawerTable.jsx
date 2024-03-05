@@ -798,7 +798,7 @@ function Tables({ loadingSearch, value, param, columName, setTotalNumber, colorT
                         <Table.Summary fixed className="h-[53.7px] ">
                           <Table.Summary.Cell className=" font-bold bg-[#f1f1f1] h-[53.7px] text-center ">Cộng</Table.Summary.Cell>
                           <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1] h-[53.7px]">
-                            {Number(value).toLocaleString('en-US', {
+                            {Number(data?.reduce((total, item) => total + item.DataValue, 0) / 1).toLocaleString('en-US', {
                               minimumFractionDigits: ThongSo.SOLESOTIEN,
                               maximumFractionDigits: ThongSo.SOLESOTIEN,
                             })}
@@ -818,7 +818,7 @@ function Tables({ loadingSearch, value, param, columName, setTotalNumber, colorT
         </Form>
       ) : (
         <>
-          <div className="h-[70vh] w-full flex items-center  justify-center">
+          <div className=" w-full flex items-center  justify-center" style={{ height: 'calc(100vh - 61.6px - 53.6px )' }}>
             <img src={Nodata} alt="NoData" className="max-w-[300px]" />
           </div>
         </>

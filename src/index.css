@@ -14,8 +14,9 @@
 @tailwind components;
 @tailwind utilities;
 html,
-body {
-  height: calc(100%);
+body,
+#root {
+  /* height: 100vh; */
   overflow-x: hidden;
   /* overflow-y: hidden; */
   font-size: 16px;
@@ -262,7 +263,7 @@ input[type='radio'] {
 /* end */
 
 #main {
-  /* max-height: calc(100vh - 100px); */
+  max-height: calc(100vh - 110px);
   margin-bottom: 50px;
   /* margin-top: 0px !important; */
 }

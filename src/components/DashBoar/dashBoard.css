@@ -288,31 +288,54 @@ th.ant-table-cell {
 }
 .ant-table-body {
   overflow: auto scroll;
-  max-height: calc(100vh - 61.6px - 53.6px - 203px) !important;
-  min-height: calc(100vh - 61.6px - 53.6px - 203px) !important;
+
+  max-height: calc(100vh - 150px - 61px - 102px) !important;
 }
-@media only screen and (min-width: 1025px) {
-  .ant-table-body {
-    overflow: auto scroll;
-    max-height: calc(100vh - 61.6px - 53.6px - 156px) !important;
-    min-height: calc(100vh - 61.6px - 53.6px - 156px) !important;
-  }
+.ant-table-wrapper div.ant-table-summary {
+  position: fixed !important;
+  bottom: 50px !important;
 }
-/*
+
 .TONGHOP .ant-table-body,
 .TONGHOPDVT .ant-table-body,
 .THEOKHO .ant-table-body {
   overflow: auto scroll;
-  max-height: calc(100vh - 150px - 61px - 52px) !important;
-  min-height: calc(100vh - 150px - 61px - 52px) !important;
-} */
+  max-height: calc(100vh - 150px - 61px - 82px) !important;
+  min-height: calc(100vh - 150px - 61px - 82px) !important;
+}
+.DANHSACHKHACHHANG .ant-table-body,
+.DANHSACHNHACUNGCAP .ant-table-body {
+  overflow: auto scroll;
+  max-height: calc(100vh - 150px - 61px - 120px) !important;
+}
+.THEOHANGHOA .ant-table-body,
+.THEONHACUNGCAP .ant-table-body {
+  overflow: auto scroll;
+  max-height: calc(100vh - 150px - 61px - 130px) !important;
+}
+.BANHANGHANGHOA .ant-table-body,
+.BANHANGKHACHHANG .ant-table-body,
+.BANHANGQUYLE .ant-table-body {
+  overflow: auto scroll;
+  max-height: calc(100vh - 150px - 61px - 130px) !important;
+}
+.THUTIEN .ant-table-body,
+.CHITIEN .ant-table-body {
+  overflow: auto scroll;
+  max-height: calc(100vh - 150px - 61px - 130px) !important;
+}
+
+.QUYTIENMAT .ant-table-body {
+  overflow: auto scroll;
+  max-height: calc(100vh - 150px - 61px - 125px) !important;
+}
 /* .TONGHOPSearch .ant-table-body,
-  .TONGHOPDVTSearch .ant-table-body,
-  .THEOKHOSearch .ant-table-body {
-    overflow: auto scroll;
-    max-height: calc(100vh - 150px - 61px - 70px) !important;
-    min-height: calc(100vh - 150px - 61px - 70px) !important;
-  } */
+.TONGHOPDVTSearch .ant-table-body,
+.THEOKHOSearch .ant-table-body {
+  overflow: auto scroll;
+  max-height: calc(100vh - 150px - 61px - 170px) !important;
+  min-height: calc(100vh - 150px - 61px - 170px) !important;
+} */
 /*
 .THUTIEN .ant-table-body,
 .CHITIEN .ant-table-body {
@@ -320,12 +343,7 @@ th.ant-table-cell {
   max-height: calc(100vh - 100px - 81px - 100px - 20px + 10px) !important;
   min-height: calc(100vh - 100px - 100px - 81px - 20px + 10px) !important;
 }
-.DANHSACHKHACHHANG .ant-table-body,
-.DANHSACHNHACUNGCAP .ant-table-body {
-  overflow: auto scroll;
-  max-height: calc(100vh - 100px - 81px - 100px - 20px + 10px) !important;
-  min-height: calc(100vh - 100px - 100px - 81px - 20px + 10px) !important;
-}
+
 .THEOHANGHOA .ant-table-body,
 .THEONHACUNGCAP .ant-table-body {
   overflow: auto scroll;

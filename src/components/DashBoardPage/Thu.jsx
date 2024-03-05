@@ -163,8 +163,8 @@ function Thu() {
   }
   const onSearch = (value) => setSearchText(value)
   return (
-    <div className=" bg-white w-full  z-20 p-0 m-0">
-      <div className="card  p-0 m-0 mb-2">
+    <div className="  w-full  z-20 p-0 m-0">
+      <div className="card  p-0 m-0 ">
         <div className="flex gap-2 items-center">
           <BiLeftArrowAlt onClick={() => navigate('/')} /> <h1 className=" text-xl">{titleApp}</h1>
         </div>
@@ -190,15 +190,33 @@ function Thu() {
           <Segmented
             options={[
               {
-                label: <div className="text-sm ">Thu tiền</div>,
+                label: (
+                  <div className="h-[40px] flex items-center justify-center  flex-col " style={{ padding: 2, lineHeight: '0' }}>
+                    <div className="" style={{ lineHeight: '1' }}>
+                      Thu tiền
+                    </div>
+                  </div>
+                ),
                 value: 'Thu tiền',
               },
               {
-                label: <p className=" text-sm">Chi tiền</p>,
+                label: (
+                  <div className="h-[40px] flex items-center justify-center  flex-col " style={{ padding: 2, lineHeight: '0' }}>
+                    <div className="" style={{ lineHeight: '1' }}>
+                      Chi tiền
+                    </div>
+                  </div>
+                ),
                 value: 'Chi tiền',
               },
               {
-                label: <p className="text-sm ">Sổ quỹ</p>,
+                label: (
+                  <div className="h-[40px] flex items-center justify-center  flex-col " style={{ padding: 2, lineHeight: '0' }}>
+                    <div className="" style={{ lineHeight: '1' }}>
+                      Sổ quỹ
+                    </div>
+                  </div>
+                ),
                 value: 'Sổ quỹ',
               },
             ]}
@@ -241,7 +259,7 @@ function Thu() {
         ) : null}
       </div>
       {segmented === 'QUYTIENMAT' ? null : (
-        <div className="stickyBottom ">
+        <div className=" fixed-bottom bottom-[20px] ">
           <div className="card ">
             <div className="  items-center" style={{ backgroundColor: 'rgb(241,241,241)' }}>
               <div className="flex cursor-pointer items-center justify-center mb-2">

@@ -82,17 +82,18 @@ function PhaiThuDetail() {
     setTotalNumber(value)
   }
   return (
-    <div className=" bg-white w-full  z-20 p-0 m-0">
-      <div className="card  p-0 m-0 mb-2">
+    <div className="  w-full  z-20 p-0 m-0">
+      <div className="card  p-0 m-0 ">
         <div className="flex gap-2 items-center">
           <BiLeftArrowAlt
+            size={25}
             onClick={() => {
               navigate('/PHAITHU'), localStorage.removeItem('dateLogin3')
             }}
           />{' '}
           <h1 className=" text-xl">Công nợ chi tiết</h1>
         </div>
-        <p className="text-base ml-6 mb-2" style={{ color: dataDetail.color }}>
+        <p className="text-base ml-8 mb-2" style={{ color: dataDetail.color }}>
           {dataDetail.name}
         </p>
       </div>
