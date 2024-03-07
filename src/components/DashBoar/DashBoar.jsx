@@ -14,6 +14,7 @@ import { Progress } from 'antd'
 // import { useParams } from 'react-router-dom'
 import Header from '../Header/Header'
 // import Footer from '../Footer/Footer'
+// import Footer from '../Footer/Footer'
 // import CounterComponent from './LoadNumber'
 // import { Progress } from 'antd'
 
@@ -183,14 +184,14 @@ function DashBoar() {
   // console.log(resultArrays_DF, 'resultArrays_DF')
 
   return (
-    <div ref={containerRef} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} className=" relative">
+    <div ref={containerRef} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} className=" ">
       {/* {contextHolder} */}
       {/* <div>
         <DrawerCP showOpen={open} titleDr={titleDr} setOpenShow={setOpen} onDateChange={setDataDate} dataDate={dataDate} />
       </div> */}
 
       <Header />
-      <div className="col-lg-12  p-0 m-0 sticky top-[50px] ">
+      <div className="col-lg-12   ">
         <div className="card  mb-2 ">
           <div className="py-2 w-full bg-white">
             <Date onDateChange={setDataDate} dataDate={dataDate} dateType={'local'} localTitle={'dateLogin'} />
@@ -209,7 +210,7 @@ function DashBoar() {
           </div>
         </div>
       </div>
-      <section className="section dashboard mt-[50px] mb-[-50px]">
+      <section className="section dashboard ">
         <div className="row">
           <div className="col-lg-12 ">
             <div className="row" id="gridMain">
@@ -234,7 +235,6 @@ function DashBoar() {
           </div>
         </div>
       </section>
-      {/* <Footer /> */}
     </div>
   )
 }

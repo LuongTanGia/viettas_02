@@ -2,7 +2,7 @@
 import { Route, Routes } from 'react-router-dom'
 import ErrorPage from '../util/Erorr/ErrorPage'
 import DashBoar from '../DashBoar/DashBoar'
-import AnimatedWaves from '../DashBoar/BgImg'
+// import AnimatedWaves from '../DashBoar/BgImg'
 import { useEffect, useRef, useState } from 'react'
 import { KHOANNGAY, getFirstDayOfMonth, getWeek, getDateNum, THONGSO } from '../../action/Actions'
 import API from '../../API/API'
@@ -36,6 +36,7 @@ function MainPage({ isSidebarVisible }) {
   const dispatch = useDispatch()
   const [currentDate, setCurrentDate] = useState(new Date())
   const myStateRef = useRef(true)
+
   console.log(myStateRef)
   const checkDateSetting = localStorage.getItem('dateSetting')
   const token = localStorage.getItem('TKN')
@@ -119,39 +120,33 @@ function MainPage({ isSidebarVisible }) {
   //   CHI: 'Chi tiền',
   //   QUYTIENMAT: 'Sổ quỹ',
   return (
-    <div className="MainPage">
+    <main id="main">
       <div className="hidden">
         <Detector render={({ online }) => (online ? successCheck() : errorCheck())} />
       </div>
+      <Routes>
+        <Route path="/DOANHSO" element={<DoanhSo />} />
+        <Route path="/DOANHSO/:id" element={<DoanhSoDetail />} />
 
-      <div className="MainPage_bg">
-        <AnimatedWaves />
-      </div>
-      <main id="main" className={isSidebarVisible ? 'main relative ' : 'main show_main relative '}>
-        <Routes>
-          <Route path="/DOANHSO" element={<DoanhSo />} />
-          <Route path="/DOANHSO/:id" element={<DoanhSoDetail />} />
+        <Route path="/TONKHO" element={<TonKho />} />
+        <Route path="/PHAITHU" element={<PhaiThu />} />
+        <Route path="/PHAITHU/:id" element={<PhaiThuDetail />} />
 
-          <Route path="/TONKHO" element={<TonKho />} />
-          <Route path="/PHAITHU" element={<PhaiThu />} />
-          <Route path="/PHAITHU/:id" element={<PhaiThuDetail />} />
+        <Route path="/PHAITRA" element={<PhaiTra />} />
+        <Route path="/PHAITRA/:id" element={<PhaiTraDetail />} />
 
-          <Route path="/PHAITRA" element={<PhaiTra />} />
-          <Route path="/PHAITRA/:id" element={<PhaiTraDetail />} />
-
-          <Route path="/MUAHANG" element={<MuaHang />} />
-          <Route path="/XUATTRA" element={<XuatTra />} />
-          <Route path="/BANHANG" element={<BanHang />} />
-          <Route path="/NHAPTRA" element={<NhapTra />} />
-          <Route path="/THU" element={<Thu />} />
-          <Route path="/CHI" element={<Chi />} />
-          <Route path="/QUYTIENMAT" element={<SoQuy />} />
-          <Route path="/" element={<DashBoar />} />
-          <Route path="/Info" element={<InfoApp />} />
-          <Route path="*" element={<ErrorPage />} />
-        </Routes>
-      </main>
-    </div>
+        <Route path="/MUAHANG" element={<MuaHang />} />
+        <Route path="/XUATTRA" element={<XuatTra />} />
+        <Route path="/BANHANG" element={<BanHang />} />
+        <Route path="/NHAPTRA" element={<NhapTra />} />
+        <Route path="/THU" element={<Thu />} />
+        <Route path="/CHI" element={<Chi />} />
+        <Route path="/QUYTIENMAT" element={<SoQuy />} />
+        <Route path="/" element={<DashBoar />} />
+        <Route path="/Info" element={<InfoApp />} />
+        <Route path="*" element={<ErrorPage />} />
+      </Routes>
+    </main>
   )
 }
 

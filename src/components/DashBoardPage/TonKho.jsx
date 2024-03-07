@@ -89,8 +89,8 @@ function TonKho() {
   }
   const onSearch = (value) => setSearchText(value)
   return (
-    <div className="  w-full  relative p-0 m-0 ">
-      <div className="card  p-0 m-0  sticky top-[0px]">
+    <div className="  w-full  relative " style={{ overflow: 'hidden' }}>
+      <div className="card  p-0 m-0 fixed-top">
         <div className="flex gap-2 items-center">
           <BiLeftArrowAlt onClick={() => navigate('/')} size={25} /> <h1 className=" text-xl">{titleApp}</h1>
         </div>
@@ -99,8 +99,8 @@ function TonKho() {
           <SearchOutlined className="mr-4  text-xl absolute right-0 bottom-3" onClick={() => setShowSearch(!showSearch)} />
         </div>
       </div>
-      <div className="col-lg-12 ">
-        <div className="card   p-0 m-0">
+      <div className="col-lg-12 pt-2 sticky top-[ 0px]">
+        <div className="card   p-0 m-0 ">
           {showSearch ? (
             <div className="flex gap-2 items-center">
               <Search
@@ -168,8 +168,7 @@ function TonKho() {
           </div>
         </div>
       </div>
-
-      <div className="card p-0 m-0">
+      <div className="card   pb-[50px]" style={{ overflow: 'scroll', height: 'calc(100vh - 250px)' }}>
         {' '}
         {segmented === 'TONGHOP' ? (
           <>

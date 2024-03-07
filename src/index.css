@@ -16,13 +16,24 @@
 html,
 body,
 #root {
-  /* height: 100vh; */
   overflow-x: hidden;
-  /* overflow-y: hidden; */
+  overflow-y: auto;
+
   font-size: 16px;
-  /* position: relative; */
+  position: relative;
+}
+html {
+  overflow-y: auto;
 }
 
+#root {
+  /* height: calc(100vh - 100px); */
+  /* overflow-y: scroll;
+  overflow-x: hidden; */
+  /* padding-top: 50px;
+  padding-bottom: 50px; */
+  overflow-y: hidden;
+}
 a {
   text-decoration: none;
 }
@@ -101,9 +112,6 @@ i.blue {
   align-items: center;
 }
 
-#main {
-  padding-bottom: 0;
-}
 .cook_tag {
   z-index: 10000;
   position: absolute;
@@ -263,8 +271,10 @@ input[type='radio'] {
 /* end */
 
 #main {
-  max-height: calc(100vh - 110px);
+  /* max-height: calc(100vh - 110px); */
   margin-bottom: 50px;
+  margin-top: 50px;
+
   /* margin-top: 0px !important; */
 }
 
@@ -530,7 +540,7 @@ input[type='radio'] {
   top: 0;
   left: 0;
   width: 100%;
-  height: calc(100%);
+  /* height: calc(100vh); */
   box-sizing: border-box;
   display: block;
   background-color: #0e4166;

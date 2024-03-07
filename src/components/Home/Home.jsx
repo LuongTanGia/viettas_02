@@ -4,6 +4,7 @@ import MainPage from '../MainPage/MainPage'
 import Footer from '../Footer/Footer'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
+import AnimatedWaves from '../DashBoar/BgImg'
 
 function Home({ isSidebarVisible }) {
   const history = useNavigate()
@@ -14,12 +15,15 @@ function Home({ isSidebarVisible }) {
     }
   }, [history])
   return (
-    <div>
+    <>
+      <div className="MainPage_bg">
+        <AnimatedWaves />
+      </div>
       {/* <Header /> */}
 
       <MainPage isSidebarVisible={isSidebarVisible} />
       <Footer />
-    </div>
+    </>
   )
 }
 

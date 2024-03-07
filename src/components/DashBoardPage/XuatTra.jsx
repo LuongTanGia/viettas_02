@@ -110,14 +110,14 @@ function XuatTra() {
   }
   const onSearch = (value) => setSearchText(value)
   return (
-    <div className=" w-full  z-20 p-0 m-0">
-      <div className="card  p-0 m-0 sticky top-0">
+    <div className=" w-full  ">
+      <div className="card  p-0 m-0 fixed-top">
         <div className="flex gap-2 items-center">
           <BiLeftArrowAlt size={25} onClick={() => navigate('/')} /> <h1 className=" text-xl">{titleApp}</h1>
         </div>
         <p className="text-base ml-8">Xuất trả nhà cung cấp</p>
       </div>
-      <div className="col-lg-12  sticky top-[50px]">
+      <div className="col-lg-12  sticky top-[0px]">
         <div className="card   p-0 m-0">
           <div className="flex gap-2 items-center">
             <Search
@@ -177,7 +177,7 @@ function XuatTra() {
         </div>
       </div>
 
-      <div className="card p-0 m-0">
+      <div className="card p-0 mb-[30px]" style={{ minHeight: 'calc(100vh - 200px)' }}>
         {segmented === 'THEOHANGHOA' ? (
           <>
             <Table

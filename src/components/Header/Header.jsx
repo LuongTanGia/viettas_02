@@ -95,7 +95,7 @@ function Header() {
     window.location.href = '/'
   }
   return (
-    <div className="z-[1000] p-0 m-0">
+    <div className="z-[1000] p-0 m-0 ">
       <Modal
         title="Cài đặt"
         open={isModalOpen}

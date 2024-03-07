@@ -94,8 +94,8 @@ function DoanhSoDetail() {
     setTotalNumber(value)
   }
   return (
-    <div className="  w-full  z-20 p-0 ">
-      <div className="card  p-0 m-0 ">
+    <div className="  w-full relative">
+      <div className="card  p-0 m-0 fixed-top">
         <div className="flex gap-2 items-center">
           <BiLeftArrowAlt
             size={25}
@@ -109,7 +109,7 @@ function DoanhSoDetail() {
           {dataDetail.name}
         </p>
       </div>
-      <div className="col-lg-12  ">
+      <div className="col-lg-12  fixed-top top-[50px]">
         <div className="card   p-0 m-0">
           <div className="flex gap-2 items-center">
             <p className=" text-sm " style={{ color: dataDetail.color }}></p>
@@ -133,7 +133,7 @@ function DoanhSoDetail() {
         </div>
       </div>
 
-      <div className="card p-0 m-0 mb-[50px]">
+      <div className="card  mb-[50px] pt-[50px]">
         <Table
           // style={{ height: '100vh' }}
           segmented={dataDetail.segmented}
@@ -149,27 +149,6 @@ function DoanhSoDetail() {
           value={dataDetail.DataValue}
         />
       </div>
-
-      {/* <div className="card ">
-        <div className="  items-center" style={{ backgroundColor: 'rgb(241,241,241)' }}>
-          <div className="flex cursor-pointer items-center justify-center mb-2">
-            <p
-              className={`w-full text-center hover:font-medium flex items-center gap-2 justify-between text-base font-medium pl-4
-                  `}
-            >
-              Cộng
-            </p>
-            <div
-              className={`w-[100%] text-right pr-[16px]
-                   `}
-            >
-              <CounterComponent targetValue={TotalNumber} duration={100000} color={'#8BC6EC'} />
-              <RateBar percentage={100} color={'#8BC6EC'} title={'Tổng hợp'} />
-            </div>
-          </div>
-        </div>
-      </div> */}
-      {/* <Footer /> */}
     </div>
   )
 }

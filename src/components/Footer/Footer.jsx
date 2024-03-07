@@ -4,7 +4,7 @@ import BackGround from '../../assets/login_background.svg'
 const Footer = () => {
   return (
     <div
-      className=" bg-center bg-cover bg-no-repeat z-[5000] px-[20px] p-0 m-0 footer_main fixed-bottom"
+      className=" fixed-bottom bg-center bg-cover bg-no-repeat z-[5000] px-[20px] p-0 m-0 footer_main"
       style={{
         backgroundImage: `url(${BackGround})`,
       }}
