@@ -52,6 +52,8 @@ function PhaiThu() {
   const titleApp = window.localStorage.getItem('appName')
 
   useEffect(() => {
+    localStorage.setItem('selectedItem', 'PHAITHU')
+
     const loadData = async () => {
       setLoadingCart(true)
       localStorage.removeItem('dateLogin3')

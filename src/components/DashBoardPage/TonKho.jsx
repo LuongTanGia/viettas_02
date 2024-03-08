@@ -37,6 +37,8 @@ function TonKho() {
   const titleApp = window.localStorage.getItem('appName')
 
   useEffect(() => {
+    localStorage.setItem('selectedItem', 'TONKHO')
+
     const loadData = async () => {
       setLoadingCart(true)
       localStorage.removeItem('dateLogin3')

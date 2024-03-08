@@ -57,6 +57,8 @@ function SoQuy() {
   const [TotalChart, setTotalChart] = useState(0)
 
   useEffect(() => {
+    localStorage.setItem('selectedItem', 'QUYTIENMAT')
+
     const loadData = async () => {
       setLoadingCart(true)
       localStorage.removeItem('dateLogin3')

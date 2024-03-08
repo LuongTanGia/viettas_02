@@ -52,6 +52,8 @@ function PhaiTra() {
   // const [dataDate_sS, setDataDateSS] = useState(dataDate_s)
 
   useEffect(() => {
+    localStorage.setItem('selectedItem', 'PHAITRA')
+
     const loadData = async () => {
       setLoadingCart(true)
       localStorage.removeItem('dateLogin3')

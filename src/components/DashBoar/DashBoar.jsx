@@ -13,72 +13,22 @@ import { useLocation } from 'react-router-dom'
 import { Progress } from 'antd'
 // import { useParams } from 'react-router-dom'
 import Header from '../Header/Header'
-// import Footer from '../Footer/Footer'
-// import Footer from '../Footer/Footer'
-// import CounterComponent from './LoadNumber'
-// import { Progress } from 'antd'
 
 function DashBoar() {
   const userTHONGSO = window.localStorage.getItem('UseThongSo')
-  // console.log(userTHONGSO)
-  // const userInfor = JSON.parse(window.localStorage.getItem('userInfo'))
-  // const helloCheck = localStorage.getItem('firstLogin')
 
-  // const params = useParams()
-  // const navigate = useNavigate()
   const KhoanNgay = useSelector(khoanNgaySelect)
   const token = localStorage.getItem('TKN')
   const [dataDate, setDataDate] = useState(!JSON.parse(localStorage.getItem('dateLogin')) ? KhoanNgay : JSON.parse(localStorage.getItem('dateLogin')))
   const [dataLoaded, setDataLoaded] = useState(false)
-  // const [showInfo, setShowInfo] = useState(false)
-
   const [dataTongHop, setDataTongHop] = useState([])
   const [dataTongHop_DF, setDataTongHop_DF] = useState([])
-
-  // const [open, setOpen] = useState(false)
   const [loadingCart, setLoadingCart] = useState(false)
   const [progressPercent, setProgressPercent] = useState(0)
-  // const [titleDr, setTitleDr] = useState('home')
   const location = useLocation()
-
-  // useEffect(() => {
-  //   const params = new URLSearchParams(location.search)
-  //   const titleParam = params.get('title') || 'home'
-  //   if (titleParam) {
-  //     console.log('URL contains title:', titleParam)
-  //   } else {
-  //     console.log('URL does not contain title.', titleParam)
-  //   }
-  // }, [location.search])
-  // const [messageApi, contextHolder] = message.useMessage()
-
-  // useEffect(() => {
-  //   console.log(params)
-  //   const info = () => {
-  //     messageApi.open({
-  //       type: 'success',
-  //       content: (
-  //         <rem>
-  //           {`Xin Chào,`} <rem className="font-semibold">{userInfor ? userInfor.family_name : ''}</rem>
-  //         </rem>
-  //       ),
-  //       className: 'custom-class',
-  //     })
-  //   }
-  //   if (showInfo && helloCheck === 'true') {
-  //     info()
-  //   }
-  // }, [showInfo])
-
-  // const showDrawer = (value) => {
-  //   // navigate(`?title=${value}`)
-  //   setTitleDr(value || 'Tổng cộng')
-  //   setOpen(true)
-  // }
-
   const containerRef = useRef(null)
-  let startX = 0
 
+  let startX = 0
   useEffect(() => {
     const params = new URLSearchParams(location.search)
     const titleParam = params.get('title') || 'home'
@@ -130,6 +80,23 @@ function DashBoar() {
     loadData()
   }, [dataDate?.NgayKetThuc, dataDate?.NgayBatDau, token, location.search])
 
+  // useEffect(() => {
+
+  //   const storedSelectedItem = localStorage.getItem('selectedItem')
+  //   if (storedSelectedItem) {
+  //     window.location.hash = '#BANHANG'
+  //   }
+  // }, [])
+  const storedSelectedItem = localStorage.getItem('selectedItem')
+
+  useEffect(() => {
+    if (storedSelectedItem) {
+      const element = document.getElementById(storedSelectedItem.toString())
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }
+    }
+  }, [progressPercent])
   if (!dataLoaded) {
     return <LoadingPage />
   }
@@ -211,6 +178,7 @@ function DashBoar() {
             <div className="row" id="gridMain">
               {resultArrays?.map((resultArray, arrayIndex) => (
                 <div
+                  id={`${resultArray[0]?.DataCode.split('_')[0]}`}
                   key={arrayIndex}
                   // onClick={() => showDrawer(resultArray[0]?.DataCode.split('_')[0])}
                   style={{ cursor: 'pointer' }}

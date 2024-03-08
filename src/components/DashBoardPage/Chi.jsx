@@ -58,6 +58,8 @@ function Chi() {
 
   useEffect(() => {
     const loadData = async () => {
+      localStorage.setItem('selectedItem', 'CHI')
+
       setLoadingCart(true)
       localStorage.removeItem('dateLogin3')
       setProgressPercent(0)

@@ -54,6 +54,7 @@ function BanHang() {
   const [TotalChart, setTotalChart] = useState(0)
 
   useEffect(() => {
+    localStorage.setItem('selectedItem', 'BANHANG')
     const loadData = async () => {
       setLoadingCart(true)
       localStorage.removeItem('dateLogin3')

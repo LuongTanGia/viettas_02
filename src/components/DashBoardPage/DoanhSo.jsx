@@ -45,6 +45,8 @@ function DoanhSo() {
 
   useEffect(() => {
     const loadData = async () => {
+      localStorage.setItem('selectedItem', 'DOANHSO')
+
       setLoadingCart(true)
       localStorage.removeItem('dateLogin3')
       setProgressPercent(0)
