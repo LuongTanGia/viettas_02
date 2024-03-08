@@ -144,9 +144,9 @@
   /* padding-top: 150px; */
 }
 .stickyBottom {
-  position: -webkit-sticky;
-  position: sticky;
-  /* top: 50px; */
+  /* position: -webkit-sticky; */
+  position: fixed;
+  top: 500px;
   font-size: 20px;
   z-index: 10;
   /* padding-top: 150px; */
@@ -162,12 +162,21 @@ th.ant-table-cell {
   overflow: auto;
 }
 .stickyTable {
-  /* position: -webkit-sticky; */
-  position: sticky;
-  top: 0;
-  z-index: 10;
-
+  position: fixed;
+  opacity: 1;
+  z-index: 1000;
+  left: 0;
+  display: flex;
+  width: 100%;
   /* font-size: 20px;   */
+}
+tr.stickyTable td:first-child {
+  flex: 3;
+  border: none !important;
+}
+tr.stickyTable td:last-child {
+  flex: 1;
+  border: none !important;
 }
 /* thead.ant-table-thead {
   position: sticky;
@@ -302,7 +311,21 @@ th.ant-table-cell {
   padding-top: 36px;
   /* min-height: 500p; */
 }
+.DANHSACHKHACHHANG .ant-table-body,
+.BIEUDOTYTRONG .ant-table-body,
+.QUYTIENMAT .ant-table-body {
+  max-height: calc(100%) !important;
+  padding-top: 73px;
+  /* min-height: 500p; */
+}
 
+.QUYTIENMAT .stickyTable {
+  top: 173.5px;
+}
+.DANHSACHKHACHHANG .stickyTable,
+.BIEUDOTYTRONG .stickyTable {
+  top: 139.5px;
+}
 .ant-table-header,
 .ant-table-header,
 .ant-table-header {
@@ -389,6 +412,7 @@ th.ant-table-cell {
   /* margin: 0; */
   position: relative;
   padding: 0;
+  /* height: calc(100vh - 100px); */
   /* margin-bottom: 170px !important; */
 }
 .ant-segmented-item-label {

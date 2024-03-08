@@ -41,7 +41,7 @@ function DoughNut({ dataChart, value, name, onClick, Drawer, valueNum }) {
   return (
     <>
       {dataChart.length > 0 ? (
-        <div className={`pt-1 gap-4 flex justify-between items-center PhoneCss flex-col px-3 ${dataChart.length > 3 ? 'mb-[120px]' : 'mb-[200px]'} `}>
+        <div className={`pt-1 gap-4 flex justify-between items-center PhoneCss flex-col px-3 ${dataChart.length > 3 ? 'mb-[0px]' : 'mb-[0px]'} `}>
           <div className={`${Drawer ? 'w-[60%]' : 'w-[50%]'}  pt-3 cssChart`}>
             <Pie data={data} options={options} />
           </div>

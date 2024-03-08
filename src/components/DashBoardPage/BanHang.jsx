@@ -14,6 +14,8 @@ import Search from 'antd/es/input/Search'
 import CounterComponent from '../DashBoar/LoadNumber'
 import { useSelector } from 'react-redux'
 import { khoanNgaySelect } from '../../redux/selector'
+import { SearchOutlined } from '@ant-design/icons'
+
 function BanHang() {
   const [segmented, setSegmented] = useState('')
   const KhoanNgay = useSelector(khoanNgaySelect)
@@ -42,6 +44,7 @@ function BanHang() {
     newDataDate = dateLogin2
   }
   const titleApp = window.localStorage.getItem('appName')
+  const [showSearch, setShowSearch] = useState(false)
 
   const [dataDate, setDataDate] = useState(newDataDate)
   const [loadingCart, setLoadingCart] = useState(false)
@@ -114,23 +117,28 @@ function BanHang() {
   }
   const onSearch = (value) => setSearchText(value)
   return (
-    <div className="  w-full  z-20 p-0 m-0">
-      <div className="card  p-0 m-0  sticky top-[0px]">
+    <div className="  w-full  " style={{ minHeight: '80vh' }}>
+      <div className="card  p-0 m-0 fixed-top">
         <div className="flex gap-2 items-center">
           <BiLeftArrowAlt size={25} onClick={() => navigate('/')} /> <h1 className=" text-xl">{titleApp}</h1>
         </div>
-        <p className="text-base ml-8">Bán hàng</p>
+        <div className="flex items-center justify-between">
+          <p className="text-base ml-8 mb-2">Bán hàng</p>
+          <SearchOutlined className="mr-4  text-xl absolute right-0 bottom-3" onClick={() => setShowSearch(!showSearch)} />
+        </div>
       </div>
-      <div className="col-lg-12  ">
+      <div className="col-lg-12 pt-2 fixed-top top-[50px]">
         <div className="card   p-0 m-0">
-          <div className="flex gap-2 items-center">
-            <Search
-              onSearch={onSearch}
-              placeholder="Tìm kiếm hàng hóa"
-              //   loading={loading}
-              className="w-full "
-            />
-          </div>
+          {showSearch ? (
+            <div className="flex gap-2 items-center">
+              <Search
+                onSearch={onSearch}
+                placeholder="Tìm kiếm"
+                //   loading={loading}
+                className="w-full  "
+              />
+            </div>
+          ) : null}
 
           <div className=" w-full bg-white">
             <Date onDateChange={setDataDate} dataDate={dataDate} dateType={'local'} localTitle={'dateLogin2'} />
@@ -190,7 +198,7 @@ function BanHang() {
           </div>
         </div>
       </div>
-      <div className="card p-0 m-0">
+      <div className={`card m-0 ${!showSearch ? 'pt-[85px]' : 'pt-[115px]'} pb-[30px]`}>
         {segmented === 'BANHANGHANGHOA' ? (
           <>
             <Table

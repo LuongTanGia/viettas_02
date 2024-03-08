@@ -185,11 +185,6 @@ function DashBoar() {
 
   return (
     <div ref={containerRef} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} className=" ">
-      {/* {contextHolder} */}
-      {/* <div>
-        <DrawerCP showOpen={open} titleDr={titleDr} setOpenShow={setOpen} onDateChange={setDataDate} dataDate={dataDate} />
-      </div> */}
-
       <Header />
       <div className="col-lg-12   ">
         <div className="card  mb-2 ">

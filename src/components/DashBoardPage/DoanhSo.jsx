@@ -129,14 +129,13 @@ function DoanhSo() {
     )
   }
   return (
-    <div className=" relative w-full ">
+    <div className=" ">
       <div className=" col-lg-12 card p-0 m-0 fixed-top">
         <div className="flex gap-2 items-center">
           <BiLeftArrowAlt onClick={() => navigate('/')} size={25} /> <h1 className=" text-xl">{titleApp}</h1>
         </div>
         <p className="text-base ml-8">Doanh Số</p>
       </div>
-
       <div className="col-lg-12 card  p-0  m-0 fixed-top top-[50px]">
         <div className="card p-0 m-0">
           <div className=" w-full bg-white">
@@ -191,38 +190,56 @@ function DoanhSo() {
           </div>
         </div>
       </div>
-
-      <div className="card pt-[65px]" style={{ minHeight: '100vh' }}>
-        {segmented === 'KHACHHANG' ? (
-          <>
-            {data_khachhang !== -108 || data_khachhang !== -107 ? (
-              <PieChart Drawer={true} dataChart={data_khachhang ? data_khachhang : []} valueNum={'DataValue'} value={'DataPerc'} name={'DataName'} onClick={showChildrenDrawer} />
-            ) : null}
-          </>
-        ) : segmented === 'HANGHOA' ? (
-          <>
-            {data_hanghoa !== -108 || data_hanghoa !== -107 ? (
-              <PieChart
-                //   titleDr={titleDr}
-                Drawer={true}
-                nameChart={segmented}
-                dataChart={data_hanghoa ? data_hanghoa : []}
-                valueNum={'DataValue'}
-                value={'DataPerc'}
-                name={'DataName'}
-                onClick={showChildrenDrawer}
-              />
-            ) : null}
-          </>
-        ) : segmented === 'NHOMHANG' ? (
-          <>
-            {data_hanghoa !== -108 || data_hanghoa !== -107 ? (
-              <PieChart Drawer={true} dataChart={data_nhomhang ? data_nhomhang : []} valueNum={'DataValue'} value={'DataPerc'} name={'DataName'} onClick={showChildrenDrawer} />
-            ) : null}
-          </>
-        ) : null}
-      </div>
-
+      <section className="section dashboard mb-[25px]">
+        <div className="row">
+          <div className="col-lg-12 mt-[71px]" style={{ minHeight: '80vh' }}>
+            <div className="card  mb-{105px]">
+              {segmented === 'KHACHHANG' ? (
+                <>
+                  {data_khachhang !== -108 || data_khachhang !== -107 ? (
+                    <PieChart
+                      Drawer={true}
+                      dataChart={data_khachhang ? data_khachhang : []}
+                      valueNum={'DataValue'}
+                      value={'DataPerc'}
+                      name={'DataName'}
+                      onClick={showChildrenDrawer}
+                    />
+                  ) : null}
+                </>
+              ) : segmented === 'HANGHOA' ? (
+                <>
+                  {data_hanghoa !== -108 || data_hanghoa !== -107 ? (
+                    <PieChart
+                      //   titleDr={titleDr}
+                      Drawer={true}
+                      nameChart={segmented}
+                      dataChart={data_hanghoa ? data_hanghoa : []}
+                      valueNum={'DataValue'}
+                      value={'DataPerc'}
+                      name={'DataName'}
+                      onClick={showChildrenDrawer}
+                    />
+                  ) : null}
+                </>
+              ) : segmented === 'NHOMHANG' ? (
+                <>
+                  {data_hanghoa !== -108 || data_hanghoa !== -107 ? (
+                    <PieChart
+                      Drawer={true}
+                      dataChart={data_nhomhang ? data_nhomhang : []}
+                      valueNum={'DataValue'}
+                      value={'DataPerc'}
+                      name={'DataName'}
+                      onClick={showChildrenDrawer}
+                    />
+                  ) : null}
+                </>
+              ) : null}
+            </div>
+          </div>
+        </div>
+      </section>
       <div className="card p-0 m-0 fixed-bottom bottom-[50px] ">
         <div className="  items-center" style={{ backgroundColor: 'rgb(241,241,241)' }} onClick={() => showChildrenDrawer({ DataCode: null, DataCodeRest: 1, title: 'all' })}>
           <div className="flex cursor-pointer items-center justify-center mb-2">

@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom'
 import { BiLeftArrowAlt } from 'react-icons/bi'
 import Search from 'antd/es/input/Search'
 import dayjs from 'dayjs'
+import { SearchOutlined } from '@ant-design/icons'
 
 function PhaiTra() {
   const [segmented, setSegmented] = useState('')
@@ -40,6 +41,7 @@ function PhaiTra() {
   } else {
     newDataDate = dateLogin2
   }
+  const [showSearch, setShowSearch] = useState(false)
 
   const [dataDate, setDataDate] = useState(newDataDate)
 
@@ -164,17 +166,26 @@ function PhaiTra() {
     }
   }
   return (
-    <div className="  w-full ">
-      <div className="card  p-0 m-0 fixed-top">
+    <div className=" ">
+      <div className="col-lg-12 card p-0 m-0 fixed-top">
         <div className="flex gap-2 items-center">
           <BiLeftArrowAlt size={25} onClick={() => navigate('/')} /> <h1 className=" text-xl">{titleApp}</h1>
         </div>
-        <p className="text-base ml-8">Phải trả</p>
+        <div className="flex items-center justify-between">
+          <p className="text-base ml-8 mb-2">Phải trả</p>
+          {segmented === 'DANHSACHNHACUNGCAP' ? <SearchOutlined className="mr-4  text-xl absolute right-0 bottom-3" onClick={() => setShowSearch(!showSearch)} /> : ''}
+        </div>
       </div>
-      <div className="col-lg-12  sticky top-[0px]">
+      <div className="col-lg-12 card  p-0  m-0 fixed-top top-[50px]">
         <div className="card   p-0 m-0">
           <div className="flex gap-2 items-center">
-            {segmented === 'BIEUDOTYTRONG' ? '' : <Search onChange={(e) => handelSearch(e.target.value)} placeholder="Tìm kiếm" className="w-full " />}
+            {segmented === 'BIEUDOTYTRONG' ? (
+              ''
+            ) : segmented === 'DANHSACHNHACUNGCAP' && showSearch ? (
+              ''
+            ) : (
+              <Search onChange={(e) => handelSearch(e.target.value)} placeholder="Tìm kiếm " className="w-full" />
+            )}
           </div>
 
           <div className=" w-full bg-white">
@@ -226,28 +237,41 @@ function PhaiTra() {
         </div>
       </div>
 
-      <div className="card p-0 m-0" style={{ minHeight: 'calc(100vh - 200px)' }}>
-        {segmented === 'BIEUDOTYTRONG' ? (
-          <>
-            {CongNo_TopChart !== -108 || CongNo_TopChart !== -107 ? (
-              <PieChart Drawer={true} dataChart={CongNo_TopChart ? CongNo_TopChart : []} valueNum={'DataValue'} value={'DataPerc'} name={'DataName'} onClick={showChildrenDrawer} />
-            ) : null}
-          </>
-        ) : segmented === 'DANHSACHNHACUNGCAP' ? (
-          <Table
-            segmented={segmented}
-            param={CongNo_DanhSach ? dataSearch : []}
-            columName={[]}
-            height={'setTableDr1'}
-            hiden={[]}
-            setTotalNumber={setNumber}
-            onClick={showChildrenDrawer}
-            titleDr={'PHAITHU'}
-          />
-        ) : null}
-      </div>
+      <section className={`section dashboard ${segmented === 'DANHSACHNHACUNGCAP' ? 'mb-[0px]' : 'mb-[40px]'} `}>
+        <div className="row">
+          <div className="col-lg-12 mt-[71px]" style={{ minHeight: '80vh' }}>
+            <div className={`card m-0 ${!showSearch && segmented === 'DANHSACHNHACUNGCAP' ? 'pt-[42px]' : 'pt-[10px]'} `}>
+              {segmented === 'BIEUDOTYTRONG' ? (
+                <>
+                  {CongNo_TopChart !== -108 || CongNo_TopChart !== -107 ? (
+                    <PieChart
+                      Drawer={true}
+                      dataChart={CongNo_TopChart ? CongNo_TopChart : []}
+                      valueNum={'DataValue'}
+                      value={'DataPerc'}
+                      name={'DataName'}
+                      onClick={showChildrenDrawer}
+                    />
+                  ) : null}
+                </>
+              ) : segmented === 'DANHSACHNHACUNGCAP' ? (
+                <Table
+                  segmented={segmented}
+                  param={CongNo_DanhSach ? dataSearch : []}
+                  columName={[]}
+                  height={'setTableDr1'}
+                  hiden={[]}
+                  setTotalNumber={setNumber}
+                  onClick={showChildrenDrawer}
+                  titleDr={'PHAITHU'}
+                />
+              ) : null}
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <div className="card p-0 m-0 fixed-bottom bottom-[50px]">
+      <div className="card p-0 m-0 fixed-bottom bottom-[50px] ">
         <div className="  items-center" style={{ backgroundColor: 'rgb(241,241,241)' }} onClick={() => showChildrenDrawer({ DataCode: null, DataCodeRest: 1, title: 'all' })}>
           <div className="flex cursor-pointer items-center justify-center mb-2">
             <p

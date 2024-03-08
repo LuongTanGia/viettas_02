@@ -94,7 +94,7 @@ function DoanhSoDetail() {
     setTotalNumber(value)
   }
   return (
-    <div className="  w-full relative">
+    <div className="  w-full relative " style={{ minHeight: '80vh' }}>
       <div className="card  p-0 m-0 fixed-top">
         <div className="flex gap-2 items-center">
           <BiLeftArrowAlt

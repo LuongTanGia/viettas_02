@@ -14,9 +14,12 @@ import Search from 'antd/es/input/Search'
 import CounterComponent from '../DashBoar/LoadNumber'
 import { useSelector } from 'react-redux'
 import { khoanNgaySelect } from '../../redux/selector'
+import { SearchOutlined } from '@ant-design/icons'
+
 function XuatTra() {
   const [segmented, setSegmented] = useState('')
   const KhoanNgay = useSelector(khoanNgaySelect)
+  const [showSearch, setShowSearch] = useState(false)
 
   //   const [loading, setLoading] = useState(false)
   const [valueSegmented, setValueSegmented] = useState('')
@@ -110,23 +113,28 @@ function XuatTra() {
   }
   const onSearch = (value) => setSearchText(value)
   return (
-    <div className=" w-full  ">
+    <div className=" w-full  " style={{ minHeight: '80vh' }}>
       <div className="card  p-0 m-0 fixed-top">
         <div className="flex gap-2 items-center">
           <BiLeftArrowAlt size={25} onClick={() => navigate('/')} /> <h1 className=" text-xl">{titleApp}</h1>
         </div>
-        <p className="text-base ml-8">Xuất trả nhà cung cấp</p>
+        <div className="flex items-center justify-between">
+          <p className="text-base ml-8 mb-2">Xuất trả nhà cung cấp</p>
+          <SearchOutlined className="mr-4  text-xl absolute right-0 bottom-3" onClick={() => setShowSearch(!showSearch)} />
+        </div>
       </div>
-      <div className="col-lg-12  sticky top-[0px]">
+      <div className="col-lg-12 pt-2 fixed-top top-[50px]">
         <div className="card   p-0 m-0">
-          <div className="flex gap-2 items-center">
-            <Search
-              onSearch={onSearch}
-              placeholder="Tìm kiếm hàng hóa"
-              //   loading={loading}
-              className="w-full "
-            />
-          </div>
+          {showSearch ? (
+            <div className="flex gap-2 items-center">
+              <Search
+                onSearch={onSearch}
+                placeholder="Tìm kiếm"
+                //   loading={loading}
+                className="w-full  "
+              />
+            </div>
+          ) : null}
 
           <div className=" w-full bg-white">
             <Date onDateChange={setDataDate} dataDate={dataDate} dateType={'local'} localTitle={'dateLogin2'} />
@@ -177,7 +185,7 @@ function XuatTra() {
         </div>
       </div>
 
-      <div className="card p-0 mb-[30px]" style={{ minHeight: 'calc(100vh - 200px)' }}>
+      <div className={`card m-0 ${!showSearch ? 'pt-[85px]' : 'pt-[115px]'} pb-[30px]`}>
         {segmented === 'THEOHANGHOA' ? (
           <>
             <Table

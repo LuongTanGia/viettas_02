@@ -89,7 +89,7 @@ function TonKho() {
   }
   const onSearch = (value) => setSearchText(value)
   return (
-    <div className="  w-full  relative " style={{ overflow: 'hidden' }}>
+    <div className="  w-full relative ">
       <div className="card  p-0 m-0 fixed-top">
         <div className="flex gap-2 items-center">
           <BiLeftArrowAlt onClick={() => navigate('/')} size={25} /> <h1 className=" text-xl">{titleApp}</h1>
@@ -99,7 +99,7 @@ function TonKho() {
           <SearchOutlined className="mr-4  text-xl absolute right-0 bottom-3" onClick={() => setShowSearch(!showSearch)} />
         </div>
       </div>
-      <div className="col-lg-12 pt-2 sticky top-[ 0px]">
+      <div className="col-lg-12 pt-2 fixed-top top-[50px]">
         <div className="card   p-0 m-0 ">
           {showSearch ? (
             <div className="flex gap-2 items-center">
@@ -112,10 +112,9 @@ function TonKho() {
             </div>
           ) : null}
 
-          <div className=" w-full ">
+          <div className="py-1 w-full bg-white">
             <Date onDateChange={setDataDate} dataDate={dataDate} dateType={'local'} localTitle={'dateLogin2'} titleDr={'TONKHO'} />
           </div>
-
           <Segmented
             options={[
               {
@@ -153,7 +152,6 @@ function TonKho() {
             value={valueSegmented}
             className=" font-medium bg-white"
           />
-
           <div className=" absolute w-full top-[-16px] ">
             <Progress
               percent={progressPercent}
@@ -168,8 +166,8 @@ function TonKho() {
           </div>
         </div>
       </div>
-      <div className="card   pb-[50px]" style={{ overflow: 'scroll', height: 'calc(100vh - 250px)' }}>
-        {' '}
+
+      <div className={`card m-0 ${!showSearch ? 'pt-[95px]' : 'pt-[125px]'} `}>
         {segmented === 'TONGHOP' ? (
           <>
             <Table

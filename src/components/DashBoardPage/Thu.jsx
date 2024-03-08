@@ -15,6 +15,7 @@ import CounterComponent from '../DashBoar/LoadNumber'
 import { useSelector } from 'react-redux'
 import { khoanNgaySelect } from '../../redux/selector'
 import dayjs from 'dayjs'
+import { SearchOutlined } from '@ant-design/icons'
 
 function Thu() {
   const [segmented, setSegmented] = useState('')
@@ -45,6 +46,7 @@ function Thu() {
     newDataDate = dateLogin2
   }
   const titleApp = window.localStorage.getItem('appName')
+  const [showSearch, setShowSearch] = useState(false)
 
   const [dataDate, setDataDate] = useState(newDataDate)
   const [loadingCart, setLoadingCart] = useState(false)
@@ -163,27 +165,28 @@ function Thu() {
   }
   const onSearch = (value) => setSearchText(value)
   return (
-    <div className="  w-full  z-20 p-0 m-0">
-      <div className="card  p-0 m-0 ">
+    <div className="  w-full " style={{ minHeight: '80vh' }}>
+      <div className="card  p-0 m-0 fixed-top">
         <div className="flex gap-2 items-center">
-          <BiLeftArrowAlt onClick={() => navigate('/')} /> <h1 className=" text-xl">{titleApp}</h1>
+          <BiLeftArrowAlt size={25} onClick={() => navigate('/')} /> <h1 className=" text-xl">{titleApp}</h1>
         </div>
-        <p className="text-base ml-6">Thu - Chi</p>
+        <div className="flex items-center justify-between">
+          <p className="text-base ml-8 mb-2">Thu - Chi</p>
+          {segmented === 'QUYTIENMAT' ? null : <SearchOutlined className="mr-4  text-xl absolute right-0 bottom-3" onClick={() => setShowSearch(!showSearch)} />}
+        </div>
       </div>
-      <div className="col-lg-12  ">
+      <div className="col-lg-12 pt-2 fixed-top top-[50px]">
         <div className="card   p-0 m-0">
-          <div className="flex gap-2 items-center">
-            {segmented === 'QUYTIENMAT' ? null : (
+          {segmented === 'QUYTIENMAT' ? null : showSearch ? (
+            <div className="flex gap-2 items-center">
               <Search
                 onSearch={onSearch}
-                onChange={(e) => handelSearch(e.target.value)}
-                placeholder="Tìm kiếm hàng hóa"
+                placeholder="Tìm kiếm"
                 //   loading={loading}
-                className="w-full "
+                className="w-full  "
               />
-            )}
-          </div>
-
+            </div>
+          ) : null}
           <div className=" w-full bg-white">
             <Date onDateChange={setDataDate} dataDate={dataDate} dateType={'local'} localTitle={'dateLogin2'} />
           </div>
@@ -223,7 +226,7 @@ function Thu() {
             // options={['Khách hàng', 'Hàng hóa', 'Nhóm Hàng']}
             block
             onChange={(value) => {
-              setSegmented(value === 'Thu tiền' ? 'THUTIEN' : value === 'Chi tiền' ? 'CHITIEN' : 'QUYTIENMAT'), setValueSegmented(value)
+              setSegmented(value === 'Thu tiền' ? 'THUTIEN' : value === 'Chi tiền' ? 'CHITIEN' : value === 'Sổ quỹ' ? 'QUYTIENMAT' : null), setValueSegmented(value)
             }}
             value={valueSegmented}
             className=" font-medium bg-white"
@@ -243,7 +246,9 @@ function Thu() {
         </div>
       </div>
 
-      <div className="card p-0 m-0">
+      <div
+        className={`card m-0 ${segmented === 'QUYTIENMAT' ? 'pt-[85px]' : !showSearch ? 'pt-[85px]' : 'pt-[115px]'} ${segmented === 'QUYTIENMAT' ? 'pb-[100px]' : 'pb-[30px]'} `}
+      >
         {segmented === 'THUTIEN' ? (
           <>
             <Table segmented={segmented} titleDr={'THU'} param={ThuTien ? dataSearch : []} columName={[]} height={'setHeight'} hiden={[]} setTotalNumber={setNumber} />

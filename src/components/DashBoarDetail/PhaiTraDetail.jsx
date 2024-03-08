@@ -82,8 +82,8 @@ function PhaiTraDetail() {
     setTotalNumber(value)
   }
   return (
-    <div className="  w-full  z-20 p-0 m-0">
-      <div className="card  p-0 m-0 ">
+    <div className="  w-full " style={{ minHeight: '80vh' }}>
+      <div className="card  p-0 m-0 fixed-top">
         <div className="flex gap-2 items-center">
           <BiLeftArrowAlt
             size={25}
@@ -97,7 +97,7 @@ function PhaiTraDetail() {
           {dataDetail.name}
         </p>
       </div>
-      <div className="col-lg-12  ">
+      <div className="col-lg-12  fixed-top top-[50px] ">
         <div className="card   p-0 m-0">
           <div className="py-2 w-full bg-white">
             <Date onDateChange={setDataDate} dataDate={dataDate} dateType={'local'} localTitle={'dateLogin3'} />
@@ -118,7 +118,7 @@ function PhaiTraDetail() {
         </div>
       </div>
 
-      <div className="card p-0 m-0 ">
+      <div className="card  mb-[50px] pt-[50px]">
         <Table
           segmented={dataDetail.segmented}
           titleDr={dataDetail.titleDr}
