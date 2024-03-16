@@ -57,6 +57,7 @@ function DoanhSoDetail() {
               : null,
         token,
         { ...dataDetail.data, ...dataDate },
+        true,
       )
       if (data_ct === -107 || data_ct === -108) {
         const newToken = await RETOKEN()
@@ -89,7 +90,7 @@ function DoanhSoDetail() {
       }, 1100)
     }
     loadData()
-  }, [dataDate?.NgayBatDau, dataDate?.NgayKetThuc])
+  }, [dataDate?.NgayBatDau, dataDate?.NgayKetThuc, token])
   const setNumber = (value) => {
     setTotalNumber(value)
   }
@@ -133,7 +134,7 @@ function DoanhSoDetail() {
         </div>
       </div>
 
-      <div className="card  mb-[50px] pt-[50px]">
+      <div className="card  mb-[40px] pt-[50px]">
         <Table
           // style={{ height: '100vh' }}
           segmented={dataDetail.segmented}

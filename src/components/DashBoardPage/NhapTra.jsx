@@ -62,8 +62,8 @@ function NhapTra() {
 
       //   setLoading(true)
       //API Mua Hang
-      const MuaHang_HangHoa = await APIDATA_CHART(API.NhapTra_HangHoa, token, { ...dataDate, FilterText: searchText })
-      const MuaHang_NhaCungCap = await APIDATA_CHART(API.NhapTra_KhachHang, token, { ...dataDate, FilterText: searchText })
+      const MuaHang_HangHoa = await APIDATA_CHART(API.NhapTra_HangHoa, token, { ...dataDate, FilterText: searchText }, true)
+      const MuaHang_NhaCungCap = await APIDATA_CHART(API.NhapTra_KhachHang, token, { ...dataDate, FilterText: searchText }, false)
 
       if (data_TonKho_TongKho === -107 || data_TonKho_TongKho === -108) {
         const newToken = await RETOKEN()
@@ -97,7 +97,7 @@ function NhapTra() {
       setLoadingCart(false)
     }, 1100)
     loadData()
-  }, [dataDate?.NgayBatDau, dataDate?.NgayKetThuc, searchText])
+  }, [dataDate?.NgayBatDau, dataDate?.NgayKetThuc, searchText, token])
   useEffect(() => {
     const dataMapping = {
       THEOHANGHOA: MuaHang_HangHoa,

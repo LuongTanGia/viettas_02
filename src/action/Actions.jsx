@@ -17,7 +17,7 @@ const handleAPIError = (response) => {
   }
 }
 export const RETOKEN = async () => {
-  // console.log('RETOKEN')
+  console.log('RETOKEN')
 
   const token = window.localStorage.getItem('RTKN')
 
@@ -27,6 +27,7 @@ export const RETOKEN = async () => {
     })
 
     console.log(response)
+
     if (response.data.DataError === 0) {
       window.localStorage.setItem('TKN', response.data.TKN)
       return response.data.TKN
@@ -39,7 +40,6 @@ export const RETOKEN = async () => {
   }
 }
 export const DANHSACHDULIEU = async (API, data) => {
-  console.log('DANHSACHDULIEU')
   try {
     const response = await axiosInstance.post(API, data)
     window.localStorage.setItem('tokenDuLieu', response.data.TKN)
@@ -101,8 +101,7 @@ export const KHOANNGAY = async (API, token) => {
     console.error('Error adding user:', error)
   }
 }
-export const DATATONGHOP = async (API, token, KhoanNgay) => {
-  // console.log('DATATONGHOP')
+export const DATATONGHOP = async (API, token, KhoanNgay, flag) => {
   // toast.info('DATATONGHOP')
 
   try {
@@ -113,14 +112,18 @@ export const DATATONGHOP = async (API, token, KhoanNgay) => {
       },
     })
 
-    if (response.data.DataError === -107 || response.data.DataError === -108) {
-      const newToken = await RETOKEN()
+    if (response.data.DataError === -107 || response.data.DataError === -108 || response.data.DataError === -101 || response.data.DataError === -100) {
+      if (flag) {
+        const newToken = await RETOKEN()
 
-      if (newToken !== 0) {
-        await DATATONGHOP(API, newToken, KhoanNgay)
-      } else {
-        window.location.href = '/login'
-        toast.error('Failed to refresh token!')
+        if (newToken !== 0) {
+          setTimeout(async () => {
+            await DATATONGHOP(API, newToken, KhoanNgay)
+          }, 3000)
+        } else {
+          window.location.href = '/login'
+          toast.error('Failed to refresh token!')
+        }
       }
     }
 
@@ -148,7 +151,7 @@ export const THAYDOIRMATKHAU = async (API, data, token) => {
     console.error('Error adding user:', error)
   }
 }
-export const APIDATA_CHART = async (API, token, data) => {
+export const APIDATA_CHART = async (API, token, data, flag) => {
   // console.log('APIDATA_CHART')
   try {
     const response = await axiosInstance.post(API, data, {
@@ -157,8 +160,19 @@ export const APIDATA_CHART = async (API, token, data) => {
       },
     })
 
-    if (response.data.DataError === -107 || response.data.DataError === -108) {
-      return response.data.DataError
+    if (response.data.DataError === -107 || response.data.DataError === -108 || response.data.DataError === -101 || response.data.DataError === -100) {
+      if (flag) {
+        const newToken = await RETOKEN()
+
+        if (newToken !== 0) {
+          setTimeout(async () => {
+            await APIDATA_CHART(API, newToken, data)
+          }, 1000)
+        } else {
+          window.location.href = '/login'
+          toast.error('Failed to refresh token!')
+        }
+      }
     }
 
     return response.data.DataResults
@@ -166,7 +180,7 @@ export const APIDATA_CHART = async (API, token, data) => {
     console.error('Error adding user:', error)
   }
 }
-export const APIDATA_CHART_CT = async (API, token, data) => {
+export const APIDATA_CHART_CT = async (API, token, data, flag) => {
   // console.log('APIDATA_CHART_CT')
 
   try {
@@ -176,19 +190,19 @@ export const APIDATA_CHART_CT = async (API, token, data) => {
       },
     })
 
-    // if (response.data.DataError === -107 || response.data.DataError === -108) {
-    //   const newToken = await RETOKEN()
+    if (response.data.DataError === -107 || response.data.DataError === -108 || response.data.DataError === -101 || response.data.DataError === -100) {
+      if (flag) {
+        const newToken = await RETOKEN()
 
-    //   if (newToken !== '') {
-    //     await APIDATA_CHART(API, newToken, data)
-    //   } else if (newToken === 0) {
-    //     toast.error('Failed to refresh token!')
-    //     window.localStorage.clear()
-    //     window.location.href = '/login'
-    //   }
-    // }
-    if (response.data.DataError === -107 || response.data.DataError === -108) {
-      return response.data.DataError
+        if (newToken !== 0) {
+          setTimeout(async () => {
+            await APIDATA_CHART_CT(API, newToken, data)
+          }, 1000)
+        } else {
+          window.location.href = '/login'
+          toast.error('Failed to refresh token!')
+        }
+      }
     }
     return response.data.DataResults
   } catch (error) {
@@ -227,7 +241,6 @@ export const getDateNum = (date) => {
 }
 
 export const THONGSO = async (API, token) => {
-  console.log('THONGSO')
   try {
     const response = await axiosInstance.post(
       API,

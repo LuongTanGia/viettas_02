@@ -47,9 +47,9 @@ function TonKho() {
       //   setLoading(true)
       //API Ton Kho
 
-      const data_TonKho_TongKho = await APIDATA_CHART(API.TonKho_TongKho, token, { ...dataDate, FilterText: searchText })
-      const TonKho_TongKhoDVTQuyDoi = await APIDATA_CHART(API.TonKho_TongKhoDVTQuyDoi, token, { ...dataDate, FilterText: searchText })
-      const TonKho_TheoKho = await APIDATA_CHART(API.TonKho_TheoKho, token, { ...dataDate, FilterText: searchText })
+      const data_TonKho_TongKho = await APIDATA_CHART(API.TonKho_TongKho, token, { ...dataDate, FilterText: searchText }, true)
+      const TonKho_TongKhoDVTQuyDoi = await APIDATA_CHART(API.TonKho_TongKhoDVTQuyDoi, token, { ...dataDate, FilterText: searchText }, false)
+      const TonKho_TheoKho = await APIDATA_CHART(API.TonKho_TheoKho, token, { ...dataDate, FilterText: searchText }, false)
 
       if (data_TonKho_TongKho === -107 || data_TonKho_TongKho === -108) {
         const newToken = await RETOKEN()
@@ -84,7 +84,7 @@ function TonKho() {
       setLoadingCart(false)
     }, 1100)
     loadData()
-  }, [dataDate?.NgayBatDau, dataDate?.NgayKetThuc, searchText])
+  }, [dataDate?.NgayBatDau, dataDate?.NgayKetThuc, searchText, token])
   // console.log(data_hanghoa)
   const setNumber = (value) => {
     setTotalNumber(value)

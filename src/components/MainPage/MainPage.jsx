@@ -31,13 +31,13 @@ import NhapTra from '../DashBoardPage/NhapTra'
 import Thu from '../DashBoardPage/Thu'
 import Chi from '../DashBoardPage/Chi'
 import SoQuy from '../DashBoardPage/SoQuy'
+import BanLe from '../DashBoardPage/BanLe'
 // eslint-disable-next-line react/prop-types
 function MainPage({ isSidebarVisible }) {
   const dispatch = useDispatch()
   const [currentDate, setCurrentDate] = useState(new Date())
   const myStateRef = useRef(true)
 
-  console.log(myStateRef)
   const checkDateSetting = localStorage.getItem('dateSetting')
   const token = localStorage.getItem('TKN')
 
@@ -134,6 +134,7 @@ function MainPage({ isSidebarVisible }) {
 
         <Route path="/PHAITRA" element={<PhaiTra />} />
         <Route path="/PHAITRA/:id" element={<PhaiTraDetail />} />
+        <Route path="/BANLE" element={<BanLe />} />
 
         <Route path="/MUAHANG" element={<MuaHang />} />
         <Route path="/XUATTRA" element={<XuatTra />} />

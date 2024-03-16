@@ -6,6 +6,8 @@ const API = {
   DANHSACHDULIEU: `${BASE_URL}/api/Auth/DanhSachDuLieu`,
   DANGNHAP: `${BASE_URL}/api/Auth/DangNhap`,
   TONGHOP: `${BASE_URL}/api/Statistics/TongHop`,
+  TONGHOPBANLE: `${BASE_URL}/api/Statistics/TongHopBanLe`,
+
   DANHSACHHANGHOA: `${BASE_URL}/api/lists/HangHoa/DanhSach`,
   KHOANNGAY: `${BASE_URL}/api/Settings/KhoanNgay`,
   DOIMATKHAU: `${BASE_URL}/api/NguoiDung/DoiMatKhau`,
@@ -51,6 +53,12 @@ const API = {
   ThuTien: `${BASE_URL}/api/statistics/ThuTien`,
   ChiTien: `${BASE_URL}/api/statistics/ChiTien`,
   SoQuy: `${BASE_URL}/api/statistics/SoQuy`,
+
+  //Banle
+  KhoLe_BanHang: `${BASE_URL}/api/Statistics/KhoLe_BanHang`,
+  KhoLe_NhapKho: `${BASE_URL}/api/Statistics/KhoLe_NhapKho`,
+  KhoLe_XuatKho: `${BASE_URL}/api/Statistics/KhoLe_XuatKho`,
+  KhoLe_TonKho: `${BASE_URL}/api/Statistics/KhoLe_TonKho`,
 }
 
 export default API

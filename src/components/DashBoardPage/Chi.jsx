@@ -65,11 +65,11 @@ function Chi() {
       setProgressPercent(0)
 
       //   setLoading(true)
-      const ThuTien = await APIDATA_CHART(API.ThuTien, token, dataDate)
+      const ThuTien = await APIDATA_CHART(API.ThuTien, token, dataDate, true)
 
-      const ChiTien = await APIDATA_CHART(API.ChiTien, token, dataDate)
+      const ChiTien = await APIDATA_CHART(API.ChiTien, token, dataDate, false)
 
-      const SoQuy = await APIDATA_CHART(API.SoQuy, token, dataDate)
+      const SoQuy = await APIDATA_CHART(API.SoQuy, token, dataDate, false)
 
       if (BanHang_HangHoa === -107 || BanHang_HangHoa === -108) {
         const newToken = await RETOKEN()
@@ -105,7 +105,7 @@ function Chi() {
       setLoadingCart(false)
     }, 1100)
     loadData()
-  }, [dataDate?.NgayBatDau, dataDate?.NgayKetThuc])
+  }, [dataDate?.NgayBatDau, dataDate?.NgayKetThuc, token])
   useEffect(() => {
     const dataMapping = {
       THUTIEN: ThuTien,

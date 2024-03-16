@@ -2,12 +2,19 @@
 import { Flex, Typography, Watermark } from 'antd'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import AnimatedWaves from './BgImg'
+import Header from '../Header/Header'
 const { Paragraph } = Typography
 const { Title } = Typography
 const App = () => {
-  console.log('aaaaaa')
+  const titleApp = window.localStorage.getItem('appName')
+
   return (
-    <div className="w-full  flex flex-col justify-center  items-center relative mt-[40px]">
+    <div className="w-full  flex flex-col justify-center  items-center relative pb-3">
+      <div className="MainPage_bg">
+        <AnimatedWaves />
+      </div>
+      <Header />
       <img
         style={{
           // zIndex: 10,
@@ -15,6 +22,7 @@ const App = () => {
           maxWidth: 400,
           position: 'relative',
           maxHeight: 200,
+          marginTop: 20,
         }}
         src="https://www.viettassaigon.vn/uploads/bluelogo_viettas.svg"
         alt="img"
@@ -54,17 +62,17 @@ const App = () => {
         </Link>
       </div>
       <Title className="text-white  relative mt-2 text-center" level={4}>
-        iSale-Demo
+        {titleApp}
       </Title>
       <Paragraph copyable className="text-white  relative">
         Thống kê dữ liệu Hệ thống quản lý bán hàng iSale, bản quyền thuộc về Công Ty Cổ Phần Giải Pháp Thương Mại Việt Nam Sài Gòn
       </Paragraph>
-      <Paragraph className="text-white  relative flex">
+      {/* <Paragraph className="text-white  relative flex">
         Phiên bản ứng dụng :
         <Title className="text-white ml-2" level={5}>
           1.24.01.XXXX
         </Title>
-      </Paragraph>
+      </Paragraph> */}
       <Title className="text-white relative p-0 m-0" level={5}>
         Công Ty Cổ Phần Giải Pháp Thương Mại Việt Nam Sài Gòn bảo lưu mọi quyền
       </Title>

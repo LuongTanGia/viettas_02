@@ -53,9 +53,9 @@ function DoanhSo() {
 
       //   setLoading(true)
       //API Doanh So
-      const data_hanghoa = await APIDATA_CHART(API.DoanhSoHangHoa_TopChart, token, dataDate)
-      const data_khachhang = await APIDATA_CHART(API.DoanhSoKhachHang_TopChart, token, dataDate)
-      const data_nhomhang = await APIDATA_CHART(API.DoanhSoNhomHang_TopChart, token, dataDate)
+      const data_hanghoa = await APIDATA_CHART(API.DoanhSoHangHoa_TopChart, token, dataDate, true)
+      const data_khachhang = await APIDATA_CHART(API.DoanhSoKhachHang_TopChart, token, dataDate, false)
+      const data_nhomhang = await APIDATA_CHART(API.DoanhSoNhomHang_TopChart, token, dataDate, false)
 
       if (data_hanghoa === -107 || data_hanghoa === -108) {
         const newToken = await RETOKEN()
@@ -91,7 +91,7 @@ function DoanhSo() {
       setLoadingCart(false)
     }, 1100)
     loadData()
-  }, [dataDate?.NgayBatDau, dataDate?.NgayKetThuc])
+  }, [dataDate?.NgayBatDau, dataDate?.NgayKetThuc, token])
   useEffect(() => {
     const dataMapping = {
       HANGHOA: data_hanghoa,

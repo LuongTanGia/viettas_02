@@ -14,7 +14,7 @@ function Tables({ loadingSearch, value, param, columName, setTotalNumber, colorT
   // console.log(param, 'param')
   const columnName = {
     DataName:
-      titleDr === 'TONKHO'
+      titleDr === 'TONKHO' || segmented === 'NHAPKHOBANLE' || segmented === 'BANHANGBANLE' || segmented === 'XUATKHOBANLE' || segmented === 'TONKHOBANLE'
         ? 'Hàng hóa'
         : segmented === 'DANHSACHKHACHHANG'
           ? 'Khách hàng '
@@ -24,12 +24,15 @@ function Tables({ loadingSearch, value, param, columName, setTotalNumber, colorT
               ? 'Hạng mục'
               : 'Tên',
     DataDate: 'Thời gian',
-    DataValue: titleDr === 'TONKHO' ? 'Số lượng' : titleDr === 'THU' ? 'Giá trị' : 'Số tiền',
+    DataValue:
+      titleDr === 'TONKHO' || segmented === 'NHAPKHOBANLE' || segmented === 'XUATKHOBANLE' || segmented === 'TONKHOBANLE' ? 'Số lượng' : titleDr === 'THU' ? 'Giá trị' : 'Số tiền',
     DataValue_TyTrong: 'Tỷ trọng',
     DataDescription: titleDr === 'THU' ? 'Diễn giải' : 'Hàng hóa',
     DataValueQuantity: 'Số lượng',
     DataValueAmount: titleDr === 'THU' ? 'Giá trị' : 'Số tiền',
-    // DataValueIn:"Tăng",
+    DataValue2: 'Số tiền',
+    DataValue1: 'Số lượng',
+
     // DataValueOut:"",
     // DataValueBalance:""
   }
@@ -158,7 +161,12 @@ function Tables({ loadingSearch, value, param, columName, setTotalNumber, colorT
       return {
         title: columnName[item] || item,
         dataIndex: item,
-        width: segmented === 'DANHSACHKHACHHANG' || segmented === 'DANHSACHNHACUNGCAP' || titleDr === 'TONKHO' ? '70%' : '30%',
+        width:
+          segmented === 'DANHSACHKHACHHANG' || segmented === 'DANHSACHNHACUNGCAP' || titleDr === 'TONKHO' || segmented === 'BANHANGBANLE'
+            ? '70%'
+            : segmented === 'NHAPKHOBANLE' || segmented === 'XUATKHOBANLE' || segmented === 'TONKHOBANLE'
+              ? '80%'
+              : '30%',
         align: 'center',
         render: (text) => {
           return <div className={` ${segmented === 'DANHSACHKHACHHANG' || segmented === 'DANHSACHNHACUNGCAP' ? ' underline cursor-pointer' : ''} text-left`}>{text}</div>
@@ -220,10 +228,10 @@ function Tables({ loadingSearch, value, param, columName, setTotalNumber, colorT
           ),
       }
     }
-    if (item === 'DataValueQuantity') {
+    if (item === 'DataValueQuantity' || item === 'DataValue1') {
       return {
         title: columnName[item] || item,
-        width: titleDr === 'MUAHANG' ? 90 : titleDr === 'TONKHO' ? 10 : 20,
+        width: titleDr === 'MUAHANG' ? 90 : titleDr === 'TONKHO' ? 10 : 100,
         dataIndex: item,
         align: 'center',
         onCell: (record, index) => ({
@@ -312,11 +320,11 @@ function Tables({ loadingSearch, value, param, columName, setTotalNumber, colorT
           ),
       }
     }
-    if (item === 'DataValueAmount') {
+    if (item === 'DataValueAmount' || item === 'DataValue2') {
       return {
         title: columnName[item] || item,
         showSorterTooltip: false,
-        width: titleDr === 'MUAHANG' ? 100 : 10,
+        width: titleDr === 'MUAHANG' ? 100 : 100,
 
         dataIndex: item,
         align: 'center',
@@ -759,10 +767,10 @@ function Tables({ loadingSearch, value, param, columName, setTotalNumber, colorT
                       return null
                     }
                     return (
-                      <Table.Summary fixed className="h-[53.7px]">
-                        <Table.Summary.Cell className=" font-bold bg-[#f1f1f1] h-[53.7px] text-center ">Tổng</Table.Summary.Cell>
+                      <Table.Summary fixed className="h-[40px]">
+                        <Table.Summary.Cell className=" font-bold bg-[#f1f1f1] h-[40px] text-center ">Tổng</Table.Summary.Cell>
                         {/* {segmented === 'BIEUDOTYTRONG' ? <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1]"></Table.Summary.Cell> : null} */}
-                        <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1] h-[53.7px]">
+                        <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1] h-[40px]">
                           {Number(
                             data?.reduce((total, item) => total + (segmented === 'QUYTIENMAT' ? item.DataValueIn : item.DataValuePS), 0) / (segmented === 'QUYTIENMAT' ? 2 : 1),
                           ).toLocaleString('en-US', {
@@ -770,7 +778,7 @@ function Tables({ loadingSearch, value, param, columName, setTotalNumber, colorT
                             maximumFractionDigits: ThongSo.SOLESOTIEN,
                           })}
                         </Table.Summary.Cell>
-                        <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1] h-[53.7px]">
+                        <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1] h-[40px]">
                           {Number(
                             data?.reduce((total, item) => total + (segmented === 'QUYTIENMAT' ? item.DataValueOut : item.DataValueTT), 0) / (segmented === 'QUYTIENMAT' ? 2 : 1),
                           ).toLocaleString('en-US', {
@@ -778,7 +786,7 @@ function Tables({ loadingSearch, value, param, columName, setTotalNumber, colorT
                             maximumFractionDigits: ThongSo.SOLESOTIEN,
                           })}
                         </Table.Summary.Cell>
-                        <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1] h-[53.7px]">
+                        <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1] h-[40px]">
                           {segmented !== 'QUYTIENMAT'
                             ? Number(data[data.length - 1]?.DataValue).toLocaleString('en-US', {
                                 minimumFractionDigits: ThongSo.SOLESOTIEN,
@@ -795,15 +803,15 @@ function Tables({ loadingSearch, value, param, columName, setTotalNumber, colorT
                 : titleDr === 'DOANHSO'
                   ? () => {
                       return (
-                        <Table.Summary fixed className="h-[53.7px] ">
-                          <Table.Summary.Cell className=" font-bold bg-[#f1f1f1] h-[53.7px] text-center ">Cộng</Table.Summary.Cell>
-                          <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1] h-[53.7px]">
+                        <Table.Summary fixed className="h-[40px] ">
+                          <Table.Summary.Cell className=" font-bold bg-[#f1f1f1] h-[40px] text-center ">Cộng</Table.Summary.Cell>
+                          <Table.Summary.Cell className="text-end font-bold bg-[#f1f1f1] h-[40px]">
                             {Number(data?.reduce((total, item) => total + item.DataValue, 0) / 1).toLocaleString('en-US', {
                               minimumFractionDigits: ThongSo.SOLESOTIEN,
                               maximumFractionDigits: ThongSo.SOLESOTIEN,
                             })}
                           </Table.Summary.Cell>
-                          <Table.Summary.Cell className=" font-bold bg-[#f1f1f1] h-[53.7px] text-center ">
+                          <Table.Summary.Cell className=" font-bold bg-[#f1f1f1] h-[40px] text-center ">
                             {' '}
                             <RateBar percentage={100} color={colorTable} />
                           </Table.Summary.Cell>

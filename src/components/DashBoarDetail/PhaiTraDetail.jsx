@@ -45,7 +45,7 @@ function PhaiTraDetail() {
       setLoadingCart(true)
 
       setProgressPercent(0)
-      const data_ct = await APIDATA_CHART_CT(API.CongNoTra_CT, token, { ...dataDetail.data, ...dataDate })
+      const data_ct = await APIDATA_CHART_CT(API.CongNoTra_CT, token, { ...dataDetail.data, ...dataDate }, true)
       if (data_ct === -107 || data_ct === -108) {
         const newToken = await RETOKEN()
 
@@ -77,7 +77,7 @@ function PhaiTraDetail() {
       }, 1100)
     }
     loadData()
-  }, [dataDate?.NgayBatDau, dataDate?.NgayKetThuc])
+  }, [dataDate?.NgayBatDau, dataDate?.NgayKetThuc, token])
   const setNumber = (value) => {
     setTotalNumber(value)
   }
@@ -117,8 +117,7 @@ function PhaiTraDetail() {
           </div>
         </div>
       </div>
-
-      <div className="card  mb-[50px] pt-[50px]">
+      <div className="card  mb-[40px] pt-[50px]">
         <Table
           segmented={dataDetail.segmented}
           titleDr={dataDetail.titleDr}

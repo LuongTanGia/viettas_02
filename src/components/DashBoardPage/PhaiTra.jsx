@@ -61,8 +61,8 @@ function PhaiTra() {
 
       //   setLoading(true)
       //API Cong No Thu - Tra
-      const CongNo_TopChart = await APIDATA_CHART(API.CongNoTra_TopChart, token, dataDate)
-      const CongNo_DanhSach = await APIDATA_CHART(API.CongNoTra_DanhSach, token, dataDate)
+      const CongNo_TopChart = await APIDATA_CHART(API.CongNoTra_TopChart, token, dataDate, true)
+      const CongNo_DanhSach = await APIDATA_CHART(API.CongNoTra_DanhSach, token, dataDate, false)
 
       if (CongNo_TopChart === -107 || CongNo_TopChart === -108) {
         const newToken = await RETOKEN()
@@ -97,7 +97,7 @@ function PhaiTra() {
       setLoadingCart(false)
     }, 1100)
     loadData()
-  }, [dataDate?.NgayBatDau, dataDate?.NgayKetThuc])
+  }, [dataDate?.NgayBatDau, dataDate?.NgayKetThuc, token])
   useEffect(() => {
     const dataMapping = {
       BIEUDOTYTRONG: CongNo_TopChart,

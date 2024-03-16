@@ -13,6 +13,8 @@ import { useLocation } from 'react-router-dom'
 import { Progress } from 'antd'
 // import { useParams } from 'react-router-dom'
 import Header from '../Header/Header'
+import AnimatedWaves from '../DashBoar/BgImg'
+import { useNavigate } from 'react-router-dom'
 
 function DashBoar() {
   const userTHONGSO = window.localStorage.getItem('UseThongSo')
@@ -22,6 +24,9 @@ function DashBoar() {
   const [dataDate, setDataDate] = useState(!JSON.parse(localStorage.getItem('dateLogin')) ? KhoanNgay : JSON.parse(localStorage.getItem('dateLogin')))
   const [dataLoaded, setDataLoaded] = useState(false)
   const [dataTongHop, setDataTongHop] = useState([])
+  // const [dataBanLe, setDataBanLe] = useState([])
+  const navigate = useNavigate()
+
   const [dataTongHop_DF, setDataTongHop_DF] = useState([])
   const [loadingCart, setLoadingCart] = useState(false)
   const [progressPercent, setProgressPercent] = useState(0)
@@ -30,63 +35,56 @@ function DashBoar() {
 
   let startX = 0
   useEffect(() => {
-    const params = new URLSearchParams(location.search)
-    const titleParam = params.get('title') || 'home'
     localStorage.removeItem('dateLogin2')
 
-    // console.log(titleParam)
-    // titleParam !== 'home' ? setOpen(true) : setOpen(false)
     const loadData = async () => {
       setLoadingCart(true)
       setProgressPercent(0)
-      console.log(dataDate)
+
       try {
-        const data = await DATATONGHOP(API.TONGHOP, token, dataDate)
+        const data = await DATATONGHOP(API.TONGHOP, token, dataDate, true)
+        const dataBanLe = await DATATONGHOP(API.TONGHOPBANLE, token, dataDate, false)
+
         setDataTongHop(data)
-        setDataTongHop_DF(data)
+        setDataTongHop_DF(dataBanLe)
         setDataLoaded(true)
         setProgressPercent(70)
-
-        setTimeout(() => {
-          setProgressPercent(100)
-          // setShowInfo(true)
-        }, 700)
-        setTimeout(() => {
-          setLoadingCart(false)
-        }, 1100)
       } catch (error) {
         console.error('Error loading data:', error)
+        // Handle errors
+      } finally {
+        setProgressPercent(100)
+        setLoadingCart(false)
       }
     }
 
-    // setTimeout(() => {
-    //   const loadData_02 = async () => {
-    //     try {
-    //       const data = await DATATONGHOP(API.TONGHOP, token, {
-    //         NgayBatDau: '2024-01-01',
-    //         NgayKetThuc: '2024-01-31',
-    //       })
-    //       setDataTongHop_DF(data)
-    //     } catch (error) {
-    //       console.error('Error loading data:', error)
-    //     }
-    //   }
-    //   loadData_02()
-    // }, 1300)
+    setTimeout(() => {
+      setProgressPercent(50)
+    }, 500)
+    setTimeout(() => {
+      setProgressPercent(90)
+    }, 700)
 
-    if (titleParam === 'home') {
-      // setTitleDr(titleParam)
-    }
     loadData()
   }, [dataDate?.NgayKetThuc, dataDate?.NgayBatDau, token, location.search])
 
-  // useEffect(() => {
-
-  //   const storedSelectedItem = localStorage.getItem('selectedItem')
-  //   if (storedSelectedItem) {
-  //     window.location.hash = '#BANHANG'
-  //   }
-  // }, [])
+  const showChildrenDrawer = async (value, name) => {
+    // const url = window.location.href
+    // console.log(url.split('?')[1])
+    // navigate(`?${url.split('?')[1]}` + '_detail')
+    navigate(`/BanLe`)
+    localStorage.setItem(
+      'ThongTinDetail',
+      btoa(
+        encodeURIComponent(
+          JSON.stringify({
+            DataValue: value,
+            DataName: name,
+          }),
+        ),
+      ),
+    )
+  }
   const storedSelectedItem = localStorage.getItem('selectedItem')
 
   useEffect(() => {
@@ -152,9 +150,13 @@ function DashBoar() {
 
   return (
     <div ref={containerRef} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} className=" ">
+      <div className="MainPage_bg">
+        <AnimatedWaves />
+      </div>
       <Header />
-      <div className="col-lg-12   ">
-        <div className="card  mb-2 ">
+
+      <div className="col-lg-12  fixed-top top-[50px] z-10 ">
+        <div className="card  mb-2">
           <div className="py-2 w-full bg-white">
             <Date onDateChange={setDataDate} dataDate={dataDate} dateType={'local'} localTitle={'dateLogin'} />
           </div>
@@ -172,7 +174,7 @@ function DashBoar() {
           </div>
         </div>
       </div>
-      <section className="section dashboard ">
+      <section className="section dashboard  mt-[60px]">
         <div className="row">
           <div className="col-lg-12 ">
             <div className="row" id="gridMain">
@@ -191,6 +193,28 @@ function DashBoar() {
                     icon={resultArray[0]?.DataCode.split('_')[0]}
                     loading={loadingCart}
                     useThongke={userTHONGSO}
+                  />
+                </div>
+              ))}
+            </div>
+            <div className="row">
+              {resultArrays_DF?.map((resultArray, arrayIndex) => (
+                <div
+                  id={`${resultArray[0]?.DataCode.split('_')[0]}`}
+                  key={arrayIndex}
+                  // onClick={() => showDrawer(resultArray[0]?.DataCode.split('_')[0])}
+                  style={{ cursor: 'pointer' }}
+                  className={`col-xxl-12 col-md-12  card_2-content ${resultArray[0]?.DataCode.split('_')[0]}`}
+                  onClick={() => showChildrenDrawer(resultArray[0]?.DataCode.split('_')[0], resultArray[0]?.DataName)}
+                >
+                  <Card
+                    resultArray={resultArray}
+                    // resultArray_DF={resultArrays_DF[arrayIndex]}
+                    formatter={formatter}
+                    icon={resultArray[0]?.DataCode.split('_')[0]}
+                    loading={loadingCart}
+                    useThongke={userTHONGSO}
+                    titleCard={'BANLE'}
                   />
                 </div>
               ))}

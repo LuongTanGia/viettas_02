@@ -25,7 +25,9 @@ body,
 html {
   overflow-y: auto;
 }
-
+#main {
+  min-height: calc(100vh - 100px);
+}
 #root {
   /* height: calc(100vh - 100px); */
   /* overflow-y: scroll;

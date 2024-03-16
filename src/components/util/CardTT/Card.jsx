@@ -4,7 +4,7 @@ import { Skeleton } from 'antd'
 import { AiOutlineRise } from 'react-icons/ai'
 import { AiOutlineFall } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
-function Card({ resultArray, icon, loading, resultArray_DF, useThongke }) {
+function Card({ resultArray, icon, loading, resultArray_DF, useThongke, titleCard }) {
   // console.log(useThongke)
   var filteredArray = resultArray_DF?.filter(function (item) {
     return item.DataName === 'Số tiền' || item.DataName === 'Số Tiền'
@@ -43,7 +43,7 @@ function Card({ resultArray, icon, loading, resultArray_DF, useThongke }) {
   //   return Math.random() * 360
   // }
   return (
-    <Link to={`/${resultArray[0]?.DataCode.split('_')[0]}`}>
+    <Link to={titleCard !== 'BANLE' ? `/${resultArray[0]?.DataCode.split('_')[0]}` : '/'}>
       <div
         // style={{ transform: `scale(1.15) rotateZ(${randomDegree()}deg)` }}
         className={`col-xxl-4 col-md-12  ${
@@ -53,34 +53,68 @@ function Card({ resultArray, icon, loading, resultArray_DF, useThongke }) {
       >
         <div className="card info-card sales-card">
           <div className={`card-body min-h-[110px] ${resultArray[0]?.DataCode.split('_')[0] === 'QUYTIENMAT' ? ' ' : ''}`}>
-            <h5 className="card-title">
+            <h5 className="card-title ">
               {
                 // eslint-disable-next-line react/prop-types
                 nameMapping[resultArray[0]?.DataCode.split('_')[0]]
               }
-              <i className={iconMapping[icon] || 'fa-solid fa-link'}></i>
+              <i className={iconMapping[icon] || ''}></i>
             </h5>
 
             <div className="d-flex align-items-center">
-              <div className="ps-1">
+              <div className="ps-1  w-full">
                 {
                   // eslint-disable-next-line react/prop-types
                   resultArray.map((item, itemIndex) =>
                     !loading ? (
-                      <p className="textArray" key={itemIndex}>
-                        {item.DataName}:{' '}
-                        <span className="text-success small  fw-bold">
-                          {item.DataName === 'Số tiền' || item.DataName === 'Số Tiền'
-                            ? // eslint-disable-next-line react/prop-types
-                              Number(item.DataValue).toLocaleString('en-US', {
-                                minimumFractionDigits: ThongSo.SOLESOTIEN,
-                                maximumFractionDigits: ThongSo.SOLESOTIEN,
-                              })
-                            : Number(item.DataValue).toLocaleString('en-US', {
-                                minimumFractionDigits: ThongSo.SOLESOLUONG,
-                                maximumFractionDigits: ThongSo.SOLESOLUONG,
-                              })}
+                      <p className={`textArray `} key={itemIndex || item.id}>
+                        <span className={`${titleCard !== 'BANLE' ? '' : 'flex justify-center text-base fw-bold '}`}>
+                          {titleCard !== 'BANLE' ? `${item.DataName}:` : `${item.DataName}`}
                         </span>
+                        {titleCard !== 'BANLE' ? (
+                          <span className="text-success small  fw-bold">
+                            {item.DataName === 'Số tiền' || item.DataName === 'Số Tiền'
+                              ? // eslint-disable-next-line react/prop-types
+                                Number(item.DataValue).toLocaleString('en-US', {
+                                  minimumFractionDigits: ThongSo.SOLESOTIEN,
+                                  maximumFractionDigits: ThongSo.SOLESOTIEN,
+                                })
+                              : Number(item.DataValue).toLocaleString('en-US', {
+                                  minimumFractionDigits: ThongSo.SOLESOLUONG,
+                                  maximumFractionDigits: ThongSo.SOLESOLUONG,
+                                })}
+                          </span>
+                        ) : (
+                          <div className="flex flex-col items-center justify-center flex-1">
+                            <div className="flex gap-2">
+                              <span className="small  ">Số phiếu:</span>
+                              <span className="text-success small  fw-bold">
+                                {Number(item.DataValue1).toLocaleString('en-US', {
+                                  minimumFractionDigits: ThongSo.SOLESOLUONG,
+                                  maximumFractionDigits: ThongSo.SOLESOLUONG,
+                                })}
+                              </span>
+                            </div>
+                            <div className="flex gap-2">
+                              <span className="small  ">Số mặt hàng:</span>
+                              <span className="text-success small  fw-bold">
+                                {Number(item.DataValue2).toLocaleString('en-US', {
+                                  minimumFractionDigits: ThongSo.SOLESOLUONG,
+                                  maximumFractionDigits: ThongSo.SOLESOLUONG,
+                                })}
+                              </span>
+                            </div>
+                            <div className="flex gap-2">
+                              <span className="   fw-bold"></span>
+                              <span className="text-success text-lg fw-bold">
+                                {Number(item.DataValue3).toLocaleString('en-US', {
+                                  minimumFractionDigits: ThongSo.SOLESOTIEN,
+                                  maximumFractionDigits: ThongSo.SOLESOTIEN,
+                                })}
+                              </span>
+                            </div>
+                          </div>
+                        )}
                       </p>
                     ) : (
                       <>

@@ -24,14 +24,14 @@ function Header() {
   const [isShow, setIsShow] = useState(false)
   const user = localStorage.getItem('User')
   const logout = () => {
-    // window.localStorage.removeItem('firstLogin')
-    // window.localStorage.removeItem('authLogin')
-    // window.localStorage.removeItem('TKN')
-    // window.localStorage.removeItem('tokenDuLieu')
-    // window.localStorage.removeItem('RTKN')
-    // window.localStorage.removeItem('userName')
-    // window.localStorage.removeItem('dateLogin')
-    window.localStorage.clear()
+    window.localStorage.removeItem('firstLogin')
+    window.localStorage.removeItem('authLogin')
+    window.localStorage.removeItem('TKN')
+    window.localStorage.removeItem('tokenDuLieu')
+    window.localStorage.removeItem('RTKN')
+    window.localStorage.removeItem('userName')
+    window.localStorage.removeItem('dateLogin')
+    // window.localStorage.clear()
     window.location.href = '/login'
   }
   // const handeleChange = () => {
@@ -112,11 +112,12 @@ function Header() {
           </div>
         }
       >
-        <div className="flex flex-col w-[50%] gap-2">
-          <div className="flex justify-between items-center gap-3">
+        <div className="flex flex-col w-full gap-2">
+          <div className="flex justify-start items-center gap-3">
             <p className=" text-base font-semibold ">Bắt đầu từ đầu tháng : </p>
             <Switch onChange={onChangeDM} className="bg-gray-400" checked={checkDateMonth} />
           </div>
+
           {/* <div className="flex justify-between items-center gap-3">
             <p className=" text-base font-semibold ">So với tháng 1 năm 2024: </p>
             <Switch onChange={onChangeUseThongSo} className="bg-gray-400" checked={UseThongSo} />

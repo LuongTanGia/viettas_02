@@ -62,9 +62,9 @@ function BanHang() {
 
       //   setLoading(true)
       //API Ban Hang
-      const BanHang_HangHoa = await APIDATA_CHART(API.BanHang_HangHoa, token, { ...dataDate, FilterText: searchText })
-      const BanHang_QuayLe = await APIDATA_CHART(API.BanHang_QuayLe, token, { ...dataDate, FilterText: searchText })
-      const BanHang_KhachHang = await APIDATA_CHART(API.BanHang_KhachHang, token, { ...dataDate, FilterText: searchText })
+      const BanHang_HangHoa = await APIDATA_CHART(API.BanHang_HangHoa, token, { ...dataDate, FilterText: searchText }, true)
+      const BanHang_QuayLe = await APIDATA_CHART(API.BanHang_QuayLe, token, { ...dataDate, FilterText: searchText }, false)
+      const BanHang_KhachHang = await APIDATA_CHART(API.BanHang_KhachHang, token, { ...dataDate, FilterText: searchText }, false)
 
       if (BanHang_HangHoa === -107 || BanHang_HangHoa === -108) {
         const newToken = await RETOKEN()
@@ -99,7 +99,7 @@ function BanHang() {
       setLoadingCart(false)
     }, 1100)
     loadData()
-  }, [dataDate?.NgayBatDau, dataDate?.NgayKetThuc, searchText])
+  }, [dataDate?.NgayBatDau, dataDate?.NgayKetThuc, searchText, token])
   useEffect(() => {
     const dataMapping = {
       BANHANGHANGHOA: BanHang_HangHoa,
