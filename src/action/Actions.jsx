@@ -181,7 +181,7 @@ export const APIDATA_CHART = async (API, token, data, flag) => {
   }
 }
 export const APIDATA_CHART_CT = async (API, token, data, flag) => {
-  // console.log('APIDATA_CHART_CT')
+  console.log('APIDATA_CHART_CT')
 
   try {
     const response = await axiosInstance.post(API, data, {

@@ -116,6 +116,7 @@ const App = () => {
 
       const response = await DANHSACHDULIEU(API.DANHSACHDULIEU, { TokenId: TokenID.credential }, dispatch)
       setData(response)
+      console.log(response)
       if (response.DataResults.length === 1) {
         const remoteDB = response.DataResults[0].RemoteDB
 

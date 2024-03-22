@@ -20,7 +20,7 @@ function DoanhSoDetail() {
 
   const params = useParams()
   const dataDetail = JSON.parse(decodeURIComponent(atob(localStorage.getItem('ThongTinDetail'))))
-  console.log(dataDetail)
+
   const token = localStorage.getItem('TKN')
   const [refToken, setRefToken] = useState(false)
   const [dataTable, setDataTable] = useState([])
@@ -42,7 +42,6 @@ function DoanhSoDetail() {
 
   const [dataDate, setDataDate] = useState(newDataDate)
   useEffect(() => {
-    console.log(dataDate)
     const loadData = async () => {
       setLoadingCart(true)
 
@@ -59,26 +58,7 @@ function DoanhSoDetail() {
         { ...dataDetail.data, ...dataDate },
         true,
       )
-      if (data_ct === -107 || data_ct === -108) {
-        const newToken = await RETOKEN()
 
-        if (newToken !== '') {
-          setRefToken(!refToken)
-          setTimeout(() => {
-            window.location.href = '/'
-          }, 300)
-        } else if (newToken === 0) {
-          toast.error('Failed to refresh token!')
-          window.localStorage.removeItem('firstLogin')
-          window.localStorage.removeItem('authLogin')
-          window.localStorage.removeItem('TKN')
-          window.localStorage.removeItem('tokenDuLieu')
-          window.localStorage.removeItem('RTKN')
-          window.localStorage.removeItem('userName')
-          window.localStorage.removeItem('dateLogin')
-          Navigate('/login')
-        }
-      }
       setProgressPercent(70)
 
       setTimeout(() => {

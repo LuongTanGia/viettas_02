@@ -548,3 +548,9 @@ input[type='radio'] {
   background-color: #0e4166;
   background-image: linear-gradient(to bottom, rgba(14, 65, 102, 0.86), #0e4166);
 }
+
+.ant-checkbox span.custom-cursor-on-hover {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
